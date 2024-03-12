@@ -1,16 +1,15 @@
-# This is a sample Python script.
+from Block import Block
+from Chain import Chain
+from fake_crypto import generate_keys
 
-# Press ⌃R to execute it or replace it with your code.
-# Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
-
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press ⌘F8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    print_hi('PyCharm')
+    alice = "Alice"
+    alice_secrete_key, alice_private_key = generate_keys(alice)
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    alice_genesis_block = Block()
+    alice_genesis_block.add_data("open", True)
+    alice_genesis_block.sign(alice_secrete_key)
+
+    alice_chain = Chain(alice_genesis_block)
+    print(alice_chain)
+
