@@ -1,36 +1,31 @@
 from textwrap import indent
 
 from Block import Block
+from GenesisBlock import GenesisBlock
 
 
 class Chain:
 
-    def __init__(self, genesis_block: Block):
-        """
-        initialized Chain object with genesis_block
-        """
+    def __init__(self, genesis_block: GenesisBlock):
+        if not isinstance(genesis_block, GenesisBlock):
+            raise Exception("Chain must be initialized with a GenesisBlock. ")
 
-        # TODO: Make a class genesis_block.
+        self._block_list: list[Block] = [genesis_block]
 
-        if not isinstance(genesis_block, Block):
-            raise Exception("Chain must be initialized with a genesis Block. ")
-
-        self._block_list = [genesis_block]
-
-    def __str__(self):
+    def __str__(self) -> str:
         result = f'Chain with {len(self._block_list)} blocks:\n'
         for block in self._block_list:
             result += indent(block.__str__(), '\t')
 
         return result
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         """
         Chain representation
         """
         return f"<{type(self).__name__}>"
 
-    def verify(self, public_key):
+    def verify(self, public_key) -> bool:
         for i in range(len(self._block_list) - 1):
             block = self._block_list[i]
             if not block.verify_data():

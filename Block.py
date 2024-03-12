@@ -1,18 +1,20 @@
+from abc import ABC
 from datetime import datetime
 
 from Header import Header
 from fake_crypto import new_deterministic_hash, sha, Signature, sign, PrivateKey, PublicKey, verify
 
 
-class Block:  # TODO: ABC.
+class Block(ABC):
 
-    def __init__(self, previous_block: 'Block' or None = None):
+    def __init__(self, previous_block: 'Block' or None):
+        # TODO: Remove or None.
         if previous_block is None:
             previous_hash: str = new_deterministic_hash()
         elif isinstance(previous_block, Block):
             previous_hash: str = previous_block.hash
         else:
-            raise Exception("previous_block must be GenericBlock or None. ")
+            raise Exception("previous_block must be Block or None. ")
 
         self._signature: Signature or None = None
         self._data = dict()  # TODO: Remove this. Data is None at this point.
