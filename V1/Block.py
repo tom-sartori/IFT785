@@ -8,7 +8,6 @@ from fake_crypto import new_deterministic_hash, sha, Signature, sign, PrivateKey
 class Block(ABC):
 
     def __init__(self, previous_block: 'Block' or None):
-        # TODO: Remove or None.
         if previous_block is None:
             previous_hash: str = new_deterministic_hash()
         elif isinstance(previous_block, Block):
@@ -17,16 +16,20 @@ class Block(ABC):
             raise Exception("previous_block must be Block or None. ")
 
         self._signature: Signature or None = None
-        self._data = dict()  # TODO: Remove this. Data is None at this point.
+        self._data = dict()
         self._header = Header(previous_hash, datetime.now(), sha(self._data))
 
     @property
-    def header(self):
+    def header(self) -> Header:
+        # Should be deleted.
         return self._header
 
     @property
     def hash(self) -> str:
-        return sha(self.header)
+        # FIXME: Should call the header instead.
+        return sha(repr(self.header))
+
+    # TODO: Property for previous_hash.
 
     @property
     def data(self, key: str or None = None) -> dict:
@@ -35,12 +38,14 @@ class Block(ABC):
     def __str__(self) -> str:
         rop = ""
         rop += f"hash:          {self.hash}\n"
+        rop += f"root hash:     {self.header.hash_root}\n"
         rop += f"previous hash: {self.header.previous_hash}\n"
         rop += f"timestamp:     {self.header.timestamp}\n"
         if self._signature is None:
             rop += f"not yet signed\n"
         else:
             rop += f"signed by:     {self._signature.signer}\n"
+        rop += f"data:          {self._data}\n"
         return rop
 
     def __repr__(self) -> str:

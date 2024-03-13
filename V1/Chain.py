@@ -1,21 +1,24 @@
 from textwrap import indent
 
+from Account import Account
 from Block import Block
 from GenesisBlock import GenesisBlock
 
 
 class Chain:
 
-    def __init__(self, genesis_block: GenesisBlock):
+    def __init__(self, account: Account, genesis_block: GenesisBlock):
         if not isinstance(genesis_block, GenesisBlock):
             raise Exception("Chain must be initialized with a GenesisBlock. ")
 
+        self._account = account
         self._block_list: list[Block] = [genesis_block]
 
     def __str__(self) -> str:
-        result = f'Chain with {len(self._block_list)} blocks:\n'
+        result = f'Chain of {self._account.username}, with {len(self._block_list)} blocks:\n'
         for block in self._block_list:
             result += indent(block.__str__(), '\t')
+            result += '\t---\n'
 
         return result
 
@@ -26,6 +29,11 @@ class Chain:
         return f"<{type(self).__name__}>"
 
     def verify(self, public_key) -> bool:
+        if public_key != self._account.public_key:
+            # raise Exception("Public key doesn't match with the account. ")
+            print("Error: Public key doesn't match with the account. ")
+            return False
+
         for i in range(len(self._block_list) - 1):
             block = self._block_list[i]
             if not block.verify_data():
