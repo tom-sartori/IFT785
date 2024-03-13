@@ -1,10 +1,10 @@
 #!/usr/bin/env python
-import textwrap
+
 
 from generic_block import GenericBlock
 
 
-class Chain:
+class Chain():
     """
     Chain object to store block
     """
@@ -17,13 +17,6 @@ class Chain:
             raise Exception("Chain must be initialized with a genesis Block")
 
         self._block_list = [genesis_block]
-
-    def __str__(self):
-        result = f'Chain with {len(self._block_list)} blocks:\n'
-        for block in self._block_list:
-            result += textwrap.indent(block.__str__(), '\t')
-
-        return result
 
     def __repr__(self):
         """
@@ -66,8 +59,4 @@ class Chain:
         add new block to the chain
         """
 
-        if not isinstance(new_block, GenericBlock):
-            raise Exception("Chain must be added with a Block. ")
-        if new_block._previous_hash != self._block_list[-1].hash:
-            raise Exception("Block must be added to the end of the chain. ")
-        self._block_list.append(new_block)
+        pass
