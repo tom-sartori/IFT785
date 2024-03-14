@@ -1,20 +1,21 @@
 from textwrap import indent
 
 from V2.Block import Block
-from V2.GenesisBlock import GenesisBlock
+from V2.OpenBlock import OpenBlock
 from V2.fake_crypto import PublicKey, PrivateKey
 
 
 class Account:
 
     def __init__(self, private_key: PrivateKey, public_key: PublicKey):
-        # TODO: Chain class.
+        # TODO: Chain class ?
+        # TODO: Add private_key ?
 
         self.public_key = public_key
 
-        genesis_block = GenesisBlock()
-        genesis_block.sign(private_key)
-        self.chain: list[Block] = [genesis_block]
+        block = OpenBlock()
+        block.sign(private_key)
+        self.chain: list[Block] = [block]
 
     @property
     def last_block(self) -> Block:
