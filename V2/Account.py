@@ -9,17 +9,25 @@ class Account:
 
     def __init__(self, private_key: PrivateKey, public_key: PublicKey):
         # TODO: Chain class ?
-        # TODO: Add private_key ?
+        # TODO: Store private_key ?
 
         self.public_key = public_key
 
-        block = OpenBlock()
+        block = OpenBlock(public_key)
         block.sign(private_key)
         self.chain: list[Block] = [block]
 
     @property
     def last_block(self) -> Block:
         return self.chain[-1]
+
+    @property
+    def balance(self) -> float:
+        # TODO: Balance should also be stored in the ledger.
+        for block in reversed(self.chain):
+            if 'balance' in block.data:
+                return block.data['balance']
+        return 0.0
 
     def __str__(self):
         result = f'Chain of {self.public_key.owner}, with {len(self.chain)} blocks:\n'

@@ -8,6 +8,7 @@ class Block:
     def __init__(self, previous_block: 'Block' = None, data: dict = None):
         # TODO: Header class ?
         # TODO: Transaction class ?
+        # TODO: Keep always the same block. Make several transaction classes.
 
         if previous_block is None:
             self.previous_hash: str = new_deterministic_hash()
@@ -17,8 +18,8 @@ class Block:
             raise Exception("previous_block must be Block or None. ")
 
         self._signature: Signature or None = None
-        self.data = data if data else dict()
-        self.add_data('type', type(self).__name__)
+        self.data = data if data else dict()  # TODO: Refactor for transaction ? Create class ?
+        self.add_data('type', type(self).__name__)  # Maybe remove this.
         self.timestamp = datetime.now()
 
     @property
