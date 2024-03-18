@@ -21,7 +21,13 @@ class Ledger:
         if account.public_key in self._accounts:
             raise Exception('Error: Account already exists. ')
 
+        if not self.verify():  # Verify the ledger before adding a new account.
+            raise Exception('Error: Ledger verification failed. Can not add account. ')
+
         self._accounts[account.public_key] = account
 
     def get_account(self, public_key: PublicKey) -> Account:
         return self._accounts[public_key]
+
+    def verify(self) -> bool:
+        return all(account.verify() for account in self._accounts.values())

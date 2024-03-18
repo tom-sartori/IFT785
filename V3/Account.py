@@ -20,7 +20,7 @@ class Account:
         self._private_key = private_key
         self._public_key = public_key
 
-        genesis_block = GenesisBlock()
+        genesis_block = GenesisBlock(public_key=public_key)
         genesis_block.sign(private_key=private_key)
         self._chain: Chain = Chain(genesis_block)
 
@@ -35,7 +35,7 @@ class Account:
         return result
 
     def add_block(self, block: Block) -> None:
-        # Must sign the block before use the chain function.
+        # Must sign the block before use the chain.add_block() method.
         if not block.is_signed:
             block.sign(private_key=self._private_key)
 
