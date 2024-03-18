@@ -9,14 +9,6 @@ class Chain:
     def head(self):
         return self._block_list[-1]
 
-    @property
-    def balance(self) -> float:
-        # TODO: Should return the balance for a specific unit (in the case of a multi-currency chain).
-        for block in reversed(self._block_list):
-            if 'balance' in block.data:
-                return block.data['balance']
-        return 0.0
-
     def __init__(self, genesis_block: GenesisBlock):
         self._block_list: list[Block] = [genesis_block]
 
@@ -58,3 +50,18 @@ class Chain:
 
         # The head block is not verified by the above loop.
         return self.head.verify(public_key)
+
+    def get_balances(self) -> dict[str, int or float]:
+        balances = dict()  # unit -> balance
+        for block in reversed(self._block_list):
+            if 'balance' in block.data and 'unit' in block.data and block.data['unit'] not in balances:
+                balances[block.data['unit']] = block.data['balance']
+
+        return balances
+
+    def get_balance(self, unit: str) -> int or float:
+        for block in reversed(self._block_list):
+            if 'balance' in block.data and 'unit' in block.data and block.data['unit'] == unit:
+                return block.data['balance']
+
+        return 0

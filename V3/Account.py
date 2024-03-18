@@ -13,8 +13,12 @@ class Account:
         return self._public_key
 
     @property
-    def balance(self) -> float:
-        return self._chain.balance
+    def head(self) -> Block:
+        return self._chain.head
+
+    @property
+    def balances(self) -> dict[str, int or float]:
+        return self._chain.get_balances()
 
     def __init__(self, private_key: PrivateKey, public_key: PublicKey):
         self._private_key = private_key
@@ -25,11 +29,10 @@ class Account:
         self._chain: Chain = Chain(genesis_block)
 
     def __str__(self):
-        result = (
-            f'Account has {len(self._chain)} blocks, '
-            f'{self.balance} tokens and '
-            f'{"is verified" if self.verify() else "is not verified"}:\n'
-        )
+        result = ''
+        result += f'Account has {len(self._chain)} blocks and '
+        result += f'{"is verified" if self.verify() else "is not verified"}. \n'
+        result += f'It has the following balances: {self.balances}\n'
         result += indent(self._chain.__str__(), '\t')
 
         return result
