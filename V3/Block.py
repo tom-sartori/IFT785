@@ -38,11 +38,12 @@ class Block(ABC):
         result += f'data:\n' + indent(json.dumps(self.data, indent=4), '\t') + '\n'
         return result
 
-    def add_data(self, new_key: str, new_value: any) -> None:
+    def add_data(self, new_key: str, new_value: any) -> 'Block':
         if self._signature is not None:
             raise Exception("Can't add data to a signed block. ")
 
         self.data[new_key] = new_value
+        return self
 
     def sign(self, private_key: PrivateKey) -> None:
         if self._signature is not None:

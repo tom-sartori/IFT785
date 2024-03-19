@@ -10,6 +10,6 @@ class OpenBlock(Block):
         # If account is set, then add the balance only to the account that uses this open block.
         super().__init__(previous_block)
 
-        self.add_data('unit', unit)
-        self.add_data('balance', balance)
-        self.add_data('account', account)
+        (self.add_data('unit', unit)
+         .add_data('balance', balance)
+         .add_data('account', account))
