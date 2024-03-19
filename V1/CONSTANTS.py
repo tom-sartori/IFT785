@@ -1,1 +1,0 @@
-INITIAL_GIVE: float = 1000.0

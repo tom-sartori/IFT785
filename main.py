@@ -1,7 +1,7 @@
-from V3.Account import Account
-from V3.Ledger import Ledger
-from V3.fake_crypto import generate_keys
-from V3.to_generate.OpenBlock import OpenBlock
+from Account import Account
+from Ledger import Ledger
+from fake_crypto import generate_keys
+from to_generate.OpenBlock import OpenBlock
 
 if __name__ == '__main__':
     ledger: Ledger = Ledger()

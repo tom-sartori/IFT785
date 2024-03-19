@@ -1,4 +1,4 @@
-from V3.Block import Block
+from Block import Block
 
 
 class OpenBlock(Block):

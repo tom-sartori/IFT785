@@ -1,7 +1,7 @@
 from textwrap import indent
 
-from V3.Account import Account
-from V3.fake_crypto import PublicKey
+from Account import Account
+from fake_crypto import PublicKey
 
 
 class Ledger:

@@ -1,6 +1,6 @@
-from V3.Block import Block
-from V3.GenesisBlock import GenesisBlock
-from V3.fake_crypto import PublicKey
+from Block import Block
+from GenesisBlock import GenesisBlock
+from fake_crypto import PublicKey
 
 
 class Chain:

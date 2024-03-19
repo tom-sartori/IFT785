@@ -2,8 +2,8 @@ import json
 from abc import ABC
 from textwrap import indent
 
-from V3.Header import Header
-from V3.fake_crypto import sha, new_deterministic_hash, Signature, PublicKey, sign, PrivateKey
+from Header import Header
+from fake_crypto import sha, new_deterministic_hash, Signature, PublicKey, sign, PrivateKey
 
 
 class Block(ABC):

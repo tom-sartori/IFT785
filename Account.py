@@ -1,9 +1,9 @@
 from textwrap import indent
 
-from V3.Block import Block
-from V3.Chain import Chain
-from V3.GenesisBlock import GenesisBlock
-from V3.fake_crypto import PrivateKey, PublicKey
+from Block import Block
+from Chain import Chain
+from GenesisBlock import GenesisBlock
+from fake_crypto import PrivateKey, PublicKey
 
 
 class Account:

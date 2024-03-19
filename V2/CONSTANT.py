@@ -1,1 +1,0 @@
-GENESIS_BALANCE: float = 1000.
