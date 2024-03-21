@@ -11,11 +11,11 @@ class SendBlock(Block):
         self.unit = unit
         self.previous_block = previous_block
 
-        if self.previous_block.data.get('balance')>self.balance and self.previous_block.data.get('block_type') !='send':
+        if self.previous_block.data.get('balance')>self.balance and self.previous_block.data.get('unit')== self.unit:
 
             self.previous_block.data.__setitem__('balance',(self.previous_block.data.get('balance')-self.balance))
 
-            self.add_data('destination' ,acc.public_key)
+            self.add_data('destination' ,str(acc.public_key))
             self.add_data('block_type'  ,'send')
         else:
             raise Exception('Error: Balance Faible ')

@@ -23,19 +23,20 @@ if __name__ == '__main__':
 
     genesis_account.add_block(open_block_genesis)
 
-
-    send_test = SendBlock(open_block_genesis,
-                          c,
-                          100,
-                          'nano_coin'
-                          )
     
+    send_test = SendBlock(previous_block=open_block_genesis,
+                          acc=c,
+                          balance=100,
+                          unit='nano_coin'
+                          )
+       
 
     genesis_account.add_block(send_test)
     
-    print(genesis_account)
+    #print(genesis_account)
     
-    #print(ledger)
+
+    print(ledger)
  
 
    

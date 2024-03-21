@@ -6,6 +6,7 @@ from GenesisBlock import GenesisBlock
 from fake_crypto import PrivateKey, PublicKey
 
 
+
 class Account:
 
     @property
