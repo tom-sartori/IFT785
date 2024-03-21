@@ -44,6 +44,9 @@ class Block(ABC):
 
         self.data[new_key] = new_value
         return self
+    
+    def get_data(self, key: str) -> any:
+        return self.data[key]
 
     def sign(self, private_key: PrivateKey) -> None:
         if self._signature is not None:
