@@ -11,7 +11,7 @@ class SendBlock(Block):
         self.unit = unit
         self.previous_block = previous_block
 
-        if self.previous_block.data.get('balance')>self.balance:
+        if self.previous_block.data.get('balance')>self.balance and self.previous_block.data.get('unit')== self.unit:
 
             
             self.add_data('destination' ,acc.public_key.key)

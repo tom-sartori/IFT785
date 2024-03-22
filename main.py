@@ -48,30 +48,7 @@ if __name__ == '__main__':
     
     c.add_block(receive_test)
 
-
-    
-
     print(ledger)
 
-
-    '''
-     
-
-
-
-    
-    
-       
-
-    
-
-   
-    
-    print(genesis_account)
-    
-
-    
- 
-'''
    
         
