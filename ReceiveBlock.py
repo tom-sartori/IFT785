@@ -11,10 +11,6 @@ class ReceiveBlock(Block):
           self.previous_block=previous_block
           self.pbkey=pbkey
 
-          '''for pkey in self.ledger._accounts:
-            if self.previous_block.verify_signature(pkey) == True:
-                  dest=pkey
-          '''
           for pkey,acc in self.ledger._accounts.items():
                if pkey != self.pbkey:
                     for blc in acc._chain._block_list:
