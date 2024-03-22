@@ -14,7 +14,7 @@ if __name__ == '__main__':
 
     open_block_genesis = OpenBlock(
         previous_block=genesis_account.head,
-        unit='nano_coin',
+        unit='nano-coin',
         balance=1000,
         account=genesis_account.public_key.key
     )
@@ -26,7 +26,7 @@ if __name__ == '__main__':
 
     open_c = OpenBlock(
         previous_block=c.head,
-        unit='nano-coin',
+        unit='bitcoin',
         balance=1000,
         account=c.public_key.key
     )

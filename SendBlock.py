@@ -21,7 +21,7 @@ class SendBlock(Block):
             self.add_data('unit',self.unit)
             self.add_data('amount_to_send',self.balance)
         else:
-            raise Exception('Error: Balance Faible ')
+            raise Exception('Error: Balance Faible ou Devise inexistant')
         
         
         
