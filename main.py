@@ -2,7 +2,10 @@ from Account import Account
 from Ledger import Ledger
 from fake_crypto import generate_keys
 from to_generate.OpenBlock import OpenBlock
-from to_generate.SendBlock import SendBlock
+from to_generate.EmptyBlock import EmptyBlock
+
+from fonction import *
+
 
 if __name__ == '__main__':
     ledger: Ledger = Ledger()
@@ -22,45 +25,26 @@ if __name__ == '__main__':
 
     print(ledger)
 
+   
 
 
+    #Exemple d'utilisation de fonction
+    newBlock = EmptyBlock(genesis_account.head)
+    
+    blockExistInChain(genesis_account, open_block_genesis)
+    blockExistInChain(genesis_account, newBlock)
 
+    enoughtCreditInAccount(genesis_account, 'nano_coin', 5)
+    enoughtCreditInAccount(genesis_account, 'nano_coin', 2000)
 
-    #Exemple d'echange
-    Alice: Account = Account(*generate_keys('Genesis_Alice'))
-    ledger.add_account(Alice)
+    print(isEqual(2, 2))
+    print(isEqual(2, 3))
 
-    open_block_genesis = OpenBlock(
-        previous_block=Alice.head,
-        unit='nano_coin',
-        balance=1000,
-        account=Alice.public_key.key
-    )
+    print(greaterThan(3, 2))
+    print(greaterThan(1, 2))
 
-    Alice.add_block(open_block_genesis)
+    print(lessThan(1, 2))
+    print(lessThan(3, 2))
 
-
-    Bob: Account = Account(*generate_keys('Genesis_Bob'))
-    ledger.add_account(Bob)
-
-    open_block_genesis = OpenBlock(
-        previous_block=Bob.head,
-        unit='nano_coin',
-        balance=1000,
-        account=Bob.public_key.key
-    )
-
-    Bob.add_block(open_block_genesis)
-
-    send_block_Alice_Bob = SendBlock(
-        previous_block=Alice.head,
-        unit='nano_coin',
-        amountSend=5,
-        senderAccount=Alice,
-        receiverAccount=Bob
-
-    )
-
-    Alice.add_block(send_block_Alice_Bob)
-
-    print(ledger)
+    print(getNumberOfArgument(enoughtCreditInAccount))
+    print(getNumberOfArgument(isEqual))

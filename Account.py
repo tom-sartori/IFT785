@@ -49,3 +49,6 @@ class Account:
 
     def verify(self) -> bool:
         return self._chain.verify(public_key=self._public_key)
+    
+    def getChain(self) -> Chain:
+        return self._chain

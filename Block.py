@@ -2,6 +2,7 @@ import json
 from abc import ABC
 from textwrap import indent
 
+
 from Header import Header
 from fake_crypto import sha, new_deterministic_hash, Signature, PublicKey, sign, PrivateKey
 
@@ -44,9 +45,6 @@ class Block(ABC):
 
         self.data[new_key] = new_value
         return self
-    
-    def get_data(self, key: str) -> any:
-        return self.data[key]
 
     def sign(self, private_key: PrivateKey) -> None:
         if self._signature is not None:
@@ -68,3 +66,6 @@ class Block(ABC):
 
     def is_previous_of(self, next_block: 'Block') -> bool:
         return self.hash == next_block._header.previous_hash
+
+    def getBlockType(self) -> str:
+        return self.data.get('block_type')

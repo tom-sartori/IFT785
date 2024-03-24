@@ -37,6 +37,9 @@ class Chain:
 
         self._block_list.append(block)
 
+    def getBlockList(self) -> list:
+        return self._block_list
+
     def verify(self, public_key: PublicKey) -> bool:
         for i in range(len(self._block_list) - 1):
             block = self._block_list[i]
@@ -65,3 +68,5 @@ class Chain:
                 return block.data['balance']
 
         return 0
+
+
