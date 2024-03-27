@@ -68,5 +68,3 @@ class Chain:
                 return block.data['balance']
 
         return 0
-
-

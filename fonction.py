@@ -33,6 +33,18 @@ def enoughtCreditInAccount(account: Account, creditType: str, numberCreditNeeded
     return False
 
 
+def addCreditToAccount(account: Account, unit: str, numberCreditToAdd: int or float) -> int or float:
+    assert numberCreditToAdd > 0
+    return account.getChain().get_balance(unit) + numberCreditToAdd
+
+
+def removeCreditFromAccount(account: Account, unit: str, numberCreditToAdd: int or float) -> int or float:
+    assert numberCreditToAdd > 0
+    return account.getChain().get_balance(unit) - numberCreditToAdd
+
+
+
+
 #Fonction pour l'interpréteur
 def getNumberOfArgument(fonction) -> int:
     return len(inspect.getfullargspec(fonction).args)
