@@ -49,5 +49,7 @@ if __name__ == '__main__':
     print(getNumberOfArgument(enoughtCreditInAccount))
     print(getNumberOfArgument(isEqual))
 
-    print(addCreditToAccount(genesis_account, 'nano_coin', 5))
-    print(removeCreditFromAccount(genesis_account, 'nano_coin', 5))
+    print(addCreditToAccount(genesis_account, newBlock ,'nano_coin', 5))
+    print(removeCreditFromAccount(genesis_account, newBlock, 'nano_coin', 5))
+
+    print(addCurrency(newBlock, 'nano2', 20000))

@@ -33,14 +33,20 @@ def enoughtCreditInAccount(account: Account, creditType: str, numberCreditNeeded
     return False
 
 
-def addCreditToAccount(account: Account, unit: str, numberCreditToAdd: int or float) -> int or float:
+def addCreditToAccount(account: Account, block: Block, unit: str, numberCreditToAdd: int or float) -> Block:
     assert numberCreditToAdd > 0
-    return account.getChain().get_balance(unit) + numberCreditToAdd
+    return block.add_data('unit', unit).add_data('balance', account.getChain().get_balance(unit) + numberCreditToAdd)
 
 
-def removeCreditFromAccount(account: Account, unit: str, numberCreditToAdd: int or float) -> int or float:
-    assert numberCreditToAdd > 0
-    return account.getChain().get_balance(unit) - numberCreditToAdd
+def removeCreditFromAccount(account: Account, block: Block, unit: str, numberCreditToRemove: int or float) -> Block:
+    assert numberCreditToRemove > 0
+    return block.add_data('unit', unit).add_data('balance', account.getChain().get_balance(unit) - numberCreditToRemove)
+
+
+def addCurrency(block: Block, unit: str, startingNumberOfCredit: int or float) -> Block:
+    return block.add_data('unit', unit).add_data('balance', startingNumberOfCredit)
+
+
 
 
 
