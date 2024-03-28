@@ -1,5 +1,5 @@
 import json
-from abc import ABC
+from abc import ABC, abstractmethod
 from textwrap import indent
 
 from Header import Header
@@ -49,8 +49,14 @@ class Block(ABC):
         if self._signature is not None:
             raise Exception("Block already signed. ")
 
+        if not self.on_sign_verification():
+            raise Exception("Block verification failed. ")
+
         self._header.hash_root = sha(self.data)
         self._signature = sign(self.hash, private_key)
+
+    def on_sign_verification(self) -> bool:
+        pass
 
     def verify(self, public_key: PublicKey) -> bool:
         return (self.is_signed and
