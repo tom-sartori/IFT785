@@ -1,10 +1,12 @@
 from functools import partial
 import inspect
 
-from Account import Account
-from Chain import Chain
-from Block import Block
+#from Account import Account
+#from Chain import Chain
+#from Block import Block
+from Block_test import Block_test
 
+'''
 def add_method(objet: object, fonction):
     setattr(objet, fonction.__name__, partial(fonction, objet))
 
@@ -41,10 +43,10 @@ def addCreditToAccount(account: Account, block: Block, unit: str, numberCreditTo
 def removeCreditFromAccount(account: Account, block: Block, unit: str, numberCreditToRemove: int or float) -> Block:
     assert numberCreditToRemove > 0
     return block.add_data('unit', unit).add_data('balance', account.getChain().get_balance(unit) - numberCreditToRemove)
+'''
 
-
-def addCurrency(block: Block, unit: str, startingNumberOfCredit: int or float) -> Block:
-    return block.add_data('unit', unit).add_data('balance', startingNumberOfCredit)
+def addCurrency(bloc: Block_test, unit: str, startingNumberOfCredit: int or float):
+    bloc.balance[unit] = startingNumberOfCredit
 
 
 

@@ -1,6 +1,7 @@
 from textwrap import indent
 
-from Block import Block
+#from Block import Block
+from Block_test import Block_test as Block
 from Chain import Chain
 from GenesisBlock import GenesisBlock
 from fake_crypto import PrivateKey, PublicKey

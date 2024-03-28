@@ -1,4 +1,5 @@
-from Block import Block
+#from Block import Block
+from Block_test import Block_test as Block
 from GenesisBlock import GenesisBlock
 from fake_crypto import PublicKey
 
@@ -55,16 +56,22 @@ class Chain:
         return self.head.verify(public_key)
 
     def get_balances(self) -> dict[str, int or float]:
+        '''
         balances = dict()  # unit -> balance
         for block in reversed(self._block_list):
             if 'balance' in block.data and 'unit' in block.data and block.data['unit'] not in balances:
                 balances[block.data['unit']] = block.data['balance']
 
         return balances
+        '''
+        return self.head.balance
 
     def get_balance(self, unit: str) -> int or float:
+        '''
         for block in reversed(self._block_list):
             if 'balance' in block.data and 'unit' in block.data and block.data['unit'] == unit:
                 return block.data['balance']
 
         return 0
+        '''
+        return self.head.balance[unit]
