@@ -70,8 +70,9 @@ if __name__ == '__main__':
         #   - name: name of the class
         #   - bases: tuple of the parent class (for inheritance, can be empty)
         #   - attrs: dictionary containing attributes names and values
-        BlockType = type(block_name, (Block,), {})
-        BlockType.on_sign_verification = find_verification_method(block_definition['on_sign_verification'])
+        BlockType = type(block_name, (Block,), {
+            'on_sign_verification': on_sign_verification
+        })
 
         # Create an instance of the block.
         block = BlockType(previous_block=genesis_block)

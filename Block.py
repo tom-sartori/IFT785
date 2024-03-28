@@ -55,6 +55,7 @@ class Block(ABC):
         self._header.hash_root = sha(self.data)
         self._signature = sign(self.hash, private_key)
 
+    @abstractmethod
     def on_sign_verification(self) -> bool:
         pass
 
