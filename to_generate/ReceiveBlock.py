@@ -1,6 +1,6 @@
 from Block import Block
 from Ledger import Ledger
-from SendBlock import SendBlock
+from to_generate.SendBlock import SendBlock
 from fake_crypto import PublicKey
 
 class ReceiveBlock(Block):

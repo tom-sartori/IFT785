@@ -1,9 +1,9 @@
 from Account import Account
 from Ledger import Ledger
 from fake_crypto import generate_keys,PublicKey
-from OpenBlock import OpenBlock
-from SendBlock import SendBlock
-from ReceiveBlock import ReceiveBlock
+from to_generate.OpenBlock import OpenBlock
+from to_generate.SendBlock import SendBlock
+from to_generate.ReceiveBlock import ReceiveBlock
 
 
 if __name__ == '__main__':
