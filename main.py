@@ -17,5 +17,8 @@ if __name__ == '__main__':
     )
 
     genesis_account.add_block(open_block_genesis)
+    ledger.add_block(open_block_genesis)
+
+    print(open_block_genesis.account_public_key(ledger))
 
     print(ledger)
