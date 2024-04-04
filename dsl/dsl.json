@@ -1,16 +1,28 @@
 {
   "blocks": {
     "OpenNanocoin": {
-      "block_type": "Open",
-      "unit": "Nanocoin",
-      "balance": 100,
-      "on_sign_verification": "test_on_sign_verification"
+      "data": {
+        "block_type": "Open",
+        "block_typeeeeee": "Open",
+        "unit": "Nanocoin",
+        "balance": 100,
+        "on_sign_verification": {
+          "method_name": "is_equal",
+          "args": [
+            "a",
+            "b"
+          ]
+        }
+      },
+      "attributes": [
+        "a",
+        "b"
+      ]
     },
     "OpenBitcoin": {
       "block_type": "Open",
       "unit": "Bitcoin",
-      "balance": 100,
-      "on_sign_verification": "test_on_sign_verification"
+      "balance": 100
     }
   }
 }

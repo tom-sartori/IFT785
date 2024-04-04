@@ -1,9 +1,10 @@
 import json
-from abc import ABC, abstractmethod
+from abc import ABC
 from textwrap import indent
 
 from Header import Header
 from Ledger import Ledger
+from dsl.Verification import Verification
 from fake_crypto import sha, new_deterministic_hash, Signature, PublicKey, sign, PrivateKey
 
 
@@ -44,7 +45,8 @@ class Block(ABC):
 
         self._header = Header(previous_hash=previous_hash)
         self._signature: Signature or None = None
-        self.data = dict()
+        if not hasattr(self, 'data'):
+            self.data = dict()
         self.add_data('block_type', type(self).__name__)
 
     def __str__(self):
@@ -73,9 +75,10 @@ class Block(ABC):
         self._header.hash_root = sha(self.data)
         self._signature = sign(self.hash, private_key)
 
-    @abstractmethod
     def on_sign_verification(self) -> bool:
-        pass
+        on_sign_object = self.data['on_sign_verification']
+        args = [self.data[x] if x in self.data.keys() else x for x in on_sign_object['args']]
+        return Verification()[on_sign_object['method_name']](*args)
 
     def verify(self, public_key: PublicKey) -> bool:
         return (self.is_signed and
