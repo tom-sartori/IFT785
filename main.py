@@ -18,3 +18,7 @@ if __name__ == '__main__':
     genesis_account.add_block(open_block_genesis)
 
     print(Ledger())
+
+    # print(open_block_genesis.account_public_key)
+    # print(Ledger().get_account(open_block_genesis.account_public_key))
+    # print(Ledger().get_block(open_block_genesis.hash))

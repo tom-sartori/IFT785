@@ -17,6 +17,23 @@ class Block(ABC):
     def is_signed(self):
         return self._signature is not None
 
+    @property
+    def previous_block(self) -> 'Block' or None:
+        if self._header.previous_hash is None:
+            return None
+
+        previous_hash = self._header.previous_hash
+        return Ledger().get_block(previous_hash)
+
+    @property
+    def account_public_key(self) -> str:
+        block = self
+        while block._header.previous_hash is not None:
+            # While the block is not the genesis block.
+            block = block.previous_block
+
+        return block.data['account']
+
     def __init__(self, previous_block: 'Block'):
         if previous_block is None:
             previous_hash: str = new_deterministic_hash()
@@ -38,17 +55,6 @@ class Block(ABC):
         result += f'signed by:     {self._signature.signer if self.is_signed else "not yet signed"}\n'
         result += f'data:\n' + indent(json.dumps(self.data, indent=4), '\t') + '\n'
         return result
-
-    def previous_block(self) -> 'Block':
-        previous_hash = self._header.previous_hash
-        return Ledger().get_block(previous_hash)
-
-    def account_public_key(self) -> PublicKey:
-        block = self
-        while block._header.previous_hash is not None:
-            block = block.previous_block()
-
-        return block.account
 
     def add_data(self, new_key: str, new_value: any) -> 'Block':
         if self._signature is not None:
