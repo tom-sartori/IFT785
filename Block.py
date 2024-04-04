@@ -69,16 +69,37 @@ class Block(ABC):
         if self._signature is not None:
             raise Exception("Block already signed. ")
 
-        if not self.on_sign_verification():
+        if not self._on_sign_verifications():
             raise Exception("Block verification failed. ")
 
         self._header.hash_root = sha(self.data)
         self._signature = sign(self.hash, private_key)
 
-    def on_sign_verification(self) -> bool:
-        on_sign_object = self.data['on_sign_verification']
-        args = [self.data[x] if x in self.data.keys() else x for x in on_sign_object['args']]
-        return Verification()[on_sign_object['method_name']](*args)
+    def _on_sign_verifications(self) -> bool:
+        """
+        Verify if all the on_sign_verifications are valid. If there is no on_sign_verifications, return True.
+
+        :return: True if all the on_sign_verifications are valid, False otherwise.
+        """
+
+        if 'on_sign_verifications' not in self.data.keys():
+            return True
+
+        return all(
+            self._on_sign_verification(on_sign_object['method_name'], on_sign_object['args'])
+            for on_sign_object in self.data['on_sign_verifications']
+        )
+
+    def _on_sign_verification(self, method_name: str, args: [str]) -> bool:
+        """
+        Verify with the corresponding method in the Verification class if the block is valid.
+        :param method_name: name of the method in the Verification class.
+        :param args: arguments of the method.
+        :return: True if the block is valid, False otherwise.
+        """
+
+        args = [self.data[arg] if arg in self.data.keys() else arg for arg in args]
+        return Verification()[method_name](*args)
 
     def verify(self, public_key: PublicKey) -> bool:
         return (self.is_signed and

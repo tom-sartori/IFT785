@@ -9,6 +9,3 @@ class GenesisBlock(Block):
 
         self._header.previous_hash = None
         self.add_data('account', public_key.key)
-
-    def on_sign_verification(self) -> bool:
-        return True

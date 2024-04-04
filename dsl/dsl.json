@@ -6,13 +6,15 @@
         "block_typeeeeee": "Open",
         "unit": "Nanocoin",
         "balance": 100,
-        "on_sign_verification": {
-          "method_name": "is_equal",
-          "args": [
-            "a",
-            "b"
-          ]
-        }
+        "on_sign_verifications": [
+          {
+            "method_name": "is_equal",
+            "args": [
+              "a",
+              "b"
+            ]
+          }
+        ]
       },
       "attributes": [
         "a",
