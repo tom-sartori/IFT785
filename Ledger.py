@@ -3,20 +3,20 @@ from fake_crypto import PublicKey
 
 
 class Ledger:
-    _instance = None
+    __instance = None
 
     def __init__(self):
-        if Ledger._instance is not None:
+        if Ledger.__instance is not None:
             raise Exception("Ledger has not been")
-        Ledger._instance = self
+        Ledger.__instance = self
         self._accounts: dict[str, 'Account'] = {}  # PublicKey.key -> Account.
-        self._blocks: dict[str, 'Block'] = {}  # Hash -> Block
+        self._blocks: dict[str, 'Block'] = {}  # Block.hash -> Block
 
     @classmethod
     def get_instance(cls):
-        if cls._instance is None:
-            cls._instance = cls()
-        return cls._instance
+        if cls.__instance is None:
+            cls.__instance = cls()
+        return cls.__instance
 
     def __str__(self):
         result = 'Ledger contains the following accounts: \n'
@@ -24,31 +24,26 @@ class Ledger:
             result += f'- {account.public_key.owner}\n'
             result += indent(account.__str__(), '\t')
 
-        return result
-
-    def all_block(self):
-        result = 'Ledger contains the following Blocks: \n'
+        result += '\n\n'
+        result += 'Ledger contains the following Blocks: \n'
         for block in self._blocks.values():
             result += f'- {block.hash}\n'
             result += indent(block.__str__(), '\t')
 
-        print(result)
-
         return result
 
-    # Method to add a block to the _blocks dictionary
     def add_block(self, block: 'Block') -> None:
         block_hash = block.hash
         if block_hash in self._blocks:
             raise Exception('Error: Block already exists in the ledger. ')
+
         self._blocks[block_hash] = block
 
-    def get_block(self, hash: str) -> 'Block':
-        if hash not in self._blocks:
+    def get_block(self, block_hash: str) -> 'Block':
+        if block_hash not in self._blocks:
             raise Exception('Error: Block not found in the ledger. ')
-        return self._blocks[hash]
 
-
+        return self._blocks[block_hash]
 
     def add_account(self, account: 'Account') -> None:
         if account.public_key in self._accounts:
@@ -70,4 +65,3 @@ class Ledger:
 
     def verify(self) -> bool:
         return all(account.verify() for account in self._accounts.values())
-

@@ -6,6 +6,7 @@ from GenesisBlock import GenesisBlock
 from Ledger import Ledger
 from fake_crypto import PrivateKey, PublicKey
 
+
 class Account:
     @property
     def public_key(self) -> PublicKey:
@@ -26,8 +27,8 @@ class Account:
         genesis_block = GenesisBlock(public_key=public_key)
         genesis_block.sign(private_key=private_key)
         self._chain: Chain = Chain(genesis_block)
-        self._ledger = Ledger.get_instance()
-        self._ledger.add_block(genesis_block)
+
+        Ledger.get_instance().add_block(genesis_block)
 
     def __str__(self):
         result = ''
@@ -48,9 +49,8 @@ class Account:
 
         self._chain.add_block(block=block, public_key=self._public_key)
 
-        # Adding block into the blocks dictionary of Ledger
-        self._ledger.add_block(block)
+        # Adding the block into the blocks dictionary of Ledger.
+        Ledger.get_instance().add_block(block)
 
     def verify(self) -> bool:
         return self._chain.verify(public_key=self._public_key)
-
