@@ -1,22 +1,17 @@
 from textwrap import indent
+
+from SingletonMeta import SingletonMeta
 from fake_crypto import PublicKey
 
 
-class Ledger:
-    __instance = None
+class Ledger(metaclass=SingletonMeta):
+    """
+    Ledger class is a Singleton class that contains all the accounts and blocks in the system.
+    """
 
     def __init__(self):
-        if Ledger.__instance is not None:
-            raise Exception("Ledger has not been")
-        Ledger.__instance = self
         self._accounts: dict[str, 'Account'] = {}  # PublicKey.key -> Account.
         self._blocks: dict[str, 'Block'] = {}  # Block.hash -> Block
-
-    @classmethod
-    def get_instance(cls):
-        if cls.__instance is None:
-            cls.__instance = cls()
-        return cls.__instance
 
     def __str__(self):
         result = 'Ledger contains the following accounts: \n'

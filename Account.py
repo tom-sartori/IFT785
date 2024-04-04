@@ -28,7 +28,7 @@ class Account:
         genesis_block.sign(private_key=private_key)
         self._chain: Chain = Chain(genesis_block)
 
-        Ledger.get_instance().add_block(genesis_block)
+        Ledger().add_block(genesis_block)
 
     def __str__(self):
         result = ''
@@ -50,7 +50,7 @@ class Account:
         self._chain.add_block(block=block, public_key=self._public_key)
 
         # Adding the block into the blocks dictionary of Ledger.
-        Ledger.get_instance().add_block(block)
+        Ledger().add_block(block)
 
     def verify(self) -> bool:
         return self._chain.verify(public_key=self._public_key)

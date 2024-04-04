@@ -25,8 +25,6 @@ class Block(ABC):
         else:
             raise Exception("previous_block must be Block or None. ")
 
-        self._ledger: Ledger = Ledger.get_instance()
-
         self._header = Header(previous_hash=previous_hash)
         self._signature: Signature or None = None
         self.data = dict()
@@ -43,7 +41,7 @@ class Block(ABC):
 
     def previous_block(self) -> 'Block':
         previous_hash = self._header.previous_hash
-        return self._ledger.get_block(previous_hash)
+        return Ledger().get_block(previous_hash)
 
     def account_public_key(self) -> PublicKey:
         block = self
