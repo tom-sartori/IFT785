@@ -2,7 +2,6 @@ from Block import Block
 from GenesisBlock import GenesisBlock
 from fake_crypto import PublicKey
 
-
 class Chain:
 
     @property
@@ -65,3 +64,5 @@ class Chain:
                 return block.data['balance']
 
         return 0
+
+

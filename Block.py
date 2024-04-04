@@ -3,7 +3,7 @@ from abc import ABC, abstractmethod
 from textwrap import indent
 
 from Header import Header
-# from Ledger import Ledger
+from Ledger import Ledger
 from fake_crypto import sha, new_deterministic_hash, Signature, PublicKey, sign, PrivateKey
 
 
@@ -17,18 +17,6 @@ class Block(ABC):
     def is_signed(self):
         return self._signature is not None
 
-    def account_public_key(self, ledger) -> PublicKey:
-        # last_block = self.previous_block
-        # while last_block._header.previous_hash is not None:
-        #     last_block = last_block.previous_block
-        # return last_block.account
-        return ledger.account_public_key(self)
-
-
-    # @property
-    # def previous_block(self):
-    #     return self.previous_block_by_hash(self._header.previous_hash)
-
     def __init__(self, previous_block: 'Block'):
         if previous_block is None:
             previous_hash: str = new_deterministic_hash()
@@ -37,7 +25,8 @@ class Block(ABC):
         else:
             raise Exception("previous_block must be Block or None. ")
 
-        # self._ledger: Ledger = Ledger()
+        self._ledger: Ledger = Ledger.get_instance()
+
         self._header = Header(previous_hash=previous_hash)
         self._signature: Signature or None = None
         self.data = dict()
@@ -52,9 +41,16 @@ class Block(ABC):
         result += f'data:\n' + indent(json.dumps(self.data, indent=4), '\t') + '\n'
         return result
 
-    # def previous_block_by_hash(self, hash: str):
-    #
-    #     pass
+    def previous_block(self) -> 'Block':
+        previous_hash = self._header.previous_hash
+        return self._ledger.get_block(previous_hash)
+
+    def account_public_key(self) -> PublicKey:
+        block = self
+        while block._header.previous_hash is not None:
+            block = block.previous_block()
+
+        return block.account
 
     def add_data(self, new_key: str, new_value: any) -> 'Block':
         if self._signature is not None:

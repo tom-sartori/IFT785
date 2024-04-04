@@ -1,17 +1,22 @@
 from textwrap import indent
-from typing import Callable, Any
-
-from Account import Account
-from Block import Block
-from GenesisBlock import GenesisBlock
 from fake_crypto import PublicKey
 
 
 class Ledger:
+    _instance = None
 
     def __init__(self):
-        self._accounts: dict[str, Account] = {}  # PublicKey.key -> Account.
-        self._blocks: dict[str, Block] = {}  # Hash -> Block
+        if Ledger._instance is not None:
+            raise Exception("Ledger has not been")
+        Ledger._instance = self
+        self._accounts: dict[str, 'Account'] = {}  # PublicKey.key -> Account.
+        self._blocks: dict[str, 'Block'] = {}  # Hash -> Block
+
+    @classmethod
+    def get_instance(cls):
+        if cls._instance is None:
+            cls._instance = cls()
+        return cls._instance
 
     def __str__(self):
         result = 'Ledger contains the following accounts: \n'
@@ -21,32 +26,31 @@ class Ledger:
 
         return result
 
+    def all_block(self):
+        result = 'Ledger contains the following Blocks: \n'
+        for block in self._blocks.values():
+            result += f'- {block.hash}\n'
+            result += indent(block.__str__(), '\t')
+
+        print(result)
+
+        return result
+
     # Method to add a block to the _blocks dictionary
-    def add_block(self, block: Block) -> None:
+    def add_block(self, block: 'Block') -> None:
         block_hash = block.hash
         if block_hash in self._blocks:
             raise Exception('Error: Block already exists in the ledger. ')
         self._blocks[block_hash] = block
 
-    def get_block(self, hash: str):
+    def get_block(self, hash: str) -> 'Block':
         if hash not in self._blocks:
             raise Exception('Error: Block not found in the ledger. ')
         return self._blocks[hash]
 
-    # Method to get previous block from given block
-    def previous_block(self, block: Block) -> Block:
-        previous_hash = block._header.previous_hash
-        return self.get_block(previous_hash)
-
-    # Method to obtain the public key of the account associated with a block
-    def account_public_key(self, block: Block) -> Callable[[Any], PublicKey]:
-        while block._header.previous_hash is not None:
-            block = self.previous_block(block)
-        if isinstance(block, GenesisBlock):
-            return block.account_public_key
 
 
-    def add_account(self, account: Account) -> None:
+    def add_account(self, account: 'Account') -> None:
         if account.public_key in self._accounts:
             raise Exception('Error: Account already exists. ')
 
@@ -55,7 +59,7 @@ class Ledger:
 
         self._accounts[account.public_key.key] = account
 
-    def get_account(self, public_key: PublicKey or str) -> Account:
+    def get_account(self, public_key: PublicKey or str) -> 'Account':
         if isinstance(public_key, PublicKey):
             public_key = public_key.key
 
@@ -66,3 +70,4 @@ class Ledger:
 
     def verify(self) -> bool:
         return all(account.verify() for account in self._accounts.values())
+
