@@ -47,7 +47,7 @@ if __name__ == '__main__':
                                 pbkey=c.public_key.key)
     
     c.add_block(receive_test)
-
+  
     print(ledger)
 
    

@@ -4,6 +4,10 @@ from to_generate.SendBlock import SendBlock
 from fake_crypto import PublicKey
 
 class ReceiveBlock(Block):
+
+     '''
+     Checker si l'unit qui lui est destiné existe dans son account
+     '''
      def __init__(self, previous_block: Block,ledger:Ledger,pbkey:PublicKey):
           super().__init__(previous_block)
 
