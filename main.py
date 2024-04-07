@@ -20,4 +20,4 @@ if __name__ == '__main__':
 
     genesis_account.add_block(open_block_genesis)
 
-    print(ledger)
+    print(Ledger())

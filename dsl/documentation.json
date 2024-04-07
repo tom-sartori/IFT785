@@ -1,23 +1,70 @@
 {
   "blocks": {
-    "Open": {
-      "block_type": {
-        "type": "str",
-        "value": "Open",
-        "description": "The type of the block. Must be 'open'. "
+      "Open": {
+          "block_type": {
+              "type": "str",
+              "value": "Open",
+              "description": "The type of the block. Must be 'open'. "
+          },
+          "unit": {
+              "type": "str",
+              "description": "The unit of the block. "
+          },
+          "balance": {
+              "type": "int or float",
+              "description": "The balance of the block. If int, then the currency will be atomic. "
+          },
+          "on_sign_verification": {
+              "type": "str",
+              "description": "The verification method of the block. "
+          }
       },
-      "unit": {
-        "type": "str",
-        "description": "The unit of the block. "
+
+      "SendBlock": {
+          "block_type": {
+              "type": "str",
+              "value": "SendBlock",
+              "description": "The type of the block. Must be 'SendBlock'. "
+          },
+          "unit": {
+              "type": "str",
+              "description": "The unit of the SendBlock. "
+          },
+          "amount_to_send": {
+              "type": "int or float",
+              "description": "The amount to send"
+          },
+          "balance": {
+              "type": "int or float",
+              "description": "The new up to date balance of the Account for the unit. If int, then the currency will be atomic. "
+          },
+          "on_sign_verification": {
+              "type": "str",
+              "description": "The verification method of the block."
+          }
       },
-      "balance": {
-        "type": "int or float",
-        "description": "The balance of the block. If int, then the currency will be atomic. "
-      },
-      "on_sign_verification": {
-        "type": "str",
-        "description": "The verification method of the block. "
+      "ReceiveBlock": {
+          "block_type": {
+              "type": "str",
+              "value": "ReceiveBlock",
+              "description": "The type of the block. Must be 'ReceiveBlock'. "
+          },
+          "unit": {
+              "type": "str",
+              "description": "The unit of the ReceiveBlock. "
+          },
+          "amount_to_receive": {
+              "type": "int or float",
+              "description": "The amount to receive"
+          },
+          "balance": {
+              "type": "int or float",
+              "description": "The new up to date balance of the Account for the unit. If int, then the currency will be atomic. "
+          },
+          "on_sign_verification": {
+              "type": "str",
+              "description": "The verification method of the block."
+          }
       }
-    }
   }
 }

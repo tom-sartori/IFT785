@@ -1,16 +1,29 @@
 {
   "blocks": {
-    "OpenNanocoin": {
-      "block_type": "Open",
-      "unit": "Nanocoin",
-      "balance": 100,
-      "on_sign_verification": "test_on_sign_verification"
-    },
-    "OpenBitcoin": {
-      "block_type": "Open",
-      "unit": "Bitcoin",
-      "balance": 100,
-      "on_sign_verification": "test_on_sign_verification"
-    }
+      "OpenNanocoin": {
+          "block_type": "Open",
+          "unit": "Nanocoin",
+          "balance": 100,
+          "on_sign_verification": "test_on_sign_verification"
+      },
+      "OpenBitcoin": {
+          "block_type": "Open",
+          "unit": "Bitcoin",
+          "balance": 100,
+          "on_sign_verification": "test_on_sign_verification"
+      },
+      "SendNanocoin": {
+          "block_type": "SendBlock",
+          "unit": "Nanocoin",
+          "balance": 1000,
+          "amount_to_send": 75,
+          "on_sign_verification": "test_on_sign_verification"
+      },
+      "SendBitcoin": {
+          "block_type": "SendBlock",
+          "unit": "Bitcoin",
+          "balance": 100,
+          "on_sign_verification": "test_on_sign_verification"
+      }
   }
 }
