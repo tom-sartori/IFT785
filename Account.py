@@ -3,12 +3,12 @@ from textwrap import indent
 from Block import Block
 from Chain import Chain
 from GenesisBlock import GenesisBlock
+from Ledger import Ledger
 from fake_crypto import PrivateKey, PublicKey
 
 
 
 class Account:
-
     @property
     def public_key(self) -> PublicKey:
         return self._public_key
@@ -29,6 +29,8 @@ class Account:
         genesis_block.sign(private_key=private_key)
         self._chain: Chain = Chain(genesis_block)
 
+        Ledger().add_block(genesis_block)
+
     def __str__(self):
         result = ''
         result += f'Account has {len(self._chain)} blocks and '
@@ -47,6 +49,9 @@ class Account:
             raise Exception('Error: Block signature verification failed. ')
 
         self._chain.add_block(block=block, public_key=self._public_key)
+
+        # Adding the block into the blocks dictionary of Ledger.
+        Ledger().add_block(block)
 
     def verify(self) -> bool:
         return self._chain.verify(public_key=self._public_key)

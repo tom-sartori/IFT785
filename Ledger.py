@@ -1,13 +1,17 @@
 from textwrap import indent
 
-from Account import Account
+from SingletonMeta import SingletonMeta
 from fake_crypto import PublicKey
 
 
-class Ledger:
+class Ledger(metaclass=SingletonMeta):
+    """
+    Ledger class is a Singleton class that contains all the accounts and blocks in the system.
+    """
 
     def __init__(self):
-        self._accounts: dict[str, Account] = {}  # PublicKey.key -> Account.
+        self._accounts: dict[str, 'Account'] = {}  # PublicKey.key -> Account.
+        self._blocks: dict[str, 'Block'] = {}  # Block.hash -> Block
 
     def __str__(self):
         result = 'Ledger contains the following accounts: \n'
@@ -15,9 +19,28 @@ class Ledger:
             result += f'- {account.public_key.owner}\n'
             result += indent(account.__str__(), '\t')
 
+        result += '\n\n'
+        result += 'Ledger contains the following Blocks: \n'
+        for block in self._blocks.values():
+            result += f'- {block.hash}\n'
+            result += indent(block.__str__(), '\t')
+
         return result
 
-    def add_account(self, account: Account) -> None:
+    def add_block(self, block: 'Block') -> None:
+        block_hash = block.hash
+        if block_hash in self._blocks:
+            raise Exception('Error: Block already exists in the ledger. ')
+
+        self._blocks[block_hash] = block
+
+    def get_block(self, block_hash: str) -> 'Block':
+        if block_hash not in self._blocks:
+            raise Exception('Error: Block not found in the ledger. ')
+
+        return self._blocks[block_hash]
+
+    def add_account(self, account: 'Account') -> None:
         if account.public_key in self._accounts:
             raise Exception('Error: Account already exists. ')
 
@@ -26,7 +49,7 @@ class Ledger:
 
         self._accounts[account.public_key.key] = account
 
-    def get_account(self, public_key: PublicKey or str) -> Account:
+    def get_account(self, public_key: PublicKey or str) -> 'Account':
         if isinstance(public_key, PublicKey):
             public_key = public_key.key
 
