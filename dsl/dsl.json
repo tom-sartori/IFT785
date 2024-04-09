@@ -3,7 +3,6 @@
     "OpenNanocoin": {
       "data": {
         "block_type": "Open",
-        "block_typeeeeee": "Open",
         "unit": "Nanocoin",
         "balance": 100,
         "on_sign_verifications": [
@@ -16,15 +15,10 @@
           }
         ]
       },
-      "attributes": [
+      "parameters": [
         "a",
         "b"
       ]
-    },
-    "OpenBitcoin": {
-      "block_type": "Open",
-      "unit": "Bitcoin",
-      "balance": 100
     }
   }
 }

@@ -1,5 +1,4 @@
 import json
-from array import array
 
 from Account import Account
 from Block import Block
@@ -19,15 +18,8 @@ def find_verification_method(method_name: str) -> callable:
     # return None
 
 
-if __name__ == '__main__':
-    genesis_account: Account = Account(*generate_keys('Genesis'))
-    Ledger().add_account(genesis_account)
-
-    dsl = json.loads(open('dsl/dsl.json', 'r').read())
-    block_str = dsl['blocks']['OpenNanocoin']
-    print(block_str['attributes'])
-
-    string = f"def init(self, previous_block, {', '.join(block_str['attributes'])}):"
+def get_init_function(parameters: list[str]):
+    string = f"def init(self, previous_block, {', '.join(parameters)}):"
     string += """
     Block.__init__(self, previous_block)
 
@@ -38,13 +30,22 @@ if __name__ == '__main__':
     compiled = compile(string, '', 'exec')
     eval(compiled)
 
+    return locals()['init']
+
+
+if __name__ == '__main__':
+    genesis_account: Account = Account(*generate_keys('Genesis'))
+    Ledger().add_account(genesis_account)
+
+    dsl = json.loads(open('dsl/dsl.json', 'r').read())
+    block_str = dsl['blocks']['OpenNanocoin']
+
     SubBlock = type('SubBlock', (Block,), {
-        '__init__': init,
+        '__init__': get_init_function(block_str['parameters']),
         'data': block_str['data']
     })
 
-    # block = SubBlock(genesis_account.head, {'a': 5, 'b': 5})
     block = SubBlock(genesis_account.head, 5, 5)
     genesis_account.add_block(block)
 
-    # print(genesis_account)
+    print(genesis_account)
