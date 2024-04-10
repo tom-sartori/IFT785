@@ -13,6 +13,12 @@
               "b"
             ]
           }
+        ],
+        "on_sign_actions": [
+          {
+            "method_name": "assign_balance_when_opening",
+            "args": ["self", "account"]
+          }
         ]
       },
       "parameters": [

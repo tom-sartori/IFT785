@@ -4,6 +4,7 @@ from textwrap import indent
 
 from Header import Header
 from Ledger import Ledger
+from dsl.Action import Action
 from dsl.Verification import Verification
 from fake_crypto import sha, new_deterministic_hash, Signature, PublicKey, sign, PrivateKey
 
@@ -69,6 +70,8 @@ class Block(ABC):
         if self._signature is not None:
             raise Exception("Block already signed. ")
 
+        self._on_sign_actions()
+
         if not self._on_sign_verifications():
             raise Exception("Block verification failed. ")
 
@@ -100,6 +103,47 @@ class Block(ABC):
 
         args = [self.data[arg] if arg in self.data.keys() else arg for arg in args]
         return Verification()[method_name](*args)
+
+    def _on_sign_actions(self) -> None:
+        """
+        Execute all the on_sign_actions.
+        :return: None
+        """
+
+        if 'on_sign_actions' not in self.data.keys():
+            return
+
+        for on_sign_object in self.data['on_sign_actions']:
+            self._on_sign_action(on_sign_object['method_name'], on_sign_object['args'])
+
+    def _on_sign_action(self, method_name: str, args: [str]) -> None:
+        """
+        Execute the corresponding method in the Action class.
+        For the args, the checking order is the next one :
+            - if the arg is in the data, take the value from the data.
+            - if the arg is a variable in the block, take the value from the block.
+            - if f'self.{arg}' is a variable in the block, take the value from the block.
+            - Otherwise, None.
+
+        :param method_name: name of the method in the Action class.
+        :param args: arguments of the method.
+        :return: None
+        """
+
+        computed_args = []
+        for arg in args:
+            if arg in self.data.keys():
+                computed_args.append(self.data[arg])
+                continue
+            try:
+                computed_args.append(eval(f'{arg}'))
+            except (AttributeError, NameError):
+                try:
+                    computed_args.append(eval(f'self.{arg}'))
+                except (AttributeError, NameError):
+                    computed_args.append(None)
+
+        Action()[method_name](*computed_args)
 
     def verify(self, public_key: PublicKey) -> bool:
         return (self.is_signed and
