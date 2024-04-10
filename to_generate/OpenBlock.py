@@ -13,6 +13,3 @@ class OpenBlock(Block):
         (self.add_data('unit', unit)
          .add_data('balance', balance)
          .add_data('account', account))
-
-    def on_sign_verification(self) -> bool:
-        return True

@@ -1,9 +1,11 @@
 import json
-from abc import ABC, abstractmethod
+from abc import ABC
 from textwrap import indent
 
 from Header import Header
 from Ledger import Ledger
+from dsl.Action import Action
+from dsl.Verification import Verification
 from fake_crypto import sha, new_deterministic_hash, Signature, PublicKey, sign, PrivateKey
 
 
@@ -44,7 +46,8 @@ class Block(ABC):
 
         self._header = Header(previous_hash=previous_hash)
         self._signature: Signature or None = None
-        self.data = dict()
+        if not hasattr(self, 'data'):
+            self.data = dict()
         self.add_data('block_type', type(self).__name__)
 
     def __str__(self):
@@ -67,15 +70,90 @@ class Block(ABC):
         if self._signature is not None:
             raise Exception("Block already signed. ")
 
-        if not self.on_sign_verification():
+        self._on_sign_actions()
+
+        if not self._on_sign_verifications():
             raise Exception("Block verification failed. ")
 
         self._header.hash_root = sha(self.data)
         self._signature = sign(self.hash, private_key)
 
-    @abstractmethod
-    def on_sign_verification(self) -> bool:
-        pass
+    def _on_sign_verifications(self) -> bool:
+        """
+        Verify if all the on_sign_verifications are valid. If there is no on_sign_verifications, return True.
+
+        :return: True if all the on_sign_verifications are valid, False otherwise.
+        """
+
+        if 'on_sign_verifications' not in self.data.keys():
+            return True
+
+        return all(
+            self._on_sign_verification(on_sign_object['method_name'], on_sign_object['args'])
+            for on_sign_object in self.data['on_sign_verifications']
+        )
+
+    def _on_sign_verification(self, method_name: str, args: [str]) -> bool:
+        """
+        Verify with the corresponding method in the Verification class if the block is valid.
+        :param method_name: name of the method in the Verification class.
+        :param args: arguments of the method.
+        :return: True if the block is valid, False otherwise.
+        """
+
+        computed_args = self._compute_args(args)
+        return Verification()[method_name](*computed_args)
+
+    def _on_sign_actions(self) -> None:
+        """
+        Execute all the on_sign_actions.
+        :return: None
+        """
+
+        if 'on_sign_actions' not in self.data.keys():
+            return
+
+        for on_sign_object in self.data['on_sign_actions']:
+            self._on_sign_action(on_sign_object['method_name'], on_sign_object['args'])
+
+    def _on_sign_action(self, method_name: str, args: [str]) -> None:
+        """
+        Execute the corresponding method in the Action class.
+
+        :param method_name: name of the method in the Action class.
+        :param args: arguments of the method.
+        :return: None
+        """
+
+        computed_args = self._compute_args(args)
+        Action()[method_name](*computed_args)
+
+    def _compute_args(self, args: [str]):
+        """
+        Compute the arguments of the on_sign_actions and on_sign_verifications.
+        For the args, the checking order is the next one :
+            - if the arg is in the data, take the value from the data.
+            - if the arg is a variable in the block, take the value from the block.
+            - if f'self.{arg}' is a variable in the block, take the value from the block.
+            - Otherwise, None.
+
+        :param args:
+        :return:
+        """
+        computed_args = []
+        for arg in args:
+            if arg in self.data.keys():
+                computed_args.append(self.data[arg])
+                continue
+            try:
+                computed_args.append(eval(f'{arg}'))
+            except (AttributeError, NameError):
+                try:
+                    computed_args.append(eval(f'self.{arg}'))
+                except (AttributeError, NameError):
+                    computed_args.append(None)
+
+        return computed_args
 
     def verify(self, public_key: PublicKey) -> bool:
         return (self.is_signed and

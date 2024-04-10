@@ -16,14 +16,8 @@ class Ledger(metaclass=SingletonMeta):
     def __str__(self):
         result = 'Ledger contains the following accounts: \n'
         for account in self._accounts.values():
-            result += f'- {account.public_key.owner}\n'
+            result += f'- {account.public_key.owner} - {account.public_key.key}\n'
             result += indent(account.__str__(), '\t')
-
-        result += '\n\n'
-        result += 'Ledger contains the following Blocks: \n'
-        for block in self._blocks.values():
-            result += f'- {block.hash}\n'
-            result += indent(block.__str__(), '\t')
 
         return result
 
