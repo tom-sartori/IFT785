@@ -1,3 +1,4 @@
+from Ledger import Ledger
 from SingletonMeta import SingletonMeta
 
 
@@ -14,11 +15,6 @@ class Verification(metaclass=SingletonMeta):
         return self._methods[item]
 
 
-def test_on_sign_verification() -> bool:
-    print('on_sign_verification')
-    return True
-
-
 def is_superior(a, b) -> bool:
     return a > b
 
@@ -27,6 +23,17 @@ def is_equal(a, b) -> bool:
     return a == b
 
 
-Verification().__add__(test_on_sign_verification)
+def account_exists(account_public_key: str) -> bool:
+    return Ledger().get_account(account_public_key) is not None
+
+
+def is_balance_valid(block: 'Block', open_hash: str) -> bool:
+    open_block: 'Block' = Ledger().get_block(open_hash)
+    minimal_balance = open_block.data['minimal_balance'] if 'minimal_balance' in open_block.data else 0
+    return block.data['balance'] >= minimal_balance
+
+
 Verification().__add__(is_superior)
 Verification().__add__(is_equal)
+Verification().__add__(account_exists)
+Verification().__add__(is_balance_valid)

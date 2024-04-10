@@ -101,8 +101,8 @@ class Block(ABC):
         :return: True if the block is valid, False otherwise.
         """
 
-        args = [self.data[arg] if arg in self.data.keys() else arg for arg in args]
-        return Verification()[method_name](*args)
+        computed_args = self._compute_args(args)
+        return Verification()[method_name](*computed_args)
 
     def _on_sign_actions(self) -> None:
         """
@@ -119,17 +119,27 @@ class Block(ABC):
     def _on_sign_action(self, method_name: str, args: [str]) -> None:
         """
         Execute the corresponding method in the Action class.
-        For the args, the checking order is the next one :
-            - if the arg is in the data, take the value from the data.
-            - if the arg is a variable in the block, take the value from the block.
-            - if f'self.{arg}' is a variable in the block, take the value from the block.
-            - Otherwise, None.
 
         :param method_name: name of the method in the Action class.
         :param args: arguments of the method.
         :return: None
         """
 
+        computed_args = self._compute_args(args)
+        Action()[method_name](*computed_args)
+
+    def _compute_args(self, args: [str]):
+        """
+        Compute the arguments of the on_sign_actions and on_sign_verifications.
+        For the args, the checking order is the next one :
+            - if the arg is in the data, take the value from the data.
+            - if the arg is a variable in the block, take the value from the block.
+            - if f'self.{arg}' is a variable in the block, take the value from the block.
+            - Otherwise, None.
+
+        :param args:
+        :return:
+        """
         computed_args = []
         for arg in args:
             if arg in self.data.keys():
@@ -143,7 +153,7 @@ class Block(ABC):
                 except (AttributeError, NameError):
                     computed_args.append(None)
 
-        Action()[method_name](*computed_args)
+        return computed_args
 
     def verify(self, public_key: PublicKey) -> bool:
         return (self.is_signed and

@@ -2,34 +2,59 @@
   "blocks": {
     "OpenNanocoin": {
       "data": {
-        "block_type": "Open",
         "unit": "Nanocoin",
         "balance": 100,
-        "on_sign_verifications": [
-          {
-            "method_name": "is_equal",
-            "args": [
-              "a",
-              "b"
-            ]
-          }
-        ],
+        "minimal_balance": 0,
         "on_sign_actions": [
           {
             "method_name": "assign_balance_when_opening",
-            "args": ["self", "account"]
+            "args": [
+              "self",
+              "account"
+            ]
+          }
+        ]
+      }
+    },
+    "Send": {
+      "data": {
+        "on_sign_actions": [
+          {
+            "method_name": "set_balance",
+            "args": [
+              "self",
+              "open_hash"
+            ]
+          },
+          {
+            "method_name": "decrease_balance",
+            "args": [
+              "self",
+              "amount"
+            ]
+          }
+        ],
+        "on_sign_verifications": [
+          {
+            "method_name": "account_exists",
+            "args": [
+              "receiver"
+            ]
+          },
+          {
+            "method_name": "is_balance_valid",
+            "args": [
+              "self",
+              "open_hash"
+            ]
           }
         ]
       },
       "parameters": [
-        "a",
-        "b"
+        "receiver",
+        "amount",
+        "open_hash"
       ]
-    },
-    "TestBlock": {
-      "data": {
-        "balance": 100
-      }
     }
   }
 }

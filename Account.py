@@ -8,6 +8,7 @@ from fake_crypto import PrivateKey, PublicKey
 
 
 class Account:
+
     @property
     def public_key(self) -> PublicKey:
         return self._public_key
@@ -38,6 +39,9 @@ class Account:
         result += indent(self._chain.__str__(), '\t')
 
         return result
+
+    def get_balance(self, unit: str):
+        return self._chain.get_balance(unit)
 
     def add_block(self, block: Block) -> None:
         # Must sign the block before use the chain.add_block() method.
