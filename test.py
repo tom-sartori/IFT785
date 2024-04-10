@@ -1,13 +1,12 @@
-import json
-
 from Account import Account
 from BlockTypeRegister import BlockTypeRegister
+from Dsl import Dsl
 from Ledger import Ledger
 from fake_crypto import generate_keys
 
 if __name__ == '__main__':
-    dsl = json.loads(open('dsl/dsl.json', 'r').read())
-    BlockTypeRegister().add_block_types(dsl['blocks'])
+    dsl: Dsl = Dsl(dsl_file_name='dsl/dsl.json')
+    BlockTypeRegister().add_block_types(dsl.blocks)
     print(BlockTypeRegister())
 
     genesis_account: Account = Account(*generate_keys('Genesis'))
@@ -16,4 +15,4 @@ if __name__ == '__main__':
     block = BlockTypeRegister()['OpenNanocoin'](genesis_account.head, 5, 5)
     genesis_account.add_block(block)
 
-    # print(genesis_account)
+    print(genesis_account)
