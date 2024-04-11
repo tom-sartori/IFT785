@@ -1,3 +1,4 @@
+import copy
 import json
 from abc import ABC
 from textwrap import indent
@@ -56,7 +57,13 @@ class Block(ABC):
         result += f'hash:          {self.hash}\n'
         result += f'timestamp:     {self._header.timestamp}\n'
         result += f'signed by:     {self._signature.signer if self.is_signed else "not yet signed"}\n'
-        result += f'data:\n' + indent(json.dumps(self.data, indent=4), '\t') + '\n'
+
+        data = copy.deepcopy(self.data)
+        data.pop('on_sign_verifications', None)
+        data.pop('on_sign_actions', None)
+        data.pop('parameters', None)
+        result += f'data:\n' + indent(json.dumps(data, indent=4), '\t') + '\n'
+
         return result
 
     def add_data(self, new_key: str, new_value: any) -> 'Block':
