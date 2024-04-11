@@ -70,7 +70,7 @@ class BlockTypeRegister(metaclass=SingletonMeta):
 
         SubBlockType = type(block_name, (Block,), {
             '__init__': self._get_init_function(parameters),
-            'data': block_str['data']
+            'data': block_str
         })
 
         self.__add__(SubBlockType)
