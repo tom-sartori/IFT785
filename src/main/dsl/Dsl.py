@@ -9,7 +9,7 @@ class Dsl:
 
         :param dsl_file_name: str the name of the DSL file.
         """
-        self.documentation = json.loads(open('dsl/documentation.json', 'r').read())
+        self.documentation = json.loads(open('resources/documentation.json', 'r').read())
         self._dsl = json.loads(open(dsl_file_name, 'r').read())
 
         if not self._is_verified():

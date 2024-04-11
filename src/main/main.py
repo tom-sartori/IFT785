@@ -1,12 +1,12 @@
-from Account import Account
-from BlockTypeRegister import BlockTypeRegister
-from Dsl import Dsl
-from Ledger import Ledger
-from fake_crypto import generate_keys
+from src.main.dsl.Dsl import Dsl
+from src.main.dsl.BlockTypeRegister import BlockTypeRegister
+from src.main.ledger.Ledger import Ledger
+from src.main.ledger.account.Account import Account
+from src.main.utils.fake_crypto import generate_keys
 
 if __name__ == '__main__':
     # Load the DSL and create the block types.
-    dsl: Dsl = Dsl(dsl_file_name='dsl/dsl.json')
+    dsl: Dsl = Dsl(dsl_file_name='resources/dsl.json')
     BlockTypeRegister().add_block_types(dsl.blocks)
     print(BlockTypeRegister())
 

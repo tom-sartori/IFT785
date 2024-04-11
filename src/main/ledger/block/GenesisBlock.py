@@ -1,5 +1,5 @@
-from Block import Block
-from fake_crypto import PublicKey
+from src.main.ledger.block.Block import Block
+from src.main.utils.fake_crypto import PublicKey
 
 
 class GenesisBlock(Block):

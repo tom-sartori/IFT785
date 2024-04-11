@@ -3,11 +3,11 @@ import json
 from abc import ABC
 from textwrap import indent
 
-from Header import Header
-from Ledger import Ledger
-from dsl.Action import Action
-from dsl.Verification import Verification
-from fake_crypto import sha, new_deterministic_hash, Signature, PublicKey, sign, PrivateKey
+from src.main.dsl.Action import Action
+from src.main.dsl.Verification import Verification
+from src.main.ledger.Ledger import Ledger
+from src.main.ledger.block.Header import Header
+from src.main.utils.fake_crypto import sha, new_deterministic_hash, Signature, PrivateKey, sign, PublicKey
 
 
 class Block(ABC):
