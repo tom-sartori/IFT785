@@ -21,17 +21,11 @@
         "balance": null,
         "on_sign_actions": [
           {
-            "method_name": "set_balance",
+            "method_name": "send",
             "args": [
               "self",
+              "amount",
               "open_hash"
-            ]
-          },
-          {
-            "method_name": "decrease_balance",
-            "args": [
-              "self",
-              "amount"
             ]
           }
         ],
@@ -60,35 +54,13 @@
     "Receive": {
       "data": {
         "balance": null,
-        "amount": null,
         "open_hash": null,
         "on_sign_actions": [
           {
-            "method_name": "set_balance",
+            "method_name": "receive",
             "args": [
               "self",
               "send_hash"
-            ]
-          },
-          {
-            "method_name": "set_amount",
-            "args": [
-              "self",
-              "send_hash"
-            ]
-          },
-          {
-            "method_name": "set_open_hash",
-            "args": [
-              "self",
-              "send_hash"
-            ]
-          },
-          {
-            "method_name": "increase_balance",
-            "args": [
-              "self",
-              "amount"
             ]
           }
         ]
