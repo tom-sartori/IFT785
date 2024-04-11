@@ -1,5 +1,3 @@
-from textwrap import indent
-
 from SingletonMeta import SingletonMeta
 from fake_crypto import PublicKey
 
@@ -16,8 +14,7 @@ class Ledger(metaclass=SingletonMeta):
     def __str__(self):
         result = 'Ledger contains the following accounts: \n'
         for account in self._accounts.values():
-            result += f'- {account.public_key.owner} - {account.public_key.key}\n'
-            result += indent(account.__str__(), '\t')
+            result += account.__str__()
 
         return result
 

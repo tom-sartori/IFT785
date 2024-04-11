@@ -33,9 +33,9 @@ class Account:
 
     def __str__(self):
         result = ''
-        result += f'Account has {len(self._chain)} blocks and '
-        result += f'{"is verified" if self.verify() else "is not verified"}. \n'
-        result += f'It has the following balances: {self.balances}\n'
+        result += f'- {self.public_key.owner} - {self.public_key.key}\n'
+        result += indent(f'This account has {len(self._chain)} blocks and {"is verified" if self.verify() else "is not verified"}. \n', '\t')
+        result += indent(f'It has the following balances: {self.balances}\n\n---\n', '\t')
         result += indent(self._chain.__str__(), '\t')
 
         return result
