@@ -1,5 +1,5 @@
-from src.main.ledger.Ledger import Ledger
-from src.main.utils.SingletonMeta import SingletonMeta
+from ledger.Ledger import Ledger
+from utils.SingletonMeta import SingletonMeta
 
 
 class Verification(metaclass=SingletonMeta):

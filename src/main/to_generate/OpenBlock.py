@@ -1,4 +1,4 @@
-from src.main.ledger.block.Block import Block
+from ledger.block.Block import Block
 
 
 class OpenBlock(Block):
