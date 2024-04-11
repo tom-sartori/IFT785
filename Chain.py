@@ -1,5 +1,6 @@
 from Block import Block
 from GenesisBlock import GenesisBlock
+from Ledger import Ledger
 from fake_crypto import PublicKey
 
 
@@ -54,14 +55,23 @@ class Chain:
     def get_balances(self) -> dict[str, int or float]:
         balances = dict()  # unit -> balance
         for block in reversed(self._block_list):
-            if 'balance' in block.data and 'unit' in block.data and block.data['unit'] not in balances:
-                balances[block.data['unit']] = block.data['balance']
+            if 'balance' in block.data:
+                if 'unit' in block.data:
+                    unit = block.data['unit']
+                elif 'open_hash' in block.data:
+                    open_block = Ledger().get_block(block.data['open_hash'])
+                    unit = open_block.data['unit']
+                else:
+                    continue
+
+                if unit not in balances:
+                    balances[unit] = block.data['balance']
 
         return balances
 
     def get_balance(self, unit: str) -> int or float:
-        for block in reversed(self._block_list):
-            if 'balance' in block.data and 'unit' in block.data and block.data['unit'] == unit:
-                return block.data['balance']
-
-        return 0
+        balances = self.get_balances()
+        if unit in balances:
+            return balances[unit]
+        else:
+            raise Exception(f'Error: No balance found for unit {unit}. ')
