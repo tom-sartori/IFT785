@@ -1,7 +1,6 @@
-from Block import Block
-from GenesisBlock import GenesisBlock
-from Ledger import Ledger
-from fake_crypto import PublicKey
+from src.main.ledger.Ledger import Ledger
+from src.main.ledger.block import GenesisBlock, Block
+from src.main.utils.fake_crypto import PublicKey
 
 
 class Chain:

@@ -1,7 +1,7 @@
 import inspect
 
-from Block import Block
-from SingletonMeta import SingletonMeta
+from src.main.ledger.block.Block import Block
+from src.main.utils.SingletonMeta import SingletonMeta
 
 
 class BlockTypeRegister(metaclass=SingletonMeta):

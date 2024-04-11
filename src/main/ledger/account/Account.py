@@ -1,10 +1,10 @@
 from textwrap import indent
 
-from Block import Block
-from Chain import Chain
-from GenesisBlock import GenesisBlock
-from Ledger import Ledger
-from fake_crypto import PrivateKey, PublicKey
+from src.main.ledger.Ledger import Ledger
+from src.main.ledger.account.Chain import Chain
+from src.main.ledger.block.Block import Block
+from src.main.ledger.block.GenesisBlock import GenesisBlock
+from src.main.utils.fake_crypto import PublicKey, PrivateKey
 
 
 class Account:
