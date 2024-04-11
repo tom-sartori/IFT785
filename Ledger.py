@@ -1,5 +1,3 @@
-from textwrap import indent
-
 from SingletonMeta import SingletonMeta
 from fake_crypto import PublicKey
 
