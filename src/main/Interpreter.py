@@ -39,29 +39,26 @@ class Interpreter(object):
             self.update_json_dsl_file(str(block_type), str(unit), int(balance), int(minimal_balance))
             dsl: Dsl = Dsl(dsl_file_name='resources/dsl.json')
             BlockTypeRegister().add_block_types(dsl.blocks)
-            print(BlockTypeRegister())
             bloc = BlockTypeRegister()['OpenNanocoin'](account.head)
             account.add_block(bloc)
             self.print_display()
 
     def create_send_block(self, owner_public_key, receiver_public_key, amount_to_send):
         print("Building Send block...")
-        print(BlockTypeRegister())
 
-        account = Ledger().get_account(owner_public_key)
-        receiver_account = Ledger().get_account(receiver_public_key)
-        print(receiver_account.public_key.key)
+        account = Ledger().get_account(str(owner_public_key))
+        receiver_account = Ledger().get_account(str(receiver_public_key))
+
         if account is None:
             raise Exception("Account Not Found")
         else:
-            bloc = BlockTypeRegister()['OpenNanocoin'](account.head)
             if receiver_account is not None:
                 account.add_block(
                     BlockTypeRegister()['Send'](
                         previous_block=account.head,
                         receiver=receiver_account.public_key.key,
                         amount=int(amount_to_send),
-                        open_hash=bloc.hash)
+                        open_hash=account.head.hash)
                 )
                 self.print_display()
             else:
@@ -69,18 +66,16 @@ class Interpreter(object):
 
     def create_receive_block(self, owner_public_key, sender_public_key):
         print("Building Receive block...")
-        print(BlockTypeRegister())
         account = Ledger().get_account(owner_public_key)
         sender_account = Ledger().get_account(sender_public_key)
         if account is None:
             raise Exception("Account Not Found")
         else:
-            bloc = BlockTypeRegister()['Send'](sender_account.head)
             if sender_account is not None:
                 account.add_block(
                     BlockTypeRegister()['Receive'](
                         previous_block=account.head,
-                        send_hash=bloc.hash)
+                        send_hash=sender_account.head.hash)
                 )
                 self.print_display()
             else:
