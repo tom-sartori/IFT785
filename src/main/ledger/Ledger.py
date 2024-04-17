@@ -39,6 +39,7 @@ class Ledger(metaclass=SingletonMeta):
             raise Exception('Error: Ledger verification failed. Can not add account. ')
 
         self._accounts[account.public_key.key] = account
+        print("Account created successfully")
 
     def get_account(self, public_key: PublicKey or str) -> 'Account':
         if isinstance(public_key, PublicKey):

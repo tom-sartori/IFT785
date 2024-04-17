@@ -9,4 +9,5 @@ class ShowBlocksCommand(Command):
     """
 
     def execute(self) -> None:
-        print(BlockTypeRegister())
+        block_types = BlockTypeRegister()
+        print(block_types)

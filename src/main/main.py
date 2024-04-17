@@ -2,7 +2,6 @@ from dsl.BlockTypeRegister import BlockTypeRegister
 from dsl.Dsl import Dsl
 from ledger.Ledger import Ledger
 from ledger.account.Account import Account
-from Interpreter import Interpreter
 from command_manager.Invoker import Invoker
 from command_manager.Receiver import Receiver
 from command_manager.CreateAccountCommand import CreateAccountCommand
@@ -57,7 +56,6 @@ if __name__ == '__main__':
         The client code can parameterize an invoker with any commands.
         """
 
-    interpreter = Interpreter()
     receiver = Receiver()
     invoker = Invoker()
 
@@ -77,7 +75,7 @@ if __name__ == '__main__':
             add_block_command = AddBlockCommand(receiver, args)
             invoker.register_command(command_input, add_block_command)
             invoker.execute_command(command_input)
-        elif command == "show_all_blocks":
+        elif command == "show_blocks":
             show_blocks_command = ShowBlocksCommand()
             invoker.register_command(command_input, show_blocks_command)
             invoker.execute_command(command_input)
@@ -90,7 +88,7 @@ if __name__ == '__main__':
             show_account_command = ShowAccountCommand(public_key)
             invoker.register_command(command_input, show_account_command)
             invoker.execute_command(command_input)
-        elif command == "show_all_accounts":
+        elif command == "show_accounts":
             show_all_accounts_command = ShowAllAccountsCommand()
             invoker.register_command(command_input, show_all_accounts_command)
             invoker.execute_command(command_input)
@@ -99,6 +97,7 @@ if __name__ == '__main__':
             invoker.register_command(command_input, help_command)
             invoker.execute_command(command_input)
         elif command_input == "exit":
+            print("Bye...")
             break
         else:
             print("Unknown command.")

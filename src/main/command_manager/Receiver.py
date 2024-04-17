@@ -1,7 +1,5 @@
 import json
 
-from Interpreter import Interpreter
-
 from dsl.BlockTypeRegister import BlockTypeRegister
 from dsl.Dsl import Dsl
 from ledger.Ledger import Ledger
@@ -22,14 +20,15 @@ class Receiver:
     def add_particular_block(self, args: list) -> None:
         block_type = args[0]
         if block_type in self.block_types:
-            if block_type.lower() == 'opennanocoin':
-                _, owner_public_key, block_type, unit, balance, minimal_balance, *_ = args
+            if block_type == 'OpenNanocoin':
+                _, owner_public_key, unit, balance, minimal_balance, *_ = args
                 self.__create_open_block(owner_public_key, block_type, unit, balance, minimal_balance)
-            elif block_type.lower() == 'send':
+            elif block_type == 'Send':
                 _, owner_public_key, receiver_public_key, amount_to_send, *_ = args
                 self.__create_send_block(owner_public_key, receiver_public_key, amount_to_send)
-            elif block_type.lower() == 'receive':
+            elif block_type == 'Receive':
                 _, owner_public_key, sender_public_key, *_ = args
+                print(owner_public_key, sender_public_key)
                 self.__create_receive_block(owner_public_key, sender_public_key)
             else:
                 print(f"\nReceiver: Unknown block type: {block_type}")
@@ -48,7 +47,6 @@ class Receiver:
 
     def __create_send_block(self, owner_public_key, receiver_public_key, amount_to_send):
         print("Building Send block...")
-
         account = Ledger().get_account(str(owner_public_key))
         receiver_account = Ledger().get_account(str(receiver_public_key))
 

@@ -51,7 +51,7 @@
         },
         "OpenNanocoin": {
             "unit": "Nanocoin",
-            "balance": 200,
+            "balance": 250,
             "minimal_balance": 0,
             "on_sign_actions": [
                 {

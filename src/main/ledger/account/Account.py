@@ -55,6 +55,7 @@ class Account:
 
         # Adding the block into the blocks dictionary of Ledger.
         Ledger().add_block(block)
+        print("Block added successfully")
 
     def verify(self) -> bool:
         return self._chain.verify(public_key=self._public_key)

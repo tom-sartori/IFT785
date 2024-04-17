@@ -7,14 +7,17 @@ class HelpCommand(Command):
     """
 
     def __init__(self):
-        result = ''
-        result += f"help: Display this help information\n  Args: {', '.join([])}"
-        result += f"add_block: Add a new block on ledger\n  Args: {', '.join(['owner_public_key', '[receiver_public_key]', '[amount_to_send]',  'block_type', 'unit', 'balance', 'minimal_balance'])}"
-        result += f"create_account: Add a new user\n  Args: {', '.join(['user_name'])}"
-        result += f"show_account: Display the account of current user\n  Args: {', '.join(['public_key'])}"
-        result += f"show_all_accounts: Display all accounts of ledger\n  Args: {', '.join([])}"
-        result += f"show_all_blocks: Display all blocks of ledger\n  Args: {', '.join([])}"
-        result += f"show_ledger: Display the ledger\n  Args: {', '.join([])}"
+        result = '******** All commands available ******** \n \n'
+        result += f"help: Display this help information  < {', '.join([])} \n"
+        result += f"create_account: Add a new user  < {', '.join(['[user_name]'])}\n"
+        result += (f"add_block: Add a new block on ledger  <  "
+                   f"\n For OpenBlock : {', '.join([ '[block_type], [owner_public_key], [unit], [balance], [minimal_balance]'])}"
+                   f"\n For SendBlock : {', '.join(['[block_type], [owner_public_key], [receiver_public_key], [amount_to_send]'])}"
+                   f"\n For ReceiveBlock : {', '.join(['[block_type], [receiver_public_key], [sender_public_key]'])} \n")
+        result += f"show_account: Display the account of current user  < {', '.join(['[public_key]'])}\n"
+        result += f"show_accounts: Display all accounts of ledger < {', '.join([])}\n"
+        result += f"show_blocks: Display all blocks of ledger  < {', '.join([])}\n"
+        result += f"show_ledger: Display the ledger  < {', '.join([])}\n"
 
         self.commands = result
 
@@ -22,3 +25,6 @@ class HelpCommand(Command):
         result = 'Nano BlockChain Shell Commands, version 2.1: \n'
         result += 'These shell commands are defined internally.  Type `help` to see this list.: \n\n'
         print(self.commands)
+        with open("commands_help.txt", "w") as file:
+            file.write(self.commands)
+        print("Help information has been written to commands_help.txt")
