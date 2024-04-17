@@ -66,8 +66,8 @@ class Receiver:
 
     def __create_receive_block(self, owner_public_key, sender_public_key):
         print("Building Receive block...")
-        account = Ledger().get_account(owner_public_key)
-        sender_account = Ledger().get_account(sender_public_key)
+        account = Ledger().get_account(str(owner_public_key))
+        sender_account = Ledger().get_account(str(sender_public_key))
         if account is None:
             raise Exception("Account Not Found")
         else:

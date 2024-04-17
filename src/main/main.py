@@ -41,20 +41,23 @@ if __name__ == '__main__':
     #     open_hash=genesis_open_nanocoin.hash)
     # genesis_account.add_block(send_block)
     #
+    #
+    # print("genesis_account", genesis_account)
+    # print("second_account", second_account)
+    #
+    # print("send_block.hash", send_block.hash)
+    # print("second_account.head", second_account.head)
+    # print("genesis_account.head.hash", genesis_account.head.hash)
     # # Receive Nanocoins from Genesis to Second.
     # receive_block = BlockTypeRegister()['Receive'](previous_block=second_account.head, send_hash=send_block.hash)
     # second_account.add_block(receive_block)
-    #
+
     # print(Ledger())
     #
     # print(genesis_account.balances)
     # print(second_account.balances)
-    # command_manager = Interpreter()
-    # command_manager.run()
 
-    """
-        The client code can parameterize an invoker with any commands.
-        """
+
 
     receiver = Receiver()
     invoker = Invoker()
@@ -106,40 +109,3 @@ if __name__ == '__main__':
         invoker.register_command(command_input, command)
         invoker.execute_command(command_input)
 
-    """
-            uncomment the following lines and run main.py to do a quick test or run the main in command_manager mode.
-    """
-
-    # command_manager.create_account("Alice")
-    # command_manager.create_account("Bob")
-    #
-    # # Create Alice Account
-    # command_manager.create_open_block(
-    #     "4A20360DF0FDC9979B30BCB50318521E4DC9C05F",
-    #     "OpenNanocoin",
-    #     "Nanocoin",
-    #     200,
-    #     0
-    # )
-    #
-    # # Create Bob Account
-    # command_manager.create_open_block(
-    #     "9AF3883DC6725FBF664400A8FA2C2F7FD6998629",
-    #     "OpenNanocoin",
-    #     "Nanocoin",
-    #     200,
-    #     0
-    # )
-    #
-    # # send 25 from Alice to Bob
-    # command_manager.create_send_block(
-    #     "4A20360DF0FDC9979B30BCB50318521E4DC9C05F",
-    #     "9AF3883DC6725FBF664400A8FA2C2F7FD6998629",
-    #     25
-    # )
-    #
-    # # Receive 25 Nanocoins from Alice.
-    # command_manager.create_receive_block(
-    #     "9AF3883DC6725FBF664400A8FA2C2F7FD6998629",
-    #     "4A20360DF0FDC9979B30BCB50318521E4DC9C05F"
-    # )
