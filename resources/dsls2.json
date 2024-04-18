@@ -10,13 +10,6 @@
                     "self",
                     "account"
                 ]
-            }],
-            "on_sign_verifications": [{
-                "method_name": "open_block_does_not_exist",
-                "args": [
-                    "account",
-                    "unit"
-                ]
             }]
         },
         "Send": {

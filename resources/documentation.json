@@ -1,23 +1,23 @@
 {
-  "blocks": {
-    "Open": {
-      "block_type": {
-        "type": "str",
-        "value": "Open",
-        "description": "The type of the block. Must be 'open'. "
-      },
-      "unit": {
-        "type": "str",
-        "description": "The unit of the block. "
-      },
-      "balance": {
-        "type": "int or float",
-        "description": "The balance of the block. If int, then the currency will be atomic. "
-      },
-      "on_sign_verification": {
-        "type": "str",
-        "description": "The verification method of the block. "
-      }
+    "blocks": {
+        "Open": {
+            "block_type": {
+                "type": "str",
+                "value": "Open",
+                "description": "The type of the block. Must be 'open'. "
+            },
+            "unit": {
+                "type": "str",
+                "description": "The unit of the block. "
+            },
+            "balance": {
+                "type": "int or float",
+                "description": "The balance of the block. If int, then the currency will be atomic. "
+            },
+            "on_sign_verifications": {
+                "type": "list",
+                "description": "The verification method of the block. "
+            }
+        }
     }
-  }
 }
