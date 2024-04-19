@@ -52,20 +52,26 @@ class Dsl:
         :return: bool True if the block definition is verified, False otherwise.
         """
         # TODO
-        print("block_definition is ", block_definition)
-
-        # if not block_definition['block_type'] in self.documentation['blocks'].keys():
-        #     print(f'Error: Block type {block_definition["block_type"]} not in documentation. ')
-        #     return False
-        # block_documentation = self.documentation['blocks'][block_definition['block_type']]
-        # print("block_documentation is ", block_documentation)
-        # print("block_definition is ", block_definition)
+        if not block_definition['block_type'] in self.documentation['blocks'].keys():
+            print(f'Error: Block type {block_definition["block_type"]} not in documentation. ')
+            return False
+        block_documentation = self.documentation['blocks'][block_definition['block_type']]
         
-        # if block_documentation is None:
-        #     print(f'Error: Block type {block_definition["block_type"]} has no documentation. ')
-        #     return False
-      
-        #
+        if block_documentation is None:
+            print(f'Error: Block type {block_definition["block_type"]} has no documentation. ')
+            return False
+
+        for key in block_definition.keys():
+            if key not in block_documentation.keys():
+                print(f'Error: Block type {block_definition["block_type"]} has unknown key {key}. ')
+                return False
+            
+            key_value = block_documentation[key]
+            key_is_required = key_value['required']
+            if key_is_required and key not in block_definition.keys():
+                print(f'Error: Block type {block_definition["block_type"]} has missing key {key}. ')
+                return False
+
         # if block_documentation.keys() != block_definition.keys():
         #     print(f'Error: Block type {block_definition["block_type"]} has different keys than the documentation. ')
         #     return False
@@ -83,4 +89,14 @@ class Dsl:
         #         return False
 
         # return True
-        return False
+        return True
+
+'''
+block definition : {'unit': 'Nanocoin', 'balance': 100, 'minimal_balance': 0, 'on_sign_actions': [{'method_name': 'assign_balance_when_opening', 'args': ['self', 'account']}], 'on_sign_verifications': [{'method_name': 'open_block_does_not_exist', 'args': ['self']}], 'interact_with': []}
+
+block definition : {'balance': None, 'open_hash': None, 'on_sign_actions': [{'method_name': 'send', 'args': ['self', 'amount', 'open_hash']}], 'on_sign_verifications': [{'method_name': 'account_exists', 'args': ['receiver']}, {'method_name': 'is_balance_valid', 'args': ['self', 'open_hash']}], 'parameters': ['receiver', 'amount', 'open_hash']}
+
+block definition : {'balance': None, 'open_hash': None, 'on_sign_actions': [{'method_name': 'receive', 'args': ['self', 'send_hash']}], 'parameters': ['send_hash']}
+
+'''
+

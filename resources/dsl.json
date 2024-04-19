@@ -2,6 +2,7 @@
     "blocks": {
         "OpenNanocoin": {
             "unit": "Nanocoin",
+            "block_type": "Open",
             "balance": 100,
             "minimal_balance": 0,
             "on_sign_actions": [{
@@ -14,10 +15,12 @@
             "on_sign_verifications": [{
                 "method_name": "open_block_does_not_exist",
                 "args": ["self"]
-            }]
+            }],
+            "interact_with": ["Send", "Receive"]
         },
         "Send": {
             "balance": null,
+            "block_type": "GenericBloc",
             "open_hash": null,
             "on_sign_actions": [{
                 "method_name": "send",
@@ -39,6 +42,13 @@
                         "self",
                         "open_hash"
                     ]
+                },
+                {
+                    "method_name": "can_interact_with",
+                    "args": [
+                        "self",
+                        "open_hash"
+                    ]
                 }
             ],
             "parameters": [
@@ -49,6 +59,7 @@
         },
         "Receive": {
             "balance": null,
+            "block_type": "GenericBloc",
             "open_hash": null,
             "on_sign_actions": [{
                 "method_name": "receive",
@@ -57,9 +68,17 @@
                     "send_hash"
                 ]
             }],
+            "on_sign_verifications": [{
+                "method_name": "can_interact_with",
+                "args": [
+                    "self",
+                    "open_hash"
+                ]
+            }],
             "parameters": [
                 "send_hash"
             ]
         }
+
     }
 }

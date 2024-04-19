@@ -75,7 +75,8 @@ def send(block: 'Block', amount: int or float, open_hash: str) -> None:
     print("In send" ,block) 
     # print("transaction fee is ",transaction_fee)
     set_balance(block, open_hash)
-    decrease_balance(block, amount, block.data['transaction_fee'])
+    transaction_fee = block.data["transaction_fee"] if "transaction_fee" in block.data.keys() else 0
+    decrease_balance(block, amount, transaction_fee)
 
 
 def receive(block: 'Block', send_hash: str) -> None:

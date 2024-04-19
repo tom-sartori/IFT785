@@ -17,14 +17,19 @@
                 "description": "The balance of the block. If int, then the currency will be atomic. ",
                 "required": true
             },
-            "on_sign_verification": {
-                "type": "str",
+            "on_sign_verifications": {
+                "type": "list",
                 "description": "The verification method of the block. ",
                 "required": true
             },
+            "on_sign_actions": {
+                "type": "list",
+                "description": "The actions methods of the block. ",
+                "required": false
+            },
             "interact_with": {
                 "type": "list",
-                "description": "The list of blocs with which it can interact with",
+                "description": "The list of blocs names that it can interact with",
                 "required": true
             },
             "minimal_balance": {
@@ -32,12 +37,11 @@
                 "description": "The minimum balance an account can have",
                 "required": true
             }
-
         },
         "GenericBloc": {
             "block_type": {
                 "type": "str",
-                "value": "Bloc",
+                "value": "GenericBloc",
                 "description": "A generic Bloc from which all other blocks can be created ",
                 "required": true
             },
@@ -58,7 +62,8 @@
             },
             "on_sign_verifications": {
                 "type": "list",
-                "description": "The verification method of the block."
+                "description": "The verification method of the block.",
+                "required": true
             },
             "on_sign_actions": {
                 "type": "str",
@@ -67,8 +72,13 @@
             },
             "transaction_fee": {
                 "type": "int or float",
-                "description": "Transaction fee function",
+                "description": "Transaction fee of the block.",
                 "required": false
+            },
+            "parameters": {
+                "type": "list",
+                "description": "list of parameters constructor of the block",
+                "required": true
             }
         }
     }

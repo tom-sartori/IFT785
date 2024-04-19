@@ -41,13 +41,20 @@ def open_block_does_not_exist(block:'Block') -> bool:
     
     # checker si le unit existe dans le account chain
     account = Ledger().get_account(account_public_key)
-    # print("Accoutn public key is ", account_public_key)
     balance = account.get_balance(block.data['unit'])
     return True if balance is None else False
 
+def can_interact_with(block:'Block',open_hash:str) -> bool:
+    open_block = Ledger().get_block(open_hash)
+    if block.data['block_type'] in open_block.data['interact_with']:
+        return True
+    else:
+        raise Exception("You can't interact with this open block")
+        return False
 
 Verification().__add__(is_superior)
 Verification().__add__(is_equal)
 Verification().__add__(account_exists)
 Verification().__add__(is_balance_valid)
 Verification().__add__(open_block_does_not_exist)
+Verification().__add__(can_interact_with)
