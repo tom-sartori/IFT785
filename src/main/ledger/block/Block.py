@@ -94,7 +94,7 @@ class Block(ABC):
 
         :return: True if the block can interact with his open block, False otherwise.
         """
-        if self._is_open_block():
+        if self._is_genesis_block() or self._is_open_block():
             return True
 
         open_block = Ledger().get_block(self.data['open_hash'])
@@ -191,5 +191,8 @@ class Block(ABC):
     def is_previous_of(self, next_block: 'Block') -> bool:
         return self.hash == next_block._header.previous_hash
 
+    def _is_genesis_block(self) -> bool:
+        return self._header.previous_hash is None
+
     def _is_open_block(self) -> bool:
-        return 'open_hash' not in self.data.keys()
+        return 'interact_with' in self.data.keys()
