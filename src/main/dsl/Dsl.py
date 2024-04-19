@@ -1,5 +1,5 @@
 import json
-
+import os
 
 class Dsl:
 
@@ -9,9 +9,11 @@ class Dsl:
 
         :param dsl_file_name: str the name of the DSL file.
         """
-        self.documentation = json.loads(open('resources/documentation.json', 'r').read())
+        current_directory = os.getcwd()
+        self.documentation = json.loads(open(current_directory + '/resources/documentation.json', 'r').read())
         self._dsl = json.loads(open(dsl_file_name, 'r').read())
-
+        # print("Documentation is ", self.documentation)
+        # print("dsl is ", self._dsl)
         if not self._is_verified():
             raise Exception('DSL is not verified. ')
         else:
@@ -50,15 +52,19 @@ class Dsl:
         :return: bool True if the block definition is verified, False otherwise.
         """
         # TODO
+        print("block_definition is ", block_definition)
 
         # if not block_definition['block_type'] in self.documentation['blocks'].keys():
         #     print(f'Error: Block type {block_definition["block_type"]} not in documentation. ')
         #     return False
         # block_documentation = self.documentation['blocks'][block_definition['block_type']]
-        #
+        # print("block_documentation is ", block_documentation)
+        # print("block_definition is ", block_definition)
+        
         # if block_documentation is None:
         #     print(f'Error: Block type {block_definition["block_type"]} has no documentation. ')
         #     return False
+      
         #
         # if block_documentation.keys() != block_definition.keys():
         #     print(f'Error: Block type {block_definition["block_type"]} has different keys than the documentation. ')
@@ -76,4 +82,5 @@ class Dsl:
         #         print(f'Error: Block type {block_definition["block_type"]} has wrong value for key {key}. ')
         #         return False
 
-        return True
+        # return True
+        return False

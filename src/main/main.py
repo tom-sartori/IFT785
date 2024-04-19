@@ -3,10 +3,14 @@ from dsl.Dsl import Dsl
 from ledger.Ledger import Ledger
 from ledger.account.Account import Account
 from utils.fake_crypto import generate_keys
+import os
+
 
 if __name__ == '__main__':
     # Load the DSL and create the block types.
-    dsl: Dsl = Dsl(dsl_file_name='resources/dsl.json')
+    # ../../../resources/documentation.json
+    current_directory = os.getcwd()
+    dsl: Dsl = Dsl(dsl_file_name=current_directory + '/resources/dsl.json')
     BlockTypeRegister().add_block_types(dsl.blocks)
     print(BlockTypeRegister())
     print("******************************************")
@@ -27,9 +31,8 @@ if __name__ == '__main__':
     send_block = BlockTypeRegister()['Send'](
         previous_block=genesis_account.head,
         receiver=second_account.public_key.key,
-        amount=40.5,
-        open_hash=genesis_open_nanocoin.hash,
-        transaction_fee = 0.5)
+        amount=40,
+        open_hash=genesis_open_nanocoin.hash)
     # print("Main send block: ", send_block)
     print("******************************************")
     genesis_account.add_block(send_block)

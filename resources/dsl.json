@@ -44,8 +44,7 @@
             "parameters": [
                 "receiver",
                 "amount",
-                "open_hash",
-                "transaction_fee"
+                "open_hash"
             ]
         },
         "Receive": {
