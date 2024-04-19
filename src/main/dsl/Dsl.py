@@ -66,12 +66,25 @@ class Dsl:
                 print(f'Error: Block type {block_definition["block_type"]} has unknown key {key}. ')
                 return False
             
-            key_value = block_documentation[key]
-            key_is_required = key_value['required']
+            documentation_attributes = block_documentation[key]
+            key_is_required = documentation_attributes['required']
             if key_is_required and key not in block_definition.keys():
                 print(f'Error: Block type {block_definition["block_type"]} has missing key {key}. ')
                 return False
-
+            
+            attribute_type = eval(documentation_attributes['type'])
+             
+            # if attribute_type is int or float:
+                # attribute_type = int if 
+            if "is_divisible" in block_definition.keys():
+                print("Is divisible is present ", block_definition["is_divisible"])
+                # is_divisible = block_definition['is_divisible']
+            if not isinstance(block_definition[key], attribute_type) and not isinstance(block_definition[key], type(None)):
+                print(type(block_definition[key]))
+                print(eval(documentation_attributes['type']))
+                print(documentation_attributes["type"])
+                print(f'Error: Block type {block_definition["block_type"]} has wrong type for key {key}. ')
+                return False
         # if block_documentation.keys() != block_definition.keys():
         #     print(f'Error: Block type {block_definition["block_type"]} has different keys than the documentation. ')
         #     return False

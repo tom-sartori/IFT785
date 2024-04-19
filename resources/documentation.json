@@ -36,6 +36,11 @@
                 "type": "int or float",
                 "description": "The minimum balance an account can have",
                 "required": true
+            },
+            "is_divisible": {
+                "type": "bool",
+                "description": "Whether the unit can be divided into multiple floats",
+                "required": false
             }
         },
         "GenericBloc": {
@@ -66,7 +71,7 @@
                 "required": true
             },
             "on_sign_actions": {
-                "type": "str",
+                "type": "list",
                 "description": "Actions to perform after signing the block.",
                 "required": false
             },
