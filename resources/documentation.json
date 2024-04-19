@@ -4,19 +4,71 @@
             "block_type": {
                 "type": "str",
                 "value": "Open",
-                "description": "The type of the block. Must be 'open'. "
+                "description": "The type of the block. Must be 'open'. ",
+                "required": true
             },
             "unit": {
                 "type": "str",
-                "description": "The unit of the block. "
+                "description": "The unit of the block. ",
+                "required": true
             },
             "balance": {
                 "type": "int or float",
-                "description": "The balance of the block. If int, then the currency will be atomic. "
+                "description": "The balance of the block. If int, then the currency will be atomic. ",
+                "required": true
+            },
+            "on_sign_verification": {
+                "type": "str",
+                "description": "The verification method of the block. ",
+                "required": true
+            },
+            "interact_with": {
+                "type": "list",
+                "description": "The list of blocs with which it can interact with",
+                "required": true
+            },
+            "minimal_balance": {
+                "type": "int or float",
+                "description": "The minimum balance an account can have",
+                "required": true
+            }
+
+        },
+        "GenericBloc": {
+            "block_type": {
+                "type": "str",
+                "value": "Bloc",
+                "description": "A generic Bloc from which all other blocks can be created ",
+                "required": true
+            },
+            "open_hash": {
+                "type": "str",
+                "description": "The hash of the OpenBlock. ",
+                "required": true
+            },
+            "balance": {
+                "type": "int or float",
+                "description": "The balance of the block. If int, then the currency will be atomic. ",
+                "required": false
+            },
+            "amount": {
+                "type": "int or float",
+                "description": "The amount to receive",
+                "required": false
             },
             "on_sign_verifications": {
                 "type": "list",
-                "description": "The verification method of the block. "
+                "description": "The verification method of the block."
+            },
+            "on_sign_actions": {
+                "type": "str",
+                "description": "Actions to perform after signing the block.",
+                "required": false
+            },
+            "transaction_fee": {
+                "type": "int or float",
+                "description": "Transaction fee function",
+                "required": false
             }
         }
     }

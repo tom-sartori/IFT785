@@ -13,14 +13,13 @@
             }],
             "on_sign_verifications": [{
                 "method_name": "open_block_does_not_exist",
-                "args": [
-                    "account",
-                    "unit"
-                ]
+                "args": ["self"]
             }]
         },
         "Send": {
             "balance": null,
+            "open_hash": null,
+            "transaction_fee": 0,
             "on_sign_actions": [{
                 "method_name": "send",
                 "args": [
@@ -46,7 +45,8 @@
             "parameters": [
                 "receiver",
                 "amount",
-                "open_hash"
+                "open_hash",
+                "transaction_fee"
             ]
         },
         "Receive": {

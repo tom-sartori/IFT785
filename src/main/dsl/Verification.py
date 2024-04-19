@@ -24,6 +24,7 @@ def is_equal(a, b) -> bool:
 
 
 def account_exists(account_public_key: str) -> bool:
+    print("Account exists method called")
     return Ledger().get_account(account_public_key) is not None
 
 
@@ -32,15 +33,17 @@ def is_balance_valid(block: 'Block', open_hash: str) -> bool:
     minimal_balance = open_block.data['minimal_balance'] if 'minimal_balance' in open_block.data else 0
     return block.data['balance'] >= minimal_balance
 
-def open_block_does_not_exist(account_public_key: str, unit:str) -> bool:
-        if account_public_key is None or not account_exists(account_public_key):
-            # raise error account must be specified
-            raise ValueError("Cannot be null")
-        
-        # checker si le unit existe dans le account chain
-        account = Ledger().get_account(account_public_key)
-        balance = account.get_balance(unit)
-        return True if balance is None else False
+def open_block_does_not_exist(block:'Block') -> bool:
+    account_public_key = block.account_public_key
+    if account_public_key is None or not account_exists(account_public_key):
+        # raise error account must be specified
+        raise ValueError("Cannot be null")
+    
+    # checker si le unit existe dans le account chain
+    account = Ledger().get_account(account_public_key)
+    # print("Accoutn public key is ", account_public_key)
+    balance = account.get_balance(block.data['unit'])
+    return True if balance is None else False
 
 
 Verification().__add__(is_superior)

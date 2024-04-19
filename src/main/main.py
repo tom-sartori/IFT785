@@ -9,7 +9,7 @@ if __name__ == '__main__':
     dsl: Dsl = Dsl(dsl_file_name='resources/dsl.json')
     BlockTypeRegister().add_block_types(dsl.blocks)
     print(BlockTypeRegister())
-
+    print("******************************************")
     # Create two accounts.
     genesis_account: Account = Account(*generate_keys('Genesis'))
     Ledger().add_account(genesis_account)
@@ -36,6 +36,9 @@ if __name__ == '__main__':
     second_account.add_block(receive_block)
 
     print(Ledger())
+    print("******************************************")
 
     print(genesis_account.balances)
+    print("******************************************")
+    
     print(second_account.balances)

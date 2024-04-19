@@ -16,6 +16,8 @@ class Action(metaclass=SingletonMeta):
 
 
 def assign_balance_when_opening(block: 'Block', account: str or None) -> None:
+    if account is None:
+        print("Account is none")
     if account is None or account == block.account_public_key:
         # The user take the money.
         pass
@@ -69,6 +71,7 @@ def set_data_from_other_block_hash(block: 'Block', other_block_hash: str, data_k
 
 
 def send(block: 'Block', amount: int or float, open_hash: str) -> None:
+    # transaction_fee = block
     set_balance(block, open_hash)
     decrease_balance(block, amount)
 
