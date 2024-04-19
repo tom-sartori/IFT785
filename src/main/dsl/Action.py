@@ -43,7 +43,7 @@ def set_balance(block: 'Block', block_hash: str) -> None:
     block.data['balance'] = balance
 
 
-def decrease_balance(block: 'Block', amount: int or float) -> None:
+def decrease_balance(block: 'Block', amount: int or float, transaction_fee: int or float) -> None:
     """
     Precondition: block.data['balance'] is not None.
 
@@ -51,7 +51,7 @@ def decrease_balance(block: 'Block', amount: int or float) -> None:
     :param amount: the amount to decrease.
     :return: None
     """
-    block.data['balance'] = block.data['balance'] - amount
+    block.data['balance'] = block.data['balance'] - amount - (amount * transaction_fee)
 
 
 def increase_balance(block: 'Block', amount: int or float) -> None:
@@ -71,9 +71,11 @@ def set_data_from_other_block_hash(block: 'Block', other_block_hash: str, data_k
 
 
 def send(block: 'Block', amount: int or float, open_hash: str) -> None:
-    # transaction_fee = block
+    print("block in send method is ", block)
+    print("In send" ,block) 
+    # print("transaction fee is ",transaction_fee)
     set_balance(block, open_hash)
-    decrease_balance(block, amount)
+    decrease_balance(block, amount, block.data['transaction_fee'])
 
 
 def receive(block: 'Block', send_hash: str) -> None:

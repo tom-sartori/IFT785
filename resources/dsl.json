@@ -19,7 +19,6 @@
         "Send": {
             "balance": null,
             "open_hash": null,
-            "transaction_fee": 0,
             "on_sign_actions": [{
                 "method_name": "send",
                 "args": [
