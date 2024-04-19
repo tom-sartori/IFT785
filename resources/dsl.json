@@ -4,6 +4,7 @@
       "unit": "Nanocoin",
       "balance": 100,
       "minimal_balance": 0,
+      "interact_with": ["Send", "Receive"],
       "on_sign_actions": [
         {
           "method_name": "assign_balance_when_opening",
