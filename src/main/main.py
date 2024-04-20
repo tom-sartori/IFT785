@@ -34,15 +34,6 @@ if __name__ == '__main__':
         amount=40,
         open_hash=genesis_open_nanocoin.hash
    )
-    
-    # send_block2 = BlockTypeRegister()['Send2'](
-    #     previous_block=genesis_account.head,
-    #     receiver=second_account.public_key.key,
-    #     amount=10,
-    #     open_hash=genesis_open_nanocoin.hash,
-    #     transaction_fee = 0.05
-    # )
-    # print("Main send block: ", send_block)
     print("******************************************")
     genesis_account.add_block(send_block)
 

@@ -4,7 +4,7 @@
             "unit": "Nanocoin",
             "block_type": "Open",
             "balance": 100,
-            "minimal_balance": 0.5,
+            "minimal_balance": 1,
             "on_sign_actions": [{
                 "method_name": "assign_balance_when_opening",
                 "args": [
@@ -17,7 +17,7 @@
                 "args": ["self"]
             }],
             "interact_with": ["Send", "Receive"],
-            "is_divisible": false
+            "is_divisible": true
         },
         "Send": {
             "balance": null,

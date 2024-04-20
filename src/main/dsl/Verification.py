@@ -51,6 +51,10 @@ def can_interact_with(block:'Block',open_hash:str) -> bool:
     else:
         raise Exception("You can't interact with this open block")
         return False
+    
+def is_divisible(open_hash:str) -> bool:
+    open_block = Ledger().get_block(open_hash)
+    return open_block.data['divisible'] if 'divisible' in open_block.data else True
 
 Verification().__add__(is_superior)
 Verification().__add__(is_equal)
