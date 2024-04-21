@@ -28,11 +28,18 @@ class ChainTest(unittest.TestCase):
 
     def tearDown(self):
         self.chaine = None
-        self.FirstBlock = None
+        self.firstBlock = None
 
     @classmethod
     def tearDownClass(cls):
         cls.genesis_block = None
+
+    def test_head_OneBlock(self):
+        self.assertEqual(self.chaine.head, self.genesis_block)
+
+    def test_head_MultipleBlock(self):
+        self.chaine.add_block(self.firstBlock, self.genesisPublicKey)
+        self.assertEqual(self.chaine.head, self.firstBlock)
 
     def test_initialBlockNumber(self):
         self.assertEqual(len(self.chaine), 1)
@@ -55,7 +62,7 @@ class ChainTest(unittest.TestCase):
             errorChain.add_block(secondBlock, self.anotherAccount.public_key)
 
     def test_AddBlockException_NotAddToEnd(self):
-        otherBlock = Block(self.genesis_block)
+        otherBlock = Block(self.chaine.head)
         otherBlock.sign(self.genesisPrivateKey)
 
         self.chaine.add_block(self.firstBlock, self.genesisPublicKey)
@@ -64,13 +71,13 @@ class ChainTest(unittest.TestCase):
             self.chaine.add_block(otherBlock, self.genesisPublicKey)
 
     def test_AddBlockException_BlockNotSigned(self):
-        otherBlock = Block(self.genesis_block)
+        otherBlock = Block(self.chaine.head)
 
         with self.assertRaises(Exception):
             self.chaine.add_block(otherBlock, self.genesisPublicKey)
 
     def test_AddBlockException_BlockSignatureFailed(self):
-        anotherBlock = Block(self.genesis_block)
+        anotherBlock = Block(self.chaine.head)
         anotherBlock.sign(self.anotherAccount._private_key)
 
         with self.assertRaises(Exception):
@@ -82,13 +89,26 @@ class ChainTest(unittest.TestCase):
         self.chaine.add_block(self.firstBlock, self.genesisPublicKey)
         self.assertTrue(self.chaine.verify(self.genesisPublicKey))
 
-    # def test_VerifyException_BlockNotVerify(self):
-    #    #TODO - Can't find a way to add an unverify block to a chain (Tested in the AddBlock method)
-    #    pass
+    def test_VerifyException_LatestBlockNotVerify(self):
+        secondBlock = Block(self.chaine.head)
+        self.chaine._block_list.append(secondBlock)
 
-    # def test_VerifyException_PreviousBlockNotGood(self):
-    #    #TODO - Can't find a way to add a block that cause an invalid chain (Tested in the AddBlock method)
-    #    pass
+        self.assertFalse(self.chaine.verify(self.genesisPublicKey))
+
+    def test_Verification_BlockNotVerify(self):
+        secondBlock = Block(self.chaine.head)
+        self.chaine._block_list.append(secondBlock)
+
+        thirdBlock = Block(self.chaine.head)
+        self.chaine._block_list.append(thirdBlock)
+        self.assertFalse(self.chaine.verify(self.genesisPublicKey))
+
+    def test_VerifyException_PreviousBlockNotGood(self):
+        self.chaine._block_list.append(self.genesis_block)
+        self.assertFalse(self.chaine.verify(self.genesisPublicKey))
+
+    def test_getBalances_NoBalance(self):
+        self.assertEqual(self.chaine.get_balances(), {})
 
     def test_getBalances_NoBalance(self):
         self.assertEqual(self.chaine.get_balances(), {})
