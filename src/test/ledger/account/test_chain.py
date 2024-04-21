@@ -7,7 +7,7 @@ from src.main.ledger.block.GenesisBlock import GenesisBlock
 from src.main.utils.fake_crypto import generate_keys
 
 
-class ChainTest(unittest.TestCase):
+class TestChain(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
