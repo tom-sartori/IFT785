@@ -74,6 +74,5 @@ class Chain:
         if unit in balances:
             return balances[unit]
         else:
-            # TODO: On ne doit pas lever un exeception si la balance n'existe pas mais juste retourner none
-            # raise Exception(f'Error: No balance found for unit {unit}. ')
+            print("Error: Unit not in balance")
             return None

@@ -76,6 +76,10 @@ def generate_keys(user: str) -> (PrivateKey, PublicKey):
 
 
 def sign(message: str, private_key: PrivateKey) -> Signature:
+    print(private_key)
+    print(type(private_key))
+    print(PrivateKey)
+    print(type(private_key) is PrivateKey)
     if not isinstance(private_key, PrivateKey):
         raise Exception("Sign with private key.")
     return Signature(message, private_key)

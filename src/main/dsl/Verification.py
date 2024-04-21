@@ -49,7 +49,7 @@ def can_interact_with(block:'Block',open_hash:str) -> bool:
     if block.data['block_type'] in open_block.data['interact_with']:
         return True
     else:
-        raise Exception("You can't interact with this open block")
+        print("Error: You can't interact with this open block")
         return False
     
 def is_divisible(open_hash:str) -> bool:
