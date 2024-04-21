@@ -1,13 +1,13 @@
 import unittest
-from ledger.account.Chain import Chain
-from ledger.account.Account import Account
-from ledger.block.GenesisBlock import GenesisBlock
-from ledger.block.Block import Block
-from utils.fake_crypto import generate_keys
 
-#À déplacer dans src/test/ledger/account
+from src.main.ledger.account.Account import Account
+from src.main.ledger.account.Chain import Chain
+from src.main.ledger.block.Block import Block
+from src.main.ledger.block.GenesisBlock import GenesisBlock
+from src.main.utils.fake_crypto import generate_keys
 
-class Chain_test(unittest.TestCase):
+
+class ChainTest(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
@@ -18,9 +18,7 @@ class Chain_test(unittest.TestCase):
         cls.genesis_block = GenesisBlock(cls.genesisPublicKey)
         cls.genesis_block.sign(cls.genesisPrivateKey)
 
-
         cls.anotherAccount: Account = Account(*generate_keys('AnotherAccount'))
-
 
     def setUp(self):
         self.chaine = Chain(self.genesis_block)
@@ -28,33 +26,26 @@ class Chain_test(unittest.TestCase):
         self.firstBlock = Block(self.genesis_block)
         self.firstBlock.sign(self.genesisPrivateKey)
 
-
     def tearDown(self):
         self.chaine = None
         self.FirstBlock = None
-
 
     @classmethod
     def tearDownClass(cls):
         cls.genesis_block = None
 
-
-
-
     def test_initialBlockNumber(self):
         self.assertEqual(len(self.chaine), 1)
-
 
     def test_AddBlock(self):
         self.chaine.add_block(self.firstBlock, self.genesisPublicKey)
         self.assertEqual(len(self.chaine), 2)
-    
 
     def test_AddBlockException_HeadNotSigned(self):
-        #Can only happen during the __init__ phase, with the genesisBlock
+        # Can only happen during the __init__ phase, with the genesisBlock
 
         blockNotSigned = GenesisBlock(self.anotherAccount.public_key)
-        #Block not signed
+        # Block not signed
         errorChain = Chain(blockNotSigned)
 
         secondBlock = Block(errorChain.head)
@@ -62,7 +53,6 @@ class Chain_test(unittest.TestCase):
 
         with self.assertRaises(Exception):
             errorChain.add_block(secondBlock, self.anotherAccount.public_key)
-    
 
     def test_AddBlockException_NotAddToEnd(self):
         otherBlock = Block(self.genesis_block)
@@ -85,7 +75,6 @@ class Chain_test(unittest.TestCase):
 
         with self.assertRaises(Exception):
             self.chaine.add_block(anotherBlock, self.genesisPublicKey)
-        
 
     def test_Verify(self):
         self.assertTrue(self.chaine.verify(self.genesisPublicKey))
@@ -93,17 +82,14 @@ class Chain_test(unittest.TestCase):
         self.chaine.add_block(self.firstBlock, self.genesisPublicKey)
         self.assertTrue(self.chaine.verify(self.genesisPublicKey))
 
-
-    #def test_VerifyException_BlockNotVerify(self):
+    # def test_VerifyException_BlockNotVerify(self):
     #    #TODO - Can't find a way to add an unverify block to a chain (Tested in the AddBlock method)
     #    pass
 
-
-    #def test_VerifyException_PreviousBlockNotGood(self):
+    # def test_VerifyException_PreviousBlockNotGood(self):
     #    #TODO - Can't find a way to add a block that cause an invalid chain (Tested in the AddBlock method)
     #    pass
 
-    
     def test_getBalances_NoBalance(self):
         self.assertEqual(self.chaine.get_balances(), {})
 
@@ -114,12 +100,11 @@ class Chain_test(unittest.TestCase):
         anotherBlock.sign(self.genesisPrivateKey)
         self.chaine.add_block(anotherBlock, self.genesisPublicKey)
 
-        self.assertEqual(self.chaine.get_balances(), {'coin':100})
+        self.assertEqual(self.chaine.get_balances(), {'coin': 100})
 
-    #def test_getBalances_UseOpenHash(self):
+    # def test_getBalances_UseOpenHash(self):
     #    #TODO - Have a test to use the open_hash data from a block
     #    pass
-
 
     def test_getBalances_OneBalance_MultipleBlock(self):
         anotherBlock = Block(self.chaine.head)
@@ -134,8 +119,7 @@ class Chain_test(unittest.TestCase):
         thirdBlock.sign(self.genesisPrivateKey)
         self.chaine.add_block(thirdBlock, self.genesisPublicKey)
 
-        self.assertEqual(self.chaine.get_balances(), {'coin':200})
-
+        self.assertEqual(self.chaine.get_balances(), {'coin': 200})
 
     def test_getBalances_MultipleBalance(self):
         anotherBlock = Block(self.chaine.head)
@@ -150,8 +134,7 @@ class Chain_test(unittest.TestCase):
         thirdBlock.sign(self.genesisPrivateKey)
         self.chaine.add_block(thirdBlock, self.genesisPublicKey)
 
-        self.assertEqual(self.chaine.get_balances(), {'coin':100, 'coin2':200})
-
+        self.assertEqual(self.chaine.get_balances(), {'coin': 100, 'coin2': 200})
 
     def test_getBalance(self):
         anotherBlock = Block(self.chaine.head)
@@ -165,7 +148,3 @@ class Chain_test(unittest.TestCase):
     def test_getBalanceException_NoUnit(self):
         with self.assertRaises(Exception):
             self.chaine.get_balance('UnitDontExist')
-
-
-if __name__ == '__main__':
-    unittest.main()
