@@ -19,7 +19,7 @@ class Block(ABC):
     @property
     def is_signed(self):
         return self._signature is not None
-
+    
     @property
     def previous_block(self) -> 'Block' or None:
         if self._header.previous_hash is None:

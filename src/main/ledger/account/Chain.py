@@ -35,6 +35,9 @@ class Chain:
 
         if block.is_signed and not block.verify(public_key):
             raise Exception(f'Error: Block signature verification failed. ')
+        
+        if not block.is_signed:
+            raise Exception(f'Error: Block is not signed. ')
 
         self._block_list.append(block)
 
