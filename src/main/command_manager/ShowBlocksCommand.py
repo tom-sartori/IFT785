@@ -2,6 +2,8 @@ from command_manager.Command import Command
 
 from dsl.BlockTypeRegister import BlockTypeRegister
 
+from dsl.Dsl import Dsl
+
 
 class ShowBlocksCommand(Command):
     """
@@ -9,5 +11,6 @@ class ShowBlocksCommand(Command):
     """
 
     def execute(self) -> None:
-        block_types = BlockTypeRegister()
-        print(block_types)
+        dsl: Dsl = Dsl(dsl_file_name='resources/dsl.json')
+        BlockTypeRegister().add_block_types(dsl.blocks)
+        print(BlockTypeRegister())

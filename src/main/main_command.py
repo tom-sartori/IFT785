@@ -1,6 +1,8 @@
 from command_manager.Invoker import Invoker
 from command_manager.Receiver import Receiver
-from src.main.command_manager.CommandFactory import CommandFactory
+from command_manager.CommandFactory import CommandFactory
+from dsl.BlockTypeRegister import BlockTypeRegister
+
 
 def main():
     receiver = Receiver()
