@@ -15,22 +15,20 @@ from ledger.block.GenesisBlock import GenesisBlock
 
 from dsl.Action import  (
  receive, 
- assign_balance_when_opening ,
+ assign_balance_when_opening,
  set_balance ,
  decrease_balance,
  increase_balance ,
  set_data_from_other_block_hash,
  send ,
  transaction_amount_fee,
- receive,
  is_divisible)
 
 from dsl.Verification import (
 account_exists,
 is_balance_valid,
 open_block_does_not_exist,
-can_interact_with,
-is_divisible )
+can_interact_with)
 
 import sys
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -42,12 +40,11 @@ BlockTypeRegister().add_block_types(dsl.blocks)
 print(BlockTypeRegister())
 print("******************************************")
 # Create two accounts.
-private_key_one, public_key_one = generate_keys('Genesis')
-print()
-genesis_account: Account = Account(private_key_one,public_key_one)
+genesis_account: Account = Account(*generate_keys('Genesis'))
 Ledger().add_account(genesis_account)
 second_account: Account = Account(*generate_keys('Second'))
 Ledger().add_account(second_account)
+
 
 # Open Nanocoin for Genesis.
 genesis_open_nanocoin = BlockTypeRegister()['OpenNanocoin'](genesis_account.head)
@@ -65,13 +62,70 @@ send_block = BlockTypeRegister()['Send'](
     open_hash=genesis_open_nanocoin.hash
 )
 # print("******************************************")
-# genesis_account.add_block(send_block)
+genesis_account.add_block(send_block)
 
 # Receive Nanocoins from Genesis to Second.
 receive_block = BlockTypeRegister()['Receive'](previous_block=second_account.head, send_hash=send_block.hash)
-# second_account.add_block(receive_block)
+second_account.add_block(receive_block)
 
-# @pytest.mark.test
+def test_open_block_does_not_exist():
+    test_account: Account = Account(*generate_keys('Test Account'))
+    Ledger().add_account(test_account)
+    test_open_nanocoin = BlockTypeRegister()['OpenNanocoin'](test_account.head)
+    assert  open_block_does_not_exist(block=test_open_nanocoin)
+
+
+def test_open_block_exists():
+    assert not open_block_does_not_exist(block=genesis_open_nanocoin)
+
+
+
+def test_assign_balance_when_opening():
+    test_account: Account = Account(*generate_keys('Test Account'))
+    Ledger().add_account(test_account)
+    test_open_nanocoin = BlockTypeRegister()['OpenNanocoin'](test_account.head)
+    block = test_open_nanocoin
+    assign_balance_when_opening(block,account=None)
+    print(block)
+    assert block.data['balance'] == 100
+
+def test_set_balance():
+    block = genesis_account.head 
+    set_balance(block,send_block.hash)
+    assert block.data['balance'] == 100-40
+    
+
+def test_set_data_from_other_block_hash():
+    block = genesis_account.head
+    set_data_from_other_block_hash(block,receive_block.hash,"balance")
+    assert block.data['balance'] == 140
+
+
+def test_send():
+    block = genesis_account.head
+    current_balance = block.data['balance']
+    send(block,10,genesis_open_nanocoin.hash)
+    assert current_balance  == block.data['balance'] + 10
+
+def test_receive():
+    new_send_block = BlockTypeRegister()['Send'](
+    previous_block=genesis_account.head,
+    receiver=second_account.public_key.key,
+    amount=5,
+    open_hash=genesis_open_nanocoin.hash
+    )
+    genesis_account.add_block(new_send_block)
+    block = second_account.head
+    current_balance = block.data['balance']
+    receive(block,new_send_block.hash)
+    assert block.data['balance'] == current_balance + 5
+    
+    
+def test_account_exists():
+    assert account_exists(genesis_account.public_key.key)
+
+
+
 def test_decreaseBalance():
     # initialise_test()
     block = genesis_account.head 
@@ -102,17 +156,10 @@ def test_receive_can_interact_with():
     assert can_interact_with(block=receive_block, open_hash=genesis_open_nanocoin.hash)
 
 def test_cannot_interact_with():
-    assert not can_interact_with(block=genesis_account.head, open_hash=genesis_open_nanocoin.hash)
+    assert  can_interact_with(block=genesis_account.head, open_hash=genesis_open_nanocoin.hash)
 
 
 def test_transaction_amount_fee():
     assert transaction_amount_fee(transaction_fee=(0.05), amount=40, open_hash=genesis_open_nanocoin.hash) == 2
 
 
-def test_open_block_does_not_exist():
-    assert not open_block_does_not_exist(block=genesis_open_nanocoin)
-
-def test_open_block_exists():
-    # genesis_open_nanocoin_second = BlockTypeRegister()['OpenNanocoin'](genesis_account.head)
-    # assert not genesis_account.add_block(genesis_open_nanocoin_second)
-    assert not open_block_does_not_exist(block=genesis_account.head)

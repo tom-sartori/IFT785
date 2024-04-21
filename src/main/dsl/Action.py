@@ -16,8 +16,7 @@ class Action(metaclass=SingletonMeta):
 
 
 def assign_balance_when_opening(block: 'Block', account: str or None) -> None:
-    if account is None:
-        print("Account is none")
+
     if account is None or account == block.account_public_key:
         # The user take the money.
         pass
@@ -32,13 +31,12 @@ def set_balance(block: 'Block', block_hash: str) -> None:
     if 'open_hash' in retrieved_block.data:
         # The block is a send block.
         retrieved_block = Ledger().get_block(retrieved_block.data['open_hash'])
-
+        print(retrieved_block)
     if 'unit' in retrieved_block.data:
         # The block is an open block.
         unit = retrieved_block.data['unit']
     else:
         raise ValueError('The block is not an open or send block. Unable to set the balance.')
-
     balance = Ledger().get_account(block.account_public_key).get_balance(unit)
     block.data['balance'] = balance
 
