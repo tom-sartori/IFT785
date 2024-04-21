@@ -1,19 +1,17 @@
 import unittest
-from utils.fake_crypto import generate_keys
-from ledger.account.Account import Account
 
-#À déplacer dans src/test/ledger/account
+from src.main.ledger.account.Account import Account
+from src.main.utils.fake_crypto import generate_keys
 
-class Account_test(unittest.TestCase):
+
+class TestAccount(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-       (cls.genesisPrivateKey, cls.genesisPublicKey) = generate_keys('Genesis')
-
+        (cls.genesisPrivateKey, cls.genesisPublicKey) = generate_keys('Genesis')
 
     def setUp(self):
         self.account = Account(self.genesisPrivateKey, self.genesisPublicKey)
-
 
     def tearDown(self):
         self.account = None
@@ -23,13 +21,5 @@ class Account_test(unittest.TestCase):
         cls.genesisPrivateKey = None
         cls.genesisPublicKey = None
 
-
     def test_publicKey(self):
         self.assertEqual(self.account.public_key, self.genesisPublicKey)
-
-
-
-
-
-if __name__ == '__main__':
-    unittest.main()
