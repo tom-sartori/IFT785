@@ -1,7 +1,7 @@
-from ledger.Ledger import Ledger
-from ledger.block.Block import Block
-from ledger.block.GenesisBlock import GenesisBlock
-from utils.fake_crypto import PublicKey
+from src.main.ledger.Ledger import Ledger
+from src.main.ledger.block.Block import Block
+from src.main.ledger.block.GenesisBlock import GenesisBlock
+from src.main.utils.fake_crypto import PublicKey
 
 
 class Chain:
@@ -35,6 +35,9 @@ class Chain:
 
         if block.is_signed and not block.verify(public_key):
             raise Exception(f'Error: Block signature verification failed. ')
+        
+        if not block.is_signed:
+            raise Exception(f'Error: Block is not signed. ')
 
         self._block_list.append(block)
 
