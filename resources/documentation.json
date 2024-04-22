@@ -72,6 +72,18 @@
             },
             "on_sign_actions": {
                 "type": "list",
+                "list_values": {
+                    "type": "function",
+                    "method_name": "str",
+                    "args": {
+                        "type": "list",
+                        "list_values": {
+                            "type": "str or int or float or list or dict",
+                            "description": "The parameters of the function method "
+                        }
+
+                    }
+                },
                 "description": "Actions to perform after signing the block.",
                 "required": false
             },
