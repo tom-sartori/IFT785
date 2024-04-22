@@ -4,10 +4,9 @@ from src.main.ledger.Ledger import Ledger
 from src.main.ledger.account.Account import Account
 from src.main.utils.fake_crypto import generate_keys
 
+
 if __name__ == '__main__':
     # Load the DSL and create the block types.
-    dsl: Dsl = Dsl(dsl_file_name='resources/dsl.json')
-    BlockTypeRegister().add_block_types(dsl.blocks)
     print(BlockTypeRegister())
 
     # Create two accounts.
@@ -39,3 +38,4 @@ if __name__ == '__main__':
 
     print(genesis_account.balances)
     print(second_account.balances)
+

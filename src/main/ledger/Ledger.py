@@ -7,6 +7,10 @@ class Ledger(metaclass=SingletonMeta):
     Ledger class is a Singleton class that contains all the accounts and blocks in the system.
     """
 
+    @property
+    def accounts(self) -> dict[str, 'Account']:
+        return self._accounts
+
     def __init__(self):
         self._accounts: dict[str, 'Account'] = {}  # PublicKey.key -> Account.
         self._blocks: dict[str, 'Block'] = {}  # Block.hash -> Block
@@ -39,6 +43,8 @@ class Ledger(metaclass=SingletonMeta):
             raise Exception('Error: Ledger verification failed. Can not add account. ')
 
         self._accounts[account.public_key.key] = account
+        print(f"Account created successfully with public key: {account.public_key.key} "
+              f"and genesis block hash: {account.head.hash}. ")
 
     def get_account(self, public_key: PublicKey or str) -> 'Account':
         if isinstance(public_key, PublicKey):

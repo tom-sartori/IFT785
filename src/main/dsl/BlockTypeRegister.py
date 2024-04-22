@@ -1,5 +1,6 @@
 import inspect
 
+from src.main.dsl.Dsl import Dsl
 from src.main.ledger.block.Block import Block
 from src.main.utils.SingletonMeta import SingletonMeta
 
@@ -14,6 +15,10 @@ class BlockTypeRegister(metaclass=SingletonMeta):
         Initializes the block type register.
         """
         self._block_types_dict: dict[str, type(Block)] = dict()
+
+        # Load the DSL and create the block types.
+        dsl: Dsl = Dsl(dsl_file_name='resources/dsl.json')
+        self.add_block_types(dsl.blocks)
 
     def __add__(self, block_type: type(Block)) -> 'BlockTypeRegister':
         """
