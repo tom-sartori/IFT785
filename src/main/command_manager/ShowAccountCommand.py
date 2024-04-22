@@ -11,5 +11,8 @@ class ShowAccountCommand(Command):
         self.public_key = public_key
 
     def execute(self) -> None:
-        account = Ledger().get_account(str(self.public_key))
-        print(account)
+        try:
+            account = Ledger().get_account(str(self.public_key))
+            print(account)
+        except Exception:
+            print("Account not found.")
