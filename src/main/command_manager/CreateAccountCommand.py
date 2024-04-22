@@ -18,14 +18,11 @@ class CreateAccountCommand(Command):
 
     def __create_account(self, name):
         if self.__is_account_already_exist(str(name)):
-            print("Account Already Exist")
+            print("Account already exists. Please choose another name.")
         else:
             account = Account(*generate_keys(str(name)))
             Ledger().add_account(account)
 
-    def __is_account_already_exist(self, name):
-        accounts = Ledger()._accounts.values()
-        for account in accounts:
-            if account.public_key.owner == name:
-                return True
-            return False
+    @staticmethod
+    def __is_account_already_exist(name):
+        return any(account.public_key.owner == name for account in Ledger().accounts.values())
