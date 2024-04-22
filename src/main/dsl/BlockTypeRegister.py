@@ -87,7 +87,7 @@ class BlockTypeRegister(metaclass=SingletonMeta):
         string += """
         Block.__init__(self, previous_block)
 
-        my_dict = {k: v for k, v in locals().items() if isinstance(v, int) or isinstance(v, str)}
+        my_dict = {k: v for k, v in locals().items() if k != 'self' and k != 'previous_block'}
         for key, value in my_dict.items():
             self.add_data(key, value)
         """
