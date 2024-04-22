@@ -1,8 +1,9 @@
 import inspect
 
-from src.main.dsl.Dsl import Dsl
-from src.main.ledger.block.Block import Block
-from src.main.utils.SingletonMeta import SingletonMeta
+from ledger.block.Block import Block
+
+from dsl.Dsl import Dsl
+from utils.SingletonMeta import SingletonMeta
 
 
 class BlockTypeRegister(metaclass=SingletonMeta):
