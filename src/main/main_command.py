@@ -1,29 +1,15 @@
 from command_manager.Invoker import Invoker
-from command_manager.Receiver import Receiver
-from command_manager.CommandFactory import CommandFactory
-from dsl.BlockTypeRegister import BlockTypeRegister
 
-
-def main():
-    receiver = Receiver()
-    invoker = Invoker()
-    factory = CommandFactory(invoker, receiver)
+if __name__ == "__main__":
+    Invoker('help').execute()
+    Invoker('create_account Jean').execute()
+    Invoker('create_account Denis').execute()
 
     while True:
-        command_input = input("Enter command: ")
+        command_input: str = input("\nEnter command: ")
+
         if command_input == "exit":
             print("Bye...")
             break
 
-        command = factory.get_command(command_input)
-        if command:
-            invoker.register_command(command_input, command)
-            invoker.execute_command(command_input)
-        else:
-            print("Unknown command.")
-
-
-if __name__ == "__main__":
-    main()
-
-
+        Invoker(command_input).execute()

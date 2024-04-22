@@ -1,12 +1,10 @@
-******** All commands available ******** 
+******** All available commands ******** 
  
-help: Display this help information  <  
+help: Show available commands  <  
 create_account: Add a new user  < [user_name]
-add_block: Add a new block on ledger  <  
- For OpenBlock : [block_type], [owner_public_key], [unit], [balance], [minimal_balance]
- For SendBlock : [block_type], [owner_public_key], [receiver_public_key], [amount_to_send]
- For ReceiveBlock : [block_type], [receiver_public_key], [sender_public_key] 
-show_account: Display the account of current user  < [public_key]
-show_accounts: Display all accounts of ledger < 
-show_blocks: Display all blocks of ledger  < 
-show_ledger: Display the ledger  < 
+add_block: Add a new block to an account. See show_blocks for block's params  < [block_type] [params...] 
+	 Example: add_block OpenNanocoin 840A39B855362D7978BFA94F1193901D7AE37DEC
+show_account: Show account details  < [public_key]
+show_accounts: Show all accounts on ledger < 
+show_blocks: Show available block types from the dsl  < 
+show_ledger: Show the ledger  < 

@@ -1,4 +1,4 @@
-from command_manager.Command import Command
+from command_manager.CommandFactory import CommandFactory
 
 
 class Invoker:
@@ -7,22 +7,11 @@ class Invoker:
     to the command.
     """
 
-    _on_start = None
-    _on_finish = None
+    def __init__(self, command_input: str):
+        self.command = CommandFactory()[command_input]
 
-    """
-    Initialize commands.
-    """
-
-    def __init__(self):
-        self.commands = {}
-
-    def register_command(self, command_name, command: Command):
-        self.commands[command_name] = command
-
-    def execute_command(self, command_name):
-        if command_name in self.commands:
-            if isinstance(self.commands[command_name], Command):
-                self.commands[command_name].execute()
+    def execute(self):
+        if self.command:
+            self.command.execute()
         else:
-            print("Command not recognized.")
+            print("Unknown command.")
