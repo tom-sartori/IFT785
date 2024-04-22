@@ -11,14 +11,14 @@ class TestChain(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        genesis_account: Account = Account(*generate_keys('Genesis'))
+        genesis_account: Account = Account(*generate_keys('Chain_test'))
         cls.genesisPublicKey = genesis_account.public_key
         cls.genesisPrivateKey = genesis_account._private_key
 
         cls.genesis_block = GenesisBlock(cls.genesisPublicKey)
         cls.genesis_block.sign(cls.genesisPrivateKey)
 
-        cls.anotherAccount: Account = Account(*generate_keys('AnotherAccount'))
+        cls.anotherAccount: Account = Account(*generate_keys('Chain_test2'))
 
     def setUp(self):
         self.chaine = Chain(self.genesis_block)
@@ -34,6 +34,8 @@ class TestChain(unittest.TestCase):
     def tearDownClass(cls):
         cls.genesis_block = None
 
+    #------- TEST -------
+    #-------Test getter-------
     def test_head_OneBlock(self):
         self.assertEqual(self.chaine.head, self.genesis_block)
 
@@ -41,9 +43,11 @@ class TestChain(unittest.TestCase):
         self.chaine.add_block(self.firstBlock, self.genesisPublicKey)
         self.assertEqual(self.chaine.head, self.firstBlock)
 
+    #-------Test number of block in chain-------
     def test_initialBlockNumber(self):
         self.assertEqual(len(self.chaine), 1)
 
+    #-------Test adding block to the chain-------
     def test_AddBlock(self):
         self.chaine.add_block(self.firstBlock, self.genesisPublicKey)
         self.assertEqual(len(self.chaine), 2)
@@ -83,6 +87,7 @@ class TestChain(unittest.TestCase):
         with self.assertRaises(Exception):
             self.chaine.add_block(anotherBlock, self.genesisPublicKey)
 
+    #-------Test if the integrity of the chain is valid-------
     def test_Verify(self):
         self.assertTrue(self.chaine.verify(self.genesisPublicKey))
 
@@ -107,9 +112,7 @@ class TestChain(unittest.TestCase):
         self.chaine._block_list.append(self.genesis_block)
         self.assertFalse(self.chaine.verify(self.genesisPublicKey))
 
-    def test_getBalances_NoBalance(self):
-        self.assertEqual(self.chaine.get_balances(), {})
-
+    #-------Test the resulting balance in the chain-------
     def test_getBalances_NoBalance(self):
         self.assertEqual(self.chaine.get_balances(), {})
 
@@ -122,9 +125,15 @@ class TestChain(unittest.TestCase):
 
         self.assertEqual(self.chaine.get_balances(), {'coin': 100})
 
-    # def test_getBalances_UseOpenHash(self):
-    #    #TODO - Have a test to use the open_hash data from a block
-    #    pass
+    #TODO : Correct the test
+    #def test_getBalances_UseOpenHash(self):
+    #   anotherBlock = Block(self.chaine.head)
+    #   anotherBlock.add_data('balance', 100)
+    #   anotherBlock.add_data('open_hash', 'coin')
+    #   anotherBlock.sign(self.genesisPrivateKey)
+    #   self.chaine.add_block(anotherBlock, self.genesisPublicKey)
+    #
+    #   self.assertEqual(self.chaine.get_balances(), {'coin': 100})
 
     def test_getBalances_OneBalance_MultipleBlock(self):
         anotherBlock = Block(self.chaine.head)
