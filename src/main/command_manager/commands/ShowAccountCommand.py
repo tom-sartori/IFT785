@@ -1,4 +1,4 @@
-from command_manager.Command import Command
+from command_manager.commands.Command import Command
 from ledger.Ledger import Ledger
 
 
