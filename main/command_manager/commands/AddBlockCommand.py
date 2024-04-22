@@ -1,8 +1,8 @@
-from command_manager.commands.Command import Command
-from dsl.BlockTypeRegister import BlockTypeRegister
-from ledger.Ledger import Ledger
-from ledger.account.Account import Account
-from ledger.block.Block import Block
+from main.command_manager.commands.Command import Command
+from main.dsl.BlockTypeRegister import BlockTypeRegister
+from main.ledger.Ledger import Ledger
+from main.ledger.account.Account import Account
+from main.ledger.block.Block import Block
 
 
 class AddBlockCommand(Command):

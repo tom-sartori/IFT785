@@ -1,7 +1,7 @@
 import unittest
 
-from src.main.ledger.account.Account import Account
-from src.main.utils.fake_crypto import generate_keys
+from main.ledger.account.Account import Account
+from main.utils.fake_crypto import generate_keys
 
 
 class TestAccount(unittest.TestCase):

@@ -1,12 +1,12 @@
-from command_manager.commands.AddBlockCommand import AddBlockCommand
-from command_manager.commands.Command import Command
-from command_manager.commands.CreateAccountCommand import CreateAccountCommand
-from command_manager.commands.HelpCommand import HelpCommand
-from command_manager.commands.ShowAccountCommand import ShowAccountCommand
-from command_manager.commands.ShowAllAccountsCommand import ShowAllAccountsCommand
-from command_manager.commands.ShowBlocksCommand import ShowBlocksCommand
-from command_manager.commands.ShowLedgerCommand import ShowLedgerCommand
-from utils.SingletonMeta import SingletonMeta
+from main.command_manager.commands.AddBlockCommand import AddBlockCommand
+from main.command_manager.commands.Command import Command
+from main.command_manager.commands.CreateAccountCommand import CreateAccountCommand
+from main.command_manager.commands.HelpCommand import HelpCommand
+from main.command_manager.commands.ShowAccountCommand import ShowAccountCommand
+from main.command_manager.commands.ShowAllAccountsCommand import ShowAllAccountsCommand
+from main.command_manager.commands.ShowBlocksCommand import ShowBlocksCommand
+from main.command_manager.commands.ShowLedgerCommand import ShowLedgerCommand
+from main.utils.SingletonMeta import SingletonMeta
 
 
 class CommandFactory(metaclass=SingletonMeta):

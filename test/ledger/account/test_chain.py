@@ -1,10 +1,10 @@
 import unittest
 
-from src.main.ledger.account.Account import Account
-from src.main.ledger.account.Chain import Chain
-from src.main.ledger.block.Block import Block
-from src.main.ledger.block.GenesisBlock import GenesisBlock
-from src.main.utils.fake_crypto import generate_keys
+from main.ledger.account.Account import Account
+from main.ledger.account.Chain import Chain
+from main.ledger.block.Block import Block
+from main.ledger.block.GenesisBlock import GenesisBlock
+from main.utils.fake_crypto import generate_keys
 
 
 class TestChain(unittest.TestCase):

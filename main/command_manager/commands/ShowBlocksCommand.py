@@ -1,5 +1,5 @@
-from command_manager.commands.Command import Command
-from dsl.BlockTypeRegister import BlockTypeRegister
+from main.command_manager.commands.Command import Command
+from main.dsl.BlockTypeRegister import BlockTypeRegister
 
 
 class ShowBlocksCommand(Command):

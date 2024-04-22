@@ -1,4 +1,4 @@
-from command_manager.Invoker import Invoker
+from main.command_manager.Invoker import Invoker
 
 if __name__ == "__main__":
     Invoker('help').execute()

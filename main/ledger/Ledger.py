@@ -1,5 +1,5 @@
-from utils.SingletonMeta import SingletonMeta
-from utils.fake_crypto import PublicKey
+from main.utils.SingletonMeta import SingletonMeta
+from main.utils.fake_crypto import PublicKey
 
 
 class Ledger(metaclass=SingletonMeta):

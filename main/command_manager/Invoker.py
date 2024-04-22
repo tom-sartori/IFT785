@@ -1,4 +1,4 @@
-from command_manager.CommandFactory import CommandFactory
+from main.command_manager.CommandFactory import CommandFactory
 
 
 class Invoker:

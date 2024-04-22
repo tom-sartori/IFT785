@@ -1,5 +1,5 @@
-from command_manager.commands.Command import Command
-from ledger.Ledger import Ledger
+from main.command_manager.commands.Command import Command
+from main.ledger.Ledger import Ledger
 
 
 class ShowLedgerCommand(Command):

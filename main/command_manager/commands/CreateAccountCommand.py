@@ -1,7 +1,7 @@
-from command_manager.commands.Command import Command
-from ledger.Ledger import Ledger
-from ledger.account.Account import Account
-from utils.fake_crypto import generate_keys
+from main.command_manager.commands.Command import Command
+from main.ledger.Ledger import Ledger
+from main.ledger.account.Account import Account
+from main.utils.fake_crypto import generate_keys
 
 
 class CreateAccountCommand(Command):

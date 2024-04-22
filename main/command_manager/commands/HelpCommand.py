@@ -1,4 +1,4 @@
-from command_manager.commands.Command import Command
+from main.command_manager.commands.Command import Command
 
 
 class HelpCommand(Command):

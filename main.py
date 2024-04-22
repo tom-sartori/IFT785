@@ -1,7 +1,7 @@
-from dsl.BlockTypeRegister import BlockTypeRegister
-from ledger.Ledger import Ledger
-from ledger.account.Account import Account
-from utils.fake_crypto import generate_keys
+from main.dsl.BlockTypeRegister import BlockTypeRegister
+from main.ledger.Ledger import Ledger
+from main.ledger.account.Account import Account
+from main.utils.fake_crypto import generate_keys
 
 
 if __name__ == '__main__':

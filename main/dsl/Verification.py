@@ -1,6 +1,6 @@
-from ledger.Ledger import Ledger
+from main.ledger.Ledger import Ledger
 
-from utils.SingletonMeta import SingletonMeta
+from main.utils.SingletonMeta import SingletonMeta
 
 
 class Verification(metaclass=SingletonMeta):
