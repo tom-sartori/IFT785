@@ -49,7 +49,7 @@ def decrease_balance(block: 'Block', amount: int or float) -> None:
     :param amount: the amount to decrease.
     :return: None
     """
-    block.data['balance'] = block.data['balance'] - amount
+    block.data['balance'] = block.data['balance'] - float(amount)
 
 
 def increase_balance(block: 'Block', amount: int or float) -> None:
@@ -60,7 +60,7 @@ def increase_balance(block: 'Block', amount: int or float) -> None:
     :param amount: the amount to increase.
     :return: None
     """
-    block.data['balance'] = block.data['balance'] + amount
+    block.data['balance'] = block.data['balance'] + float(amount)
 
 
 def set_data_from_other_block_hash(block: 'Block', other_block_hash: str, data_key: str) -> None:
