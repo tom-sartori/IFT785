@@ -1,5 +1,5 @@
 import unittest
-from unittest.mock import patch, MagicMock, ANY
+from unittest.mock import patch, MagicMock, ANY, mock_open
 from main.command_manager.commands.HelpCommand import HelpCommand
 from main.command_manager.commands.AddBlockCommand import AddBlockCommand
 from main.command_manager.commands.CreateAccountCommand import CreateAccountCommand
@@ -103,13 +103,6 @@ class TestAddBlockCommand(unittest.TestCase):
 
 class TestCreateAccountCommand(unittest.TestCase):
 
-    # def test_execute_account_exists(self):
-    #     command = CreateAccountCommand("Alice")
-    #     with patch('main.ledger.Ledger.Ledger.get_account', return_value=True), \
-    #             patch('sys.stdout', new=MagicMock()) as fake_out:
-    #         command.execute()
-    #         fake_out.write.assert_called_once_with("Account already exists. Please choose another name.\n")
-
     def setUp(self):
         self.command = CreateAccountCommand("Alice")
 
@@ -127,7 +120,6 @@ class TestCreateAccountCommand(unittest.TestCase):
     @patch('main.utils.fake_crypto.generate_keys')
     @patch.object(Ledger, 'accounts', new_callable=lambda: {})
     def test_create_account_success(self, mock_accounts, mock_generate_keys, mock_add_account):
-        # Set up the keys
         public_key = PublicKey('Alice')
         private_key = PrivateKey('Alice')
         mock_generate_keys.return_value = (private_key, public_key)
@@ -143,6 +135,15 @@ class TestCreateAccountCommand(unittest.TestCase):
             # We use ANY to assert the method was called with any instance of Account
             mock_add_account.assert_called_once_with(ANY)
             fake_out.write.assert_not_called()
+
+
+class TestHelpCommand(unittest.TestCase):
+
+    def test_execute(self):
+        command = HelpCommand()
+        with patch('sys.stdout', new=MagicMock()) as fake_out:
+            command.execute()
+            fake_out.write.assert_any_call("******** All available commands ******** \n \n")
 
 
 
