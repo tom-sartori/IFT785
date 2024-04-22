@@ -3,11 +3,11 @@ import json
 from abc import ABC
 from textwrap import indent
 
-from dsl.Action import Action
-from dsl.Verification import Verification
-from ledger.Ledger import Ledger
-from ledger.block.Header import Header
-from utils.fake_crypto import new_deterministic_hash, sha, Signature, sign, PrivateKey, PublicKey
+from src.main.dsl.Action import Action
+from src.main.dsl.Verification import Verification
+from src.main.ledger.Ledger import Ledger
+from src.main.ledger.block.Header import Header
+from src.main.utils.fake_crypto import new_deterministic_hash, sha, Signature, sign, PrivateKey, PublicKey
 
 
 class Block(ABC):
@@ -19,7 +19,7 @@ class Block(ABC):
     @property
     def is_signed(self):
         return self._signature is not None
-
+    
     @property
     def previous_block(self) -> 'Block' or None:
         if self._header.previous_hash is None:
