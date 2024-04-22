@@ -33,32 +33,20 @@ def is_balance_valid(block: 'Block', open_hash: str) -> bool:
     minimal_balance = open_block.data['minimal_balance'] if 'minimal_balance' in open_block.data else 0
     return block.data['balance'] >= minimal_balance
 
-def open_block_does_not_exist(block:'Block') -> bool:
-    account_public_key = block.account_public_key
-    if account_public_key is None or not account_exists(account_public_key):
-        # raise error account must be specified
-        raise ValueError("Cannot be null")
-    
-    # checker si le unit existe dans le account chain
-    account = Ledger().get_account(account_public_key)
-    balance = account.get_balance(block.data['unit'])
-    return True if balance is None else False
 
-def can_interact_with(block:'Block',open_hash:str) -> bool:
-    open_block = Ledger().get_block(open_hash)
-    if block.data['block_type'] in open_block.data['interact_with']:
-        return True
-    else:
-        print("Error: You can't interact with this open block")
-        return False
-    
-def is_divisible(open_hash:str) -> bool:
-    open_block = Ledger().get_block(open_hash)
-    return open_block.data['divisible'] if 'divisible' in open_block.data else True
+def is_block_unique_in_chain(block: 'Block') -> bool:
+    current_block = block.previous_block
+    while current_block is not None:
+        if current_block.data.values() == block.data.values():
+            print("Error: Open block already exists. ")
+            return False
+        current_block = current_block.previous_block
+
+    return True
+
 
 Verification().__add__(is_superior)
 Verification().__add__(is_equal)
 Verification().__add__(account_exists)
 Verification().__add__(is_balance_valid)
-Verification().__add__(open_block_does_not_exist)
-Verification().__add__(can_interact_with)
+Verification().__add__(is_block_unique_in_chain)

@@ -1,10 +1,10 @@
+import os
+
 from dsl.BlockTypeRegister import BlockTypeRegister
 from dsl.Dsl import Dsl
 from ledger.Ledger import Ledger
 from ledger.account.Account import Account
 from utils.fake_crypto import generate_keys
-import os
-
 
 if __name__ == '__main__':
     # Load the DSL and create the block types.
@@ -33,7 +33,7 @@ if __name__ == '__main__':
         receiver=second_account.public_key.key,
         amount=40,
         open_hash=genesis_open_nanocoin.hash
-   )
+    )
     print("******************************************")
     genesis_account.add_block(send_block)
 
@@ -46,5 +46,5 @@ if __name__ == '__main__':
 
     print(genesis_account.balances)
     print("******************************************")
-    
+
     print(second_account.balances)

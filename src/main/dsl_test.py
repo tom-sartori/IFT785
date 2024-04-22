@@ -1,36 +1,28 @@
-import pytest
-import os 
+import os
+import sys
 
+from dsl.Action import (
+    receive,
+    assign_balance_when_opening,
+    set_balance,
+    decrease_balance,
+    increase_balance,
+    set_data_from_other_block_hash,
+    send,
+    _transaction_amount_fee,
+    _is_divisible)
 from dsl.BlockTypeRegister import BlockTypeRegister
 from dsl.Dsl import Dsl
+from dsl.Verification import (
+    account_exists,
+    open_block_does_not_exist,
+    can_interact_with)
 from ledger.Ledger import Ledger
 from ledger.account.Account import Account
-from utils.fake_crypto import generate_keys, Signature
-from ledger.block.Block import Block
+from utils.fake_crypto import generate_keys
+
 # from resources.documentation import documentation
 # from resources.dsl import dsl
-
-from ledger.block.Block import Block
-from ledger.block.GenesisBlock import GenesisBlock
-
-from dsl.Action import  (
- receive, 
- assign_balance_when_opening,
- set_balance ,
- decrease_balance,
- increase_balance ,
- set_data_from_other_block_hash,
- send ,
- transaction_amount_fee,
- is_divisible)
-
-from dsl.Verification import (
-account_exists,
-is_balance_valid,
-open_block_does_not_exist,
-can_interact_with)
-
-import sys
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 # def initialise_test():
@@ -147,7 +139,7 @@ def test_increaseBalance():
 def test_isDivisible():
     block = genesis_account.head
     # block.data['isDivisible']=100
-    assert is_divisible(open_hash  =genesis_open_nanocoin.hash)
+    assert _is_divisible(open_hash  =genesis_open_nanocoin.hash)
 
 def test_send_can_interact_with():
     assert can_interact_with(block=send_block, open_hash=genesis_open_nanocoin.hash)
@@ -160,6 +152,6 @@ def test_cannot_interact_with():
 
 
 def test_transaction_amount_fee():
-    assert transaction_amount_fee(transaction_fee=(0.05), amount=40, open_hash=genesis_open_nanocoin.hash) == 2
+    assert _transaction_amount_fee(transaction_fee=(0.05), amount=40, open_hash=genesis_open_nanocoin.hash) == 2
 
 
