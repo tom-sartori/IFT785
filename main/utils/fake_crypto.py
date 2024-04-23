@@ -45,12 +45,6 @@ class PublicKey(Key):
         super().__init__(owner)
         self.key = sha(sha(self.owner))
 
-    # Override for test_create_account in test_commands.py
-    def __eq__(self, other):
-        if not isinstance(other, PublicKey):
-            return NotImplemented
-        return self.key == other.key and self.owner == other.owner
-
 
 class PrivateKey(Key):
     def __init__(self, owner: str) -> None:

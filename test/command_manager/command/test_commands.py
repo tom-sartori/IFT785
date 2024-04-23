@@ -129,7 +129,7 @@ class TestCreateAccountCommand(unittest.TestCase):
             created_account = args[0]  # This should be the Account instance passed to add_account
 
             self.assertIsInstance(created_account, Account)
-            self.assertEqual(created_account.public_key, public_key)
+            self.assertEqual(created_account.public_key.key, public_key.key)
 
             # We use ANY to assert the method was called with any instance of Account
             mock_add_account.assert_called_once_with(ANY)
