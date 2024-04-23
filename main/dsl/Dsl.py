@@ -111,13 +111,3 @@ class Dsl:
         :return: bool True if the block definition is an open block, False otherwise.
         """
         return 'interact_with' in block_definition.keys()
-
-'''
-block definition : {'unit': 'Nanocoin', 'balance': 100, 'minimal_balance': 0, 'on_sign_actions': [{'method_name': 'assign_balance_when_opening', 'args': ['self', 'account']}], 'on_sign_verifications': [{'method_name': 'open_block_does_not_exist', 'args': ['self']}], 'interact_with': []}
-
-block definition : {'balance': None, 'open_hash': None, 'on_sign_actions': [{'method_name': 'send', 'args': ['self', 'amount', 'open_hash']}], 'on_sign_verifications': [{'method_name': 'account_exists', 'args': ['receiver']}, {'method_name': 'is_balance_valid', 'args': ['self', 'open_hash']}], 'parameters': ['receiver', 'amount', 'open_hash']}
-
-block definition : {'balance': None, 'open_hash': None, 'on_sign_actions': [{'method_name': 'receive', 'args': ['self', 'send_hash']}], 'parameters': ['send_hash']}
-
-'''
-

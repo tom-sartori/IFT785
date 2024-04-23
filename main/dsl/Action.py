@@ -31,7 +31,6 @@ def set_balance(block: 'Block', block_hash: str) -> None:
     if 'open_hash' in retrieved_block.data:
         # The block is a send block.
         retrieved_block = Ledger().get_block(retrieved_block.data['open_hash'])
-        print(retrieved_block)
     if 'unit' in retrieved_block.data:
         # The block is an open block.
         unit = retrieved_block.data['unit']
@@ -74,6 +73,7 @@ def send(block: 'Block', amount: int or float, open_hash: str) -> None:
     decrease_balance(block, amount)
 
 
+
 def send_with_fee(block: 'Block', amount: int or float, open_hash: str) -> None:
     set_balance(block, open_hash)
     transaction_fee = Ledger().get_block(open_hash).data['transaction_fee']
@@ -87,6 +87,7 @@ def receive(block: 'Block', send_hash: str) -> None:
 
     amount = Ledger().get_block(send_hash).data['amount']
     increase_balance(block, amount)
+
 
 
 def _transaction_amount_fee(transaction_fee, amount):
@@ -106,3 +107,4 @@ Action().__add__(set_data_from_other_block_hash)
 Action().__add__(send)
 Action().__add__(send_with_fee)
 Action().__add__(receive)
+

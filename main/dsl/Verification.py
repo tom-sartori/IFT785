@@ -25,7 +25,6 @@ def is_equal(a, b) -> bool:
 
 
 def account_exists(account_public_key: str) -> bool:
-    print("Account exists method called")
     return Ledger().get_account(account_public_key) is not None
 
 
@@ -33,6 +32,7 @@ def is_balance_valid(block: 'Block', open_hash: str) -> bool:
     open_block: 'Block' = Ledger().get_block(open_hash)
     minimal_balance = open_block.data['minimal_balance'] if 'minimal_balance' in open_block.data else 0
     return block.data['balance'] >= minimal_balance
+
 
 
 def is_block_unique_in_chain(block: 'Block') -> bool:
@@ -51,3 +51,4 @@ Verification().__add__(is_equal)
 Verification().__add__(account_exists)
 Verification().__add__(is_balance_valid)
 Verification().__add__(is_block_unique_in_chain)
+
