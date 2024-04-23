@@ -1,15 +1,13 @@
 import unittest
-from unittest.mock import patch, MagicMock, ANY, mock_open, call
-from main.command_manager.commands.HelpCommand import HelpCommand
+from unittest.mock import patch, MagicMock, ANY, mock_open
+
 from main.command_manager.commands.AddBlockCommand import AddBlockCommand
 from main.command_manager.commands.CreateAccountCommand import CreateAccountCommand
+from main.command_manager.commands.HelpCommand import HelpCommand
 from main.command_manager.commands.ShowAccountCommand import ShowAccountCommand
 from main.command_manager.commands.ShowAllAccountsCommand import ShowAllAccountsCommand
-from main.command_manager.commands.ShowBlocksCommand import ShowBlocksCommand
 from main.command_manager.commands.ShowLedgerCommand import ShowLedgerCommand
 from main.ledger.Ledger import Ledger
-import re
-
 from main.ledger.account.Account import Account
 from main.utils.fake_crypto import PublicKey, PrivateKey
 
@@ -39,7 +37,6 @@ class TestAddBlockCommand(unittest.TestCase):
             self.command.execute()
             fake_out.write.assert_any_call(f"Account {mock_get_block.return_value.account_public_key} not found. ")
             fake_out.write.assert_any_call("\n")
-
 
     @patch('main.ledger.Ledger.Ledger.get_block', return_value=MagicMock(account_public_key="key123"))
     @patch('main.ledger.Ledger.Ledger.get_account', return_value=MagicMock())
@@ -123,14 +120,15 @@ class TestShowAccountCommand(unittest.TestCase):
             command.execute()
             fake_out.write.assert_any_call("Account not found.")
 
+
 class TestShowAllAccountsCommand(unittest.TestCase):
     def setUp(self):
         self.command = ShowAllAccountsCommand()
 
     @patch('builtins.print')
     @patch.object(Ledger, 'accounts', new_callable=lambda: {
-         'Alice': Account(PrivateKey('Alice'), PublicKey('Alice')),
-         'Bob': Account(PrivateKey('Bob'), PublicKey('Bob'))
+        'Alice': Account(PrivateKey('Alice'), PublicKey('Alice')),
+        'Bob': Account(PrivateKey('Bob'), PublicKey('Bob'))
     })
     def test_execute(self, mock_accounts, mock_print):
         # Setup mock accounts with real or consistent mock keys
@@ -188,5 +186,3 @@ class TestShowLedgerCommand(unittest.TestCase):
     def tearDown(self):
         # Clean up Ledger's instance after each test
         Ledger._instances = {}
-
-

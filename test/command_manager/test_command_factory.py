@@ -1,8 +1,9 @@
 import unittest
-from main.command_manager.commands.HelpCommand import HelpCommand
+
 from main.command_manager.CommandFactory import CommandFactory
 from main.command_manager.commands.AddBlockCommand import AddBlockCommand
 from main.command_manager.commands.CreateAccountCommand import CreateAccountCommand
+from main.command_manager.commands.HelpCommand import HelpCommand
 from main.command_manager.commands.ShowAccountCommand import ShowAccountCommand
 from main.command_manager.commands.ShowAllAccountsCommand import ShowAllAccountsCommand
 from main.command_manager.commands.ShowBlocksCommand import ShowBlocksCommand
@@ -50,10 +51,7 @@ class TestCommandFactory(unittest.TestCase):
         command = factory["help"]
         self.assertIsInstance(command, HelpCommand)
 
-
     def test_unknown_command(self):
         factory = CommandFactory()
         command = factory["unknown"]
         self.assertIsNone(command)
-
-

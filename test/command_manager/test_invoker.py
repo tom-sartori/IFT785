@@ -1,6 +1,8 @@
 import unittest
 from unittest.mock import patch, MagicMock
+
 from main.command_manager.Invoker import Invoker
+
 
 class TestInvoker(unittest.TestCase):
     # These tests will check the interaction between Invoker and the commands it is supposed to execute.
@@ -19,5 +21,3 @@ class TestInvoker(unittest.TestCase):
             fake_out.write.assert_any_call("Unknown command.")
             # we use assert_any_call instead of assert_called_once because the print() method automatically adds a
             # newline character after the message.
-
-
