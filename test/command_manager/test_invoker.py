@@ -21,5 +21,3 @@ class TestInvoker(unittest.TestCase):
             # newline character after the message.
 
 
-if __name__ == '__main__':
-    unittest.main()

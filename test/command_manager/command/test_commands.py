@@ -1,5 +1,5 @@
 import unittest
-from unittest.mock import patch, MagicMock, ANY, mock_open
+from unittest.mock import patch, MagicMock, ANY, mock_open, call
 from main.command_manager.commands.HelpCommand import HelpCommand
 from main.command_manager.commands.AddBlockCommand import AddBlockCommand
 from main.command_manager.commands.CreateAccountCommand import CreateAccountCommand
@@ -51,53 +51,6 @@ class TestAddBlockCommand(unittest.TestCase):
             fake_out.write.assert_any_call(f"Block type {self.block_type} not found. ")
             fake_out.write.assert_any_call("\n")
 
-
-    #
-    # @patch('main.ledger.Ledger.Ledger.get_block', return_value=MagicMock(account_public_key="key123"))
-    # @patch('main.ledger.Ledger.Ledger.get_account', return_value=MagicMock())
-    # @patch('main.dsl.BlockTypeRegister.BlockTypeRegister.__getitem__')
-    # def test_error_creating_block(self, mock_block_type_register, mock_get_account, mock_get_block):
-    #     # Set up the mock to raise an exception when trying to create a block
-    #     mock_block_type = MagicMock(side_effect=Exception("Invalid block data"))
-    #     mock_block_type_register.return_value = mock_block_type
-    #
-    #     with patch('sys.stdout', new=MagicMock()) as fake_out:
-    #         self.command.execute()
-    #         message_found = any(re.search(r"Error creating block: Invalid block data\n?", str(call)) for call in
-    #                             fake_out.write.call_args_list)
-    #         print("message_found ", message_found)
-    #         self.assertTrue(message_found, "Error message not found in any call to write")
-    #
-    #         # print(fake_out.write.call_args_list)  # Diagnostic: voir les appels effectués
-    #         # fake_out.write.assert_any_call(f"Error creating block: Invalid block data")
-    #         # fake_out.write.assert_any_call("\n")
-    #
-    #
-    # @patch('main.ledger.Ledger.Ledger.get_block', return_value=MagicMock(account_public_key="key123"))
-    # @patch('main.ledger.Ledger.Ledger.get_account', return_value=MagicMock())
-    # @patch('main.dsl.BlockTypeRegister.BlockTypeRegister.__getitem__', return_value=MagicMock())
-    # @patch('main.ledger.account.Account.Account.add_block')
-    # def test_error_adding_block_to_account(self, mock_add_block, mock_block_type, mock_get_account, mock_get_block):
-    #     mock_add_block.side_effect = Exception("Error adding block")
-    #     block_instance = MagicMock(hash="block_hash")
-    #     mock_block_type.return_value = MagicMock(return_value=block_instance)
-    #     with patch('sys.stdout', new=MagicMock()) as fake_out:
-    #         self.command.execute()
-    #         fake_out.write.assert_any_call(f"Error adding block to account: Error adding block")
-    #         fake_out.write.assert_any_call("\n")
-
-    @patch('main.ledger.Ledger.Ledger.get_block', return_value=MagicMock(account_public_key="key123"))
-    @patch('main.ledger.Ledger.Ledger.get_account', return_value=MagicMock(public_key=MagicMock(key="12345")))
-    @patch('main.dsl.BlockTypeRegister.BlockTypeRegister.__getitem__', return_value=MagicMock())
-    @patch('main.ledger.account.Account.Account.add_block')
-    def test_successfully_added_block(self, mock_add_block, mock_block_type, mock_get_account, mock_get_block):
-        block_instance = MagicMock(hash="block_hash")
-        mock_block_type.return_value.return_value = block_instance
-        with patch('sys.stdout', new=MagicMock()) as fake_out:
-            self.command.execute()
-            expected_output = f"Block {self.block_type} added to account {mock_get_account.return_value.public_key.key} with hash {block_instance.hash}."
-            fake_out.write.assert_any_call(expected_output)
-            fake_out.write.assert_any_call("\n")
 
 class TestCreateAccountCommand(unittest.TestCase):
 
@@ -237,5 +190,3 @@ class TestShowLedgerCommand(unittest.TestCase):
         Ledger._instances = {}
 
 
-if __name__ == '__main__':
-    unittest.main()

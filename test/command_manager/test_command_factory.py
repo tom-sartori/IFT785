@@ -57,5 +57,3 @@ class TestCommandFactory(unittest.TestCase):
         self.assertIsNone(command)
 
 
-if __name__ == '__main__':
-    unittest.main()
