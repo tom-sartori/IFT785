@@ -174,7 +174,6 @@ class Block(ABC):
                     computed_args.append(eval(f'self.{arg}'))
                 except (AttributeError, NameError):
                     computed_args.append(None)
-
         return computed_args
 
     def verify(self, public_key: PublicKey) -> bool:

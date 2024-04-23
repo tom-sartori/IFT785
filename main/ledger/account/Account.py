@@ -24,7 +24,6 @@ class Account:
     def __init__(self, private_key: PrivateKey, public_key: PublicKey):
         self._private_key = private_key
         self._public_key = public_key
-
         genesis_block = GenesisBlock(public_key=public_key)
         genesis_block.sign(private_key=private_key)
         self._chain: Chain = Chain(genesis_block)

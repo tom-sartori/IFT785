@@ -31,26 +31,25 @@ def set_balance(block: 'Block', block_hash: str) -> None:
     if 'open_hash' in retrieved_block.data:
         # The block is a send block.
         retrieved_block = Ledger().get_block(retrieved_block.data['open_hash'])
-
     if 'unit' in retrieved_block.data:
         # The block is an open block.
         unit = retrieved_block.data['unit']
     else:
         raise ValueError('The block is not an open or send block. Unable to set the balance.')
-
     balance = Ledger().get_account(block.account_public_key).get_balance(unit)
     block.data['balance'] = balance
 
 
-def decrease_balance(block: 'Block', amount: int or float) -> None:
+def decrease_balance(block: 'Block', amount: int or float, amount_fee: float = 0) -> None:
     """
     Precondition: block.data['balance'] is not None.
 
     :param block: the block to decrease the balance.
     :param amount: the amount to decrease.
+    :param amount_fee: the amount of fee to decrease.
     :return: None
     """
-    block.data['balance'] = block.data['balance'] - float(amount)
+    block.data['balance'] = block.data['balance'] - amount - amount_fee
 
 
 def increase_balance(block: 'Block', amount: int or float) -> None:
@@ -61,7 +60,7 @@ def increase_balance(block: 'Block', amount: int or float) -> None:
     :param amount: the amount to increase.
     :return: None
     """
-    block.data['balance'] = block.data['balance'] + float(amount)
+    block.data['balance'] = block.data['balance'] + amount
 
 
 def set_data_from_other_block_hash(block: 'Block', other_block_hash: str, data_key: str) -> None:
@@ -74,6 +73,13 @@ def send(block: 'Block', amount: int or float, open_hash: str) -> None:
     decrease_balance(block, amount)
 
 
+def send_with_fee(block: 'Block', amount: int or float, open_hash: str) -> None:
+    set_balance(block, open_hash)
+    transaction_fee = Ledger().get_block(open_hash).data['transaction_fee']
+    amount_fee = _transaction_amount_fee(transaction_fee, amount)
+    decrease_balance(block, amount, amount_fee)
+
+
 def receive(block: 'Block', send_hash: str) -> None:
     set_balance(block, send_hash)
     set_data_from_other_block_hash(block, send_hash, 'open_hash')
@@ -82,10 +88,20 @@ def receive(block: 'Block', send_hash: str) -> None:
     increase_balance(block, amount)
 
 
+def _transaction_amount_fee(transaction_fee, amount):
+    return amount * transaction_fee
+
+
+def _is_divisible(open_hash: str) -> bool:
+    open_block = Ledger().get_block(open_hash)
+    return open_block.data['is_divisible'] if 'is_divisible' in open_block.data else True
+
+
 Action().__add__(assign_balance_when_opening)
 Action().__add__(set_balance)
 Action().__add__(decrease_balance)
 Action().__add__(increase_balance)
 Action().__add__(set_data_from_other_block_hash)
 Action().__add__(send)
+Action().__add__(send_with_fee)
 Action().__add__(receive)
