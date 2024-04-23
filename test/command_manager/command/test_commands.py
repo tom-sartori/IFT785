@@ -52,7 +52,6 @@ class TestAddBlockCommand(unittest.TestCase):
             fake_out.write.assert_any_call("\n")
 
 
-
     #
     # @patch('main.ledger.Ledger.Ledger.get_block', return_value=MagicMock(account_public_key="key123"))
     # @patch('main.ledger.Ledger.Ledger.get_account', return_value=MagicMock())
@@ -96,8 +95,8 @@ class TestAddBlockCommand(unittest.TestCase):
         mock_block_type.return_value.return_value = block_instance
         with patch('sys.stdout', new=MagicMock()) as fake_out:
             self.command.execute()
-            fake_out.write.assert_any_call(
-                f"Block {self.block_type} added to account {mock_get_account.return_value.public_key.key} with hash {block_instance.hash}.")
+            expected_output = f"Block {self.block_type} added to account {mock_get_account.return_value.public_key.key} with hash {block_instance.hash}."
+            fake_out.write.assert_any_call(expected_output)
             fake_out.write.assert_any_call("\n")
 
 class TestCreateAccountCommand(unittest.TestCase):
@@ -177,18 +176,15 @@ class TestShowAllAccountsCommand(unittest.TestCase):
 
     @patch('builtins.print')
     @patch.object(Ledger, 'accounts', new_callable=lambda: {
-         '123': Account(PrivateKey('Alice'), PublicKey('Alice')),
-         '456': Account(PrivateKey('Bob'), PublicKey('Bob'))
+         'Alice': Account(PrivateKey('Alice'), PublicKey('Alice')),
+         'Bob': Account(PrivateKey('Bob'), PublicKey('Bob'))
     })
     def test_execute(self, mock_accounts, mock_print):
         # Setup mock accounts with real or consistent mock keys
         alice_key = PublicKey('Alice')
         bob_key = PublicKey('Bob')
-
-        # Execute the command
         self.command.execute()
 
-        # Generate the expected output dynamically
         expected_output = (
                 'Ledger contains the following accounts: \n' +
                 f'- Alice - {alice_key.key}\n' +
