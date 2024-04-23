@@ -171,6 +171,42 @@ class TestShowAccountCommand(unittest.TestCase):
             command.execute()
             fake_out.write.assert_any_call("Account not found.")
 
+class TestShowAllAccountsCommand(unittest.TestCase):
+    def setUp(self):
+        self.command = ShowAllAccountsCommand()
+
+    @patch('builtins.print')
+    @patch.object(Ledger, 'accounts', new_callable=lambda: {
+         '123': Account(PrivateKey('Alice'), PublicKey('Alice')),
+         '456': Account(PrivateKey('Bob'), PublicKey('Bob'))
+    })
+    def test_execute(self, mock_accounts, mock_print):
+        # Setup mock accounts with real or consistent mock keys
+        alice_key = PublicKey('Alice')
+        bob_key = PublicKey('Bob')
+
+        # Execute the command
+        self.command.execute()
+
+        # Generate the expected output dynamically
+        expected_output = (
+                'Ledger contains the following accounts: \n' +
+                f'- Alice - {alice_key.key}\n' +
+                f'- Bob - {bob_key.key}\n'
+        )
+        mock_print.assert_called_once_with(expected_output)
+
+    @patch('builtins.print')
+    @patch.object(Ledger, 'accounts', new_callable=lambda: {})
+    def test_execute_no_accounts(self, mock_accounts, mock_print):
+        self.command.execute()
+        # The expected output when there are no accounts in the ledger
+        expected_output = 'Ledger contains the following accounts: \n'
+
+        # Check if print was called with the correct message
+        mock_print.assert_called_once_with(expected_output)
+
+
 
 
 if __name__ == '__main__':
