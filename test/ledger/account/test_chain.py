@@ -24,6 +24,7 @@ class TestChain(unittest.TestCase):
         self.chaine = Chain(self.genesis_block)
 
         self.firstBlock = Block(self.genesis_block)
+        self.firstBlock.add_data('interact_with', [])
         self.firstBlock.sign(self.genesisPrivateKey)
 
     def tearDown(self):
@@ -56,6 +57,7 @@ class TestChain(unittest.TestCase):
         errorChain = Chain(blockNotSigned)
 
         secondBlock = Block(errorChain.head)
+        secondBlock.add_data('interact_with', [])
         secondBlock.sign(self.anotherAccount._private_key)
 
         with self.assertRaises(Exception):
@@ -63,6 +65,7 @@ class TestChain(unittest.TestCase):
 
     def test_AddBlockException_NotAddToEnd(self):
         otherBlock = Block(self.chaine.head)
+        otherBlock.add_data('interact_with', [])
         otherBlock.sign(self.genesisPrivateKey)
 
         self.chaine.add_block(self.firstBlock, self.genesisPublicKey)
@@ -78,6 +81,7 @@ class TestChain(unittest.TestCase):
 
     def test_AddBlockException_BlockSignatureFailed(self):
         anotherBlock = Block(self.chaine.head)
+        anotherBlock.add_data('interact_with', [])
         anotherBlock.sign(self.anotherAccount._private_key)
 
         with self.assertRaises(Exception):
@@ -117,6 +121,7 @@ class TestChain(unittest.TestCase):
         anotherBlock = Block(self.chaine.head)
         anotherBlock.add_data('balance', 100)
         anotherBlock.add_data('unit', 'coin')
+        anotherBlock.add_data('interact_with', [])
         anotherBlock.sign(self.genesisPrivateKey)
         self.chaine.add_block(anotherBlock, self.genesisPublicKey)
 
@@ -130,12 +135,14 @@ class TestChain(unittest.TestCase):
         anotherBlock = Block(self.chaine.head)
         anotherBlock.add_data('balance', 100)
         anotherBlock.add_data('unit', 'coin')
+        anotherBlock.add_data('interact_with', [])
         anotherBlock.sign(self.genesisPrivateKey)
         self.chaine.add_block(anotherBlock, self.genesisPublicKey)
 
         thirdBlock = Block(self.chaine.head)
         thirdBlock.add_data('balance', 200)
         thirdBlock.add_data('unit', 'coin')
+        thirdBlock.add_data('interact_with', [])
         thirdBlock.sign(self.genesisPrivateKey)
         self.chaine.add_block(thirdBlock, self.genesisPublicKey)
 
@@ -145,12 +152,14 @@ class TestChain(unittest.TestCase):
         anotherBlock = Block(self.chaine.head)
         anotherBlock.add_data('balance', 100)
         anotherBlock.add_data('unit', 'coin')
+        anotherBlock.add_data('interact_with', [])
         anotherBlock.sign(self.genesisPrivateKey)
         self.chaine.add_block(anotherBlock, self.genesisPublicKey)
 
         thirdBlock = Block(self.chaine.head)
         thirdBlock.add_data('balance', 200)
         thirdBlock.add_data('unit', 'coin2')
+        thirdBlock.add_data('interact_with', [])
         thirdBlock.sign(self.genesisPrivateKey)
         self.chaine.add_block(thirdBlock, self.genesisPublicKey)
 
@@ -160,6 +169,7 @@ class TestChain(unittest.TestCase):
         anotherBlock = Block(self.chaine.head)
         anotherBlock.add_data('balance', 100)
         anotherBlock.add_data('unit', 'coin')
+        anotherBlock.add_data('interact_with', [])
         anotherBlock.sign(self.genesisPrivateKey)
         self.chaine.add_block(anotherBlock, self.genesisPublicKey)
 
