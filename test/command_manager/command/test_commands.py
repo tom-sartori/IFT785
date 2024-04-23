@@ -3,10 +3,6 @@ from unittest.mock import patch, MagicMock, ANY, mock_open
 from main.command_manager.commands.HelpCommand import HelpCommand
 from main.command_manager.commands.AddBlockCommand import AddBlockCommand
 from main.command_manager.commands.CreateAccountCommand import CreateAccountCommand
-from main.command_manager.commands.ShowAccountCommand import ShowAccountCommand
-from main.command_manager.commands.ShowAllAccountsCommand import ShowAllAccountsCommand
-from main.command_manager.commands.ShowBlocksCommand import ShowBlocksCommand
-from main.command_manager.commands.ShowLedgerCommand import ShowLedgerCommand
 from main.ledger.Ledger import Ledger
 import re
 
@@ -93,7 +89,6 @@ class TestAddBlockCommand(unittest.TestCase):
     @patch('main.ledger.account.Account.Account.add_block')
     def test_successfully_added_block(self, mock_add_block, mock_block_type, mock_get_account, mock_get_block):
         block_instance = MagicMock(hash="block_hash")
-        # mock_block_type.return_value = MagicMock(return_value=block_instance)
         mock_block_type.return_value.return_value = block_instance
         with patch('sys.stdout', new=MagicMock()) as fake_out:
             self.command.execute()
@@ -138,12 +133,21 @@ class TestCreateAccountCommand(unittest.TestCase):
 
 
 class TestHelpCommand(unittest.TestCase):
+    def setUp(self):
+        self.command = HelpCommand()
 
-    def test_execute(self):
-        command = HelpCommand()
-        with patch('sys.stdout', new=MagicMock()) as fake_out:
-            command.execute()
-            fake_out.write.assert_any_call("******** All available commands ******** \n \n")
+    @patch('builtins.print')
+    @patch('builtins.open', new_callable=mock_open)
+    def test_execute(self, mock_file_open, mock_print):
+        self.command.execute()
+
+        # Check that print was called correctly
+        mock_print.assert_any_call(self.command)
+        mock_print.assert_called_with("Help information has been written to commands_help.txt\n")
+
+        # Check that the file was written to correctly
+        mock_file_open.assert_called_once_with("commands_help.txt", "w")
+        mock_file_open().write.assert_called_once_with(str(self.command))
 
 
 

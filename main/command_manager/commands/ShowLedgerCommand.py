@@ -8,4 +8,4 @@ class ShowLedgerCommand(Command):
     """
 
     def execute(self) -> None:
-        print(Ledger())
+        print(str(Ledger()))
