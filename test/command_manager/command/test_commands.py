@@ -3,6 +3,10 @@ from unittest.mock import patch, MagicMock, ANY, mock_open
 from main.command_manager.commands.HelpCommand import HelpCommand
 from main.command_manager.commands.AddBlockCommand import AddBlockCommand
 from main.command_manager.commands.CreateAccountCommand import CreateAccountCommand
+from main.command_manager.commands.ShowAccountCommand import ShowAccountCommand
+from main.command_manager.commands.ShowAllAccountsCommand import ShowAllAccountsCommand
+from main.command_manager.commands.ShowBlocksCommand import ShowBlocksCommand
+from main.command_manager.commands.ShowLedgerCommand import ShowLedgerCommand
 from main.ledger.Ledger import Ledger
 import re
 
@@ -149,6 +153,23 @@ class TestHelpCommand(unittest.TestCase):
         mock_file_open.assert_called_once_with("commands_help.txt", "w")
         mock_file_open().write.assert_called_once_with(str(self.command))
 
+
+class TestShowAccountCommand(unittest.TestCase):
+    @patch('main.ledger.Ledger.Ledger.get_account')
+    def test_execute_account_found(self, mock_get_account):
+        account = MagicMock()
+        mock_get_account.return_value = account
+        command = ShowAccountCommand("pub_key_DAFDJFABNSAKPER5D589F6DFD")
+        with patch('sys.stdout', new=MagicMock()) as fake_out:
+            command.execute()
+            fake_out.write.assert_any_call(str(account))
+
+    @patch('main.ledger.Ledger.Ledger.get_account', side_effect=Exception("Account not found."))
+    def test_execute_account_not_found(self, mock_get_account):
+        command = ShowAccountCommand("pub_key_DAFDJFABNSAKPER5D589F6DFD")
+        with patch('sys.stdout', new=MagicMock()) as fake_out:
+            command.execute()
+            fake_out.write.assert_any_call("Account not found.")
 
 
 
