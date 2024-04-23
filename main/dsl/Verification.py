@@ -34,7 +34,6 @@ def is_balance_valid(block: 'Block', open_hash: str) -> bool:
     return block.data['balance'] >= minimal_balance
 
 
-
 def is_block_unique_in_chain(block: 'Block') -> bool:
     current_block = block.previous_block
     while current_block is not None:
@@ -51,4 +50,3 @@ Verification().__add__(is_equal)
 Verification().__add__(account_exists)
 Verification().__add__(is_balance_valid)
 Verification().__add__(is_block_unique_in_chain)
-

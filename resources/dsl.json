@@ -4,6 +4,12 @@
             "unit": "Nanocoin",
             "balance": 100,
             "minimal_balance": 0,
+            "transaction_fee": 0.05,
+            "is_divisible": true,
+            "interact_with": [
+                "Send",
+                "Receive"
+            ],
             "on_sign_actions": [{
                 "method_name": "assign_balance_when_opening",
                 "args": [
@@ -16,13 +22,7 @@
                 "args": [
                     "self"
                 ]
-            }],
-            "interact_with": [
-                "Send",
-                "Receive"
-            ],
-            "transaction_fee": 0.05,
-            "is_divisible": true
+            }]
         },
         "Send": {
             "balance": null,
