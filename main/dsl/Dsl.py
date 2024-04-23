@@ -60,7 +60,6 @@ class Dsl:
             return False
         
         is_divisible = block_definition["is_divisible"] if "is_divisible" in block_definition.keys() else True
-        print("is_divisible", is_divisible)
         if "transaction_fee" in block_definition.keys() and not is_divisible :
                 print(f'Error: Block {block_definition["unit"]} Cannot have transaction_fee and not divisible (is_divisible: false). Note that by default is_divisible is true, so you have to set it explicitly to false otherwise. ')
                 return False
@@ -69,13 +68,17 @@ class Dsl:
         is_divisible_type = (int, float)
         if not is_divisible :
             is_divisible_type = int
-                
+            '''
+            {
+                "is_divisible": false,
+                "transaction_fee": 0.1
+            }
+            test_transaction_fee_and_is_divisible_cannot_work_together():
+            
+            '''
         # # TODO: For block_documentation.keys().
         # # TODO: Can't have is_divisible and transaction_fee.
         for key in block_definition.keys():
-            # if key not in block_documentation.keys():
-            #     print(f'Error: Block {block_definition} has unknown key {key}. ')
-            #     return False
         
             documentation_attributes: dict = block_documentation[key]
             key_is_required: bool = documentation_attributes['required']
@@ -95,22 +98,6 @@ class Dsl:
                 # print(documentation_attributes["type"])
                 print(f'Error: Block type {block_definition} has wrong type for key {key} with value {block_definition[key]}. ')
                 return False
-
-        # if block_documentation.keys() != block_definition.keys():
-        #     print(f'Error: Block type {block_definition} has different keys than the documentation. ')
-        #     return False
-        
-        # for key, value in block_documentation.items():
-        #     attribute = block_definition[key]
-        
-        #     # Check type.
-        #     if not isinstance(attribute, eval(value['type'])):
-        #         print(f'Error: Block type {block_definition} has wrong type for key {key}. ')
-        #         return False
-        
-        #     if 'value' in value.keys() and value['value'] != attribute:
-        #         print(f'Error: Block type {block_definition} has wrong value for key {key}. ')
-        #         return False
 
         # return True
         return True

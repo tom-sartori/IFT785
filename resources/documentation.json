@@ -1,140 +1,139 @@
 {
-  "blocks": {
-    "Open": {
-      "unit": {
-        "type": "str",
-        "description": "The unit of the block. ",
-        "required": true
-      },
-      "balance": {
-        "type": "int or float",
-        "description": "The balance of the block. If int, then the currency will be atomic. ",
-        "required": true
-      },
-      "interact_with": {
-        "type": "list",
-        "description": "The list of blocs which this unit can interact with. ",
-        "required": true
-      },
-      "minimal_balance": {
-        "type": "int or float",
-        "description": "The minimum balance an account can have",
-        "required": true
-      },
-      "is_divisible": {
-        "type": "bool",
-        "description": "Whether the unit can be divided into multiple floats",
-        "required": false
-      },
-      "transaction_fee": {
-        "type": "float",
-        "description": "Transaction fee of the block. Must be a float between 0 and 1",
-        "required": false
-      },
-      "on_sign_verifications": {
-        "type": "list",
-        "description": "Actions to perform after signing the block.",
-        "required": false,
-        "list_values": {
-          "method_name": {
-            "type": "str",
-            "description": "The name of the method to call which must be in src/main/dsl/Verification.py."
-          },
-          "args": {
-            "type": "list",
-            "list_values": {
-              "type": "str or int or float or list or dict",
-              "description": "The parameters of the function method."
+    "blocks": {
+        "Open": {
+            "unit": {
+                "type": "str",
+                "description": "The unit of the block. ",
+                "required": true
+            },
+            "balance": {
+                "type": "int or float",
+                "description": "The balance of the block. If int, then the currency will be atomic. ",
+                "required": true
+            },
+            "interact_with": {
+                "type": "list",
+                "description": "The list of blocs which this unit can interact with. ",
+                "required": true
+            },
+            "minimal_balance": {
+                "type": "int or float",
+                "description": "The minimum balance an account can have",
+                "required": true
+            },
+            "is_divisible": {
+                "type": "bool",
+                "description": "Whether the unit can be divided into multiple floats",
+                "required": false
+            },
+            "transaction_fee": {
+                "type": "float",
+                "description": "Transaction fee of the block. Must be a float between 0 and 1",
+                "required": false
+            },
+            "on_sign_verifications": {
+                "type": "list",
+                "description": "Actions to perform after signing the block.",
+                "required": false,
+                "list_values": {
+                    "method_name": {
+                        "type": "str",
+                        "description": "The name of the method to call which must be in src/main/dsl/Verification.py."
+                    },
+                    "args": {
+                        "type": "list",
+                        "list_values": {
+                            "type": "str or int or float or list or dict",
+                            "description": "The parameters of the function method."
+                        }
+                    }
+                }
+            },
+            "on_sign_actions": {
+                "type": "list",
+                "description": "Actions to perform after signing the block.",
+                "required": false,
+                "list_values": {
+                    "method_name": {
+                        "type": "str",
+                        "description": "The name of the method to call which must be in src/main/dsl/Action.py."
+                    },
+                    "args": {
+                        "type": "list",
+                        "list_values": {
+                            "type": "str or int or float or list or dict",
+                            "description": "The parameters of the function method."
+                        }
+                    }
+                }
             }
-          }
-        }
-      },
-      "on_sign_actions": {
-        "type": "list",
-        "description": "Actions to perform after signing the block.",
-        "required": false,
-        "list_values": {
-          "method_name": {
-            "type": "str",
-            "description": "The name of the method to call which must be in src/main/dsl/Action.py."
-          },
-          "args": {
-            "type": "list",
-            "list_values": {
-              "type": "str or int or float or list or dict",
-              "description": "The parameters of the function method."
+        },
+        "GenericBloc": {
+            "open_hash": {
+                "type": "str",
+                "description": "The hash of the OpenBlock. ",
+                "required": true
+            },
+            "balance": {
+                "type": "int or float",
+                "description": "The balance of the block. If int, then the currency will be atomic. ",
+                "required": false
+            },
+            "amount": {
+                "type": "int or float",
+                "description": "The amount to receive",
+                "required": false
+            },
+            "on_sign_verifications": {
+                "type": "list",
+                "description": "Actions to perform after signing the block.",
+                "required": false,
+                "list_values": {
+                    "method_name": {
+                        "type": "str",
+                        "description": "The name of the method to call which must be in src/main/dsl/Verification.py."
+                    },
+                    "args": {
+                        "type": "list",
+                        "list_values": {
+                            "type": "str or int or float or list or dict",
+                            "description": "The parameters of the function method."
+                        }
+                    }
+                }
+            },
+            "on_sign_actions": {
+                "type": "list",
+                "description": "Actions to perform after signing the block.",
+                "required": false,
+                "list_values": {
+                    "method_name": {
+                        "type": "str",
+                        "description": "The name of the method to call which must be in src/main/dsl/Action.py."
+                    },
+                    "args": {
+                        "type": "list",
+                        "list_values": {
+                            "type": "str or int or float or list or dict",
+                            "description": "The parameters of the function method."
+                        }
+                    }
+                }
+            },
+            "parameters": {
+                "type": "list",
+                "description": "list of parameters to construct the block. Example : [receiver, amount, open_hash]. ",
+                "required": false
             }
-          }
         }
-      }
     },
-    "GenericBloc": {
-      "open_hash": {
-        "type": "str",
-        "description": "The hash of the OpenBlock. ",
-        "required": true
-      },
-      "balance": {
-        "type": "int or float",
-        "description": "The balance of the block. If int, then the currency will be atomic. ",
-        "required": false
-      },
-      "amount": {
-        "type": "int or float",
-        "description": "The amount to receive",
-        "required": false
-      },
-      "on_sign_verifications": {
-        "type": "list",
-        "description": "Actions to perform after signing the block.",
-        "required": false,
-        "list_values": {
-          "method_name": {
-            "type": "str",
-            "description": "The name of the method to call which must be in src/main/dsl/Verification.py."
-          },
-          "args": {
-            "type": "list",
-            "list_values": {
-              "type": "str or int or float or list or dict",
-              "description": "The parameters of the function method."
-            }
-          }
+    "notes": [{
+            "title": "Balance",
+            "description": "The balance will only be used if the data block contains the field balance and (unit or open_hash). "
+        },
+        {
+            "title": "Is divisible and transaction fee",
+            "description": "If the unit is not divisible, the transaction are not applied. "
         }
-      },
-      "on_sign_actions": {
-        "type": "list",
-        "description": "Actions to perform after signing the block.",
-        "required": false,
-        "list_values": {
-          "method_name": {
-            "type": "str",
-            "description": "The name of the method to call which must be in src/main/dsl/Action.py."
-          },
-          "args": {
-            "type": "list",
-            "list_values": {
-              "type": "str or int or float or list or dict",
-              "description": "The parameters of the function method."
-            }
-          }
-        }
-      },
-      "parameters": {
-        "type": "list",
-        "description": "list of parameters to construct the block. Example : [receiver, amount, open_hash]. ",
-        "required": false
-      }
-    }
-  },
-  "notes": [
-    {
-      "title": "Balance",
-      "description": "The balance will only be used if the data block contains the field balance and (unit or open_hash). "
-    },
-    {
-      "title": "Is divisible and transaction fee",
-      "description": "If the unit is not divisible, the transaction are not applied. "
-    }
-  ]
+    ]
 }

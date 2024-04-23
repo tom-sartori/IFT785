@@ -1,5 +1,6 @@
-from ledger.Ledger import Ledger
-from utils.SingletonMeta import SingletonMeta
+from main.ledger.Ledger import Ledger
+
+from main.utils.SingletonMeta import SingletonMeta
 
 
 class Action(metaclass=SingletonMeta):

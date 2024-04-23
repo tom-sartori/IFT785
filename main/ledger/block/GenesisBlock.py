@@ -1,5 +1,6 @@
-from ledger.block.Block import Block
-from utils.fake_crypto import PublicKey
+from main.ledger.block.Block import Block
+
+from main.utils.fake_crypto import PublicKey
 
 
 class GenesisBlock(Block):

@@ -3,11 +3,11 @@ import json
 from abc import ABC
 from textwrap import indent
 
-from dsl.Action import Action
-from dsl.Verification import Verification
-from ledger.Ledger import Ledger
-from ledger.block.Header import Header
-from utils.fake_crypto import new_deterministic_hash, sha, Signature, sign, PrivateKey, PublicKey
+from main.dsl.Action import Action
+from main.dsl.Verification import Verification
+from main.ledger.Ledger import Ledger
+from main.ledger.block.Header import Header
+from main.utils.fake_crypto import new_deterministic_hash, sha, Signature, sign, PrivateKey, PublicKey
 
 
 class Block(ABC):
@@ -19,7 +19,7 @@ class Block(ABC):
     @property
     def is_signed(self):
         return self._signature is not None
-
+    
     @property
     def previous_block(self) -> 'Block' or None:
         if self._header.previous_hash is None:
@@ -79,11 +79,26 @@ class Block(ABC):
 
         self._on_sign_actions()
 
+        if not self._can_interact_with_open():
+            raise Exception("Block can't interact with his open block. ")
+
         if not self._on_sign_verifications():
             raise Exception("Block verification failed. ")
 
         self._header.hash_root = sha(self.data)
         self._signature = sign(self.hash, private_key)
+
+    def _can_interact_with_open(self) -> bool:
+        """
+        Check if the current block his in the interact_with section of his correspondant open block.
+
+        :return: True if the block can interact with his open block, False otherwise.
+        """
+        if self._is_genesis_block() or self._is_open_block():
+            return True
+
+        open_block = Ledger().get_block(self.data['open_hash'])
+        return type(self).__name__ in open_block.data['interact_with']
 
     def _on_sign_verifications(self) -> bool:
         """
@@ -174,3 +189,9 @@ class Block(ABC):
 
     def is_previous_of(self, next_block: 'Block') -> bool:
         return self.hash == next_block._header.previous_hash
+
+    def _is_genesis_block(self) -> bool:
+        return self._header.previous_hash is None
+
+    def _is_open_block(self) -> bool:
+        return 'interact_with' in self.data.keys()

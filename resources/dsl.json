@@ -21,6 +21,7 @@
                 "Send",
                 "Receive"
             ],
+            "transaction_fee": 0.00,
             "is_divisible": true
         },
         "Send": {

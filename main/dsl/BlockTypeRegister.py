@@ -1,10 +1,8 @@
 import inspect
 
-import sys
-import os
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-from ledger.block.Block import Block
-from utils.SingletonMeta import SingletonMeta
+from main.dsl.Dsl import Dsl
+from main.ledger.block.Block import Block
+from main.utils.SingletonMeta import SingletonMeta
 
 
 class BlockTypeRegister(metaclass=SingletonMeta):
@@ -17,6 +15,10 @@ class BlockTypeRegister(metaclass=SingletonMeta):
         Initializes the block type register.
         """
         self._block_types_dict: dict[str, type(Block)] = dict()
+
+        # Load the DSL and create the block types.
+        dsl: Dsl = Dsl(dsl_file_name='resources/dsl.json')
+        self.add_block_types(dsl.blocks)
 
     def __add__(self, block_type: type(Block)) -> 'BlockTypeRegister':
         """
@@ -90,7 +92,7 @@ class BlockTypeRegister(metaclass=SingletonMeta):
         string += """
         Block.__init__(self, previous_block)
 
-        my_dict = {k: v for k, v in locals().items() if k != 'self' and k != 'previous_block'} 
+        my_dict = {k: v for k, v in locals().items() if k != 'self' and k != 'previous_block'}
         for key, value in my_dict.items():
             self.add_data(key, value)
         """

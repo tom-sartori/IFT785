@@ -1,10 +1,10 @@
 from textwrap import indent
 
-from ledger.Ledger import Ledger
-from ledger.account.Chain import Chain
-from ledger.block.Block import Block
-from ledger.block.GenesisBlock import GenesisBlock
-from utils.fake_crypto import PublicKey, PrivateKey
+from main.ledger.Ledger import Ledger
+from main.ledger.account.Chain import Chain
+from main.ledger.block.Block import Block
+from main.ledger.block.GenesisBlock import GenesisBlock
+from main.utils.fake_crypto import PublicKey, PrivateKey
 
 
 class Account:
@@ -56,6 +56,7 @@ class Account:
 
         # Adding the block into the blocks dictionary of Ledger.
         Ledger().add_block(block)
+        print("Block added successfully")
 
     def verify(self) -> bool:
         return self._chain.verify(public_key=self._public_key)

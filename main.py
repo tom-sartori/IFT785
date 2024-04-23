@@ -1,19 +1,13 @@
-import os
+from main.dsl.BlockTypeRegister import BlockTypeRegister
+from main.ledger.Ledger import Ledger
+from main.ledger.account.Account import Account
+from main.utils.fake_crypto import generate_keys
 
-from dsl.BlockTypeRegister import BlockTypeRegister
-from dsl.Dsl import Dsl
-from ledger.Ledger import Ledger
-from ledger.account.Account import Account
-from utils.fake_crypto import generate_keys
 
 if __name__ == '__main__':
     # Load the DSL and create the block types.
-    # ../../../resources/documentation.json
-    current_directory = os.getcwd()
-    dsl: Dsl = Dsl(dsl_file_name=current_directory + '/resources/dsl.json')
-    BlockTypeRegister().add_block_types(dsl.blocks)
     print(BlockTypeRegister())
-    print("******************************************")
+
     # Create two accounts.
     genesis_account: Account = Account(*generate_keys('Genesis'))
     Ledger().add_account(genesis_account)
@@ -32,9 +26,7 @@ if __name__ == '__main__':
         previous_block=genesis_account.head,
         receiver=second_account.public_key.key,
         amount=40,
-        open_hash=genesis_open_nanocoin.hash
-    )
-    print("******************************************")
+        open_hash=genesis_open_nanocoin.hash)
     genesis_account.add_block(send_block)
 
     # Receive Nanocoins from Genesis to Second.
@@ -42,9 +34,7 @@ if __name__ == '__main__':
     second_account.add_block(receive_block)
 
     print(Ledger())
-    print("******************************************")
 
     print(genesis_account.balances)
-    print("******************************************")
-
     print(second_account.balances)
+
