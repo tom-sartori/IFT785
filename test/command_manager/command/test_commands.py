@@ -207,6 +207,38 @@ class TestShowAllAccountsCommand(unittest.TestCase):
         mock_print.assert_called_once_with(expected_output)
 
 
+class TestShowBlocksCommand(unittest.TestCase):
+    def setUp(self):
+        self.command = ShowBlocksCommand()
+
+    @patch('builtins.print')
+    @patch('main.dsl.BlockTypeRegister.BlockTypeRegister.__str__', return_value="Registered Block Types")
+    def test_execute(self, mock_block_type_register_str, mock_print):
+        # Execute the command
+        self.command.execute()
+
+        # Check if print was called correctly with the expected string from BlockTypeRegister
+        mock_print.assert_called_once_with("Registered Block Types")
+
+
+class TestShowLedgerCommand(unittest.TestCase):
+    def setUp(self):
+        # Reset Ledger's instance before each test
+        Ledger._instances = {}
+
+    @patch('builtins.print')
+    def test_execute(self, mock_print):
+        # Creating a mock for the Ledger.__str__ method
+        with patch.object(Ledger, '__str__', return_value="Current Ledger State") as mock_ledger_str:
+            command = ShowLedgerCommand()
+            command.execute()
+
+            # Assert that print was called with the correct string from Ledger.__str__()
+            mock_print.assert_called_once_with("Current Ledger State")
+
+    def tearDown(self):
+        # Clean up Ledger's instance after each test
+        Ledger._instances = {}
 
 
 if __name__ == '__main__':
