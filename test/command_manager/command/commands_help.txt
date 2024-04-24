@@ -1,0 +1,10 @@
+******** All available commands ******** 
+ 
+help: Show available commands  <  
+create_account: Add a new user  < [user_name]
+add_block: Add a new block to an account. See show_blocks for block's params  < [block_type] [params...] 
+	 Example: add_block OpenNanocoin 840A39B855362D7978BFA94F1193901D7AE37DEC
+show_account: Show account details  < [public_key]
+show_accounts: Show all accounts on ledger < 
+show_blocks: Show available block types from the dsl  < 
+show_ledger: Show the ledger  < 
