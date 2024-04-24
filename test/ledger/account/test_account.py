@@ -1,9 +1,8 @@
 import unittest
 
-from main.ledger.account.Account import Account
-from main.utils.fake_crypto import generate_keys
-from main.ledger.block.Block import Block
 from main.ledger.Ledger import Ledger
+from main.ledger.account.Account import Account
+from main.ledger.block.Block import Block
 from main.utils.fake_crypto import generate_keys
 
 
@@ -41,6 +40,7 @@ class TestAccount(unittest.TestCase):
     def test_getBalances_OneBalance_OneBlock(self):
         self.block.add_data('balance', 100)
         self.block.add_data('unit', 'coin')
+        self.block.add_data('interact_with', [])
         self.block.sign(self.genesisPrivateKey)
 
         self.account.add_block(self.block)
@@ -60,12 +60,14 @@ class TestAccount(unittest.TestCase):
     def test_getBalances_OneBalance_MultipleBlock(self):
         self.block.add_data('balance', 100)
         self.block.add_data('unit', 'coin')
+        self.block.add_data('interact_with', [])
         self.block.sign(self.genesisPrivateKey)
         self.account.add_block(self.block)
 
         thirdBlock = Block(self.account.head)
         thirdBlock.add_data('balance', 200)
         thirdBlock.add_data('unit', 'coin')
+        thirdBlock.add_data('interact_with', [])
         thirdBlock.sign(self.genesisPrivateKey)
         self.account.add_block(thirdBlock)
 
@@ -74,12 +76,14 @@ class TestAccount(unittest.TestCase):
     def test_getBalances_MultipleBalance(self):
         self.block.add_data('balance', 100)
         self.block.add_data('unit', 'coin')
+        self.block.add_data('interact_with', [])
         self.block.sign(self.genesisPrivateKey)
         self.account.add_block(self.block)
 
         thirdBlock = Block(self.account.head)
         thirdBlock.add_data('balance', 200)
         thirdBlock.add_data('unit', 'coin2')
+        thirdBlock.add_data('interact_with', [])
         thirdBlock.sign(self.genesisPrivateKey)
         self.account.add_block(thirdBlock)
 
@@ -88,6 +92,7 @@ class TestAccount(unittest.TestCase):
     def test_getBalance(self):
         self.block.add_data('balance', 100)
         self.block.add_data('unit', 'coin')
+        self.block.add_data('interact_with', [])
         self.block.sign(self.genesisPrivateKey)
         self.account.add_block(self.block)
 
@@ -99,10 +104,12 @@ class TestAccount(unittest.TestCase):
 
     #-------Test adding block to the account-------
     def test_addBlock(self):
+        self.block.add_data('interact_with', [])
         self.account.add_block(self.block)
         self.assertEqual(self.account.head, self.block)
 
     def test_addBlock_BlockAlreadySigned(self):
+        self.block.add_data('interact_with', [])
         self.block.sign(self.genesisPrivateKey)
 
         self.account.add_block(self.block)
@@ -117,6 +124,7 @@ class TestAccount(unittest.TestCase):
 
     def test_addBlockException_BlockSignedbySomeoneElse(self):
         otherBlock = Block(self.other_account.head)
+        otherBlock.add_data('interact_with', [])
         otherBlock.sign(self.other_account._private_key)
 
         with self.assertRaises(Exception):
@@ -126,6 +134,7 @@ class TestAccount(unittest.TestCase):
     def test_Verify(self):
         self.assertTrue(self.account.verify())
 
+        self.block.add_data('interact_with', [])
         self.account.add_block(self.block)
         self.assertTrue(self.account.verify())
 
