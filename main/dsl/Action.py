@@ -49,6 +49,13 @@ def decrease_balance(block: 'Block', amount: int or float, amount_fee: float = 0
     :param amount_fee: the amount of fee to decrease.
     :return: None
     """
+    amount = float(amount)
+    amount_fee = float(amount_fee)
+
+    open_block = Ledger().get_block(block.data['open_hash'])
+    if '_is_divisible' in open_block.data and not open_block.data['_is_divisible']:
+        amount = int(amount)
+
     block.data['balance'] = block.data['balance'] - amount - amount_fee
 
 
@@ -60,6 +67,10 @@ def increase_balance(block: 'Block', amount: int or float) -> None:
     :param amount: the amount to increase.
     :return: None
     """
+    amount = float(amount)
+    open_block = Ledger().get_block(block.data['open_hash'])
+    if '_is_divisible' in open_block.data and not open_block.data['_is_divisible']:
+        amount = int(amount)
     block.data['balance'] = block.data['balance'] + amount
 
 

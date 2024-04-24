@@ -47,8 +47,10 @@ class Block(ABC):
 
         self._header = Header(previous_hash=previous_hash)
         self._signature: Signature or None = None
-        if not hasattr(self, 'data'):
+        if not hasattr(self, 'data_initial'):
             self.data = dict()
+        else:
+            self.data = copy.deepcopy(self.data_initial)  # From metaclass.
         self.add_data('block_type', type(self).__name__)
 
     def __str__(self):
