@@ -1,103 +1,143 @@
 {
-    "blocks": {
-        "OpenNanocoin": {
-            "unit": "Nanocoin",
-            "balance": 100,
-            "minimal_balance": 0,
-            "is_divisible": true,
-            "interact_with": [
-                "Send",
-                "Receive"
-            ],
-            "on_sign_actions": [{
-                "method_name": "assign_balance_when_opening",
-                "args": [
-                    "self",
-                    "account"
-                ]
-            }],
-            "on_sign_verifications": [{
-                "method_name": "is_block_unique_in_chain",
-                "args": [
-                    "self"
-                ]
-            }]
-        },
-        "Send": {
-            "balance": null,
-            "open_hash": null,
-            "on_sign_actions": [{
-                "method_name": "send",
-                "args": [
-                    "self",
-                    "amount",
-                    "open_hash"
-                ]
-            }],
-            "on_sign_verifications": [{
-                    "method_name": "account_exists",
-                    "args": [
-                        "receiver"
-                    ]
-                },
-                {
-                    "method_name": "is_balance_valid",
-                    "args": [
-                        "self",
-                        "open_hash"
-                    ]
-                }
-            ],
-            "parameters": [
-                "receiver",
-                "amount",
-                "open_hash"
-            ]
-        },
-        "SendWithFee": {
-            "balance": null,
-            "open_hash": null,
-            "on_sign_actions": [{
-                "method_name": "send_with_fee",
-                "args": [
-                    "self",
-                    "amount",
-                    "open_hash"
-                ]
-            }],
-            "on_sign_verifications": [{
-                    "method_name": "account_exists",
-                    "args": [
-                        "receiver"
-                    ]
-                },
-                {
-                    "method_name": "is_balance_valid",
-                    "args": [
-                        "self",
-                        "open_hash"
-                    ]
-                }
-            ],
-            "parameters": [
-                "receiver",
-                "amount",
-                "open_hash"
-            ]
-        },
-        "Receive": {
-            "balance": null,
-            "open_hash": null,
-            "on_sign_actions": [{
-                "method_name": "receive",
-                "args": [
-                    "self",
-                    "send_hash"
-                ]
-            }],
-            "parameters": [
-                "send_hash"
-            ]
+  "blocks": {
+    "OpenNanocoin": {
+      "unit": "Nanocoin",
+      "balance": 100,
+      "minimal_balance": 0,
+      "is_divisible": true,
+      "interact_with": [
+        "Send",
+        "Receive"
+      ],
+      "on_sign_actions": [
+        {
+          "method_name": "assign_balance_when_opening",
+          "args": [
+            "self",
+            "account"
+          ]
         }
+      ],
+      "on_sign_verifications": [
+        {
+          "method_name": "is_block_unique_in_chain",
+          "args": [
+            "self"
+          ]
+        }
+      ]
+    },
+    "OpenNFT": {
+      "unit": "NFT",
+      "account": "840A39B855362D7978BFA94F1193901D7AE37DEC",
+      "balance": 1,
+      "minimal_balance": 0,
+      "is_divisible": false,
+      "interact_with": [
+        "Send",
+        "Receive"
+      ],
+      "on_sign_actions": [
+        {
+          "method_name": "assign_balance_when_opening",
+          "args": [
+            "self",
+            "account"
+          ]
+        }
+      ],
+      "on_sign_verifications": [
+        {
+          "method_name": "is_block_unique_in_chain",
+          "args": [
+            "self"
+          ]
+        }
+      ]
+    },
+    "Send": {
+      "balance": null,
+      "open_hash": null,
+      "on_sign_actions": [
+        {
+          "method_name": "send",
+          "args": [
+            "self",
+            "amount",
+            "open_hash"
+          ]
+        }
+      ],
+      "on_sign_verifications": [
+        {
+          "method_name": "account_exists",
+          "args": [
+            "receiver"
+          ]
+        },
+        {
+          "method_name": "is_balance_valid",
+          "args": [
+            "self",
+            "open_hash"
+          ]
+        }
+      ],
+      "parameters": [
+        "receiver",
+        "amount",
+        "open_hash"
+      ]
+    },
+    "SendWithFee": {
+      "balance": null,
+      "open_hash": null,
+      "on_sign_actions": [
+        {
+          "method_name": "send_with_fee",
+          "args": [
+            "self",
+            "amount",
+            "open_hash"
+          ]
+        }
+      ],
+      "on_sign_verifications": [
+        {
+          "method_name": "account_exists",
+          "args": [
+            "receiver"
+          ]
+        },
+        {
+          "method_name": "is_balance_valid",
+          "args": [
+            "self",
+            "open_hash"
+          ]
+        }
+      ],
+      "parameters": [
+        "receiver",
+        "amount",
+        "open_hash"
+      ]
+    },
+    "Receive": {
+      "balance": null,
+      "open_hash": null,
+      "on_sign_actions": [
+        {
+          "method_name": "receive",
+          "args": [
+            "self",
+            "send_hash"
+          ]
+        }
+      ],
+      "parameters": [
+        "send_hash"
+      ]
     }
+  }
 }

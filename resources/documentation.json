@@ -6,6 +6,11 @@
                 "description": "The unit of the block. ",
                 "required": true
             },
+            "account": {
+                "type": "str",
+                "description": "If set, then only the account with this public key will receive the balance. The others wille receive 0. ",
+                "required": false
+            },
             "balance": {
                 "type": "int or float",
                 "description": "The balance of the block. If int, then the currency will be atomic. ",
