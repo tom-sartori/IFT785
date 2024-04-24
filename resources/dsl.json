@@ -4,7 +4,6 @@
             "unit": "Nanocoin",
             "balance": 100,
             "minimal_balance": 0,
-            "transaction_fee": 0.05,
             "is_divisible": true,
             "interact_with": [
                 "Send",
