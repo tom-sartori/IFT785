@@ -4,7 +4,7 @@
 
 | First Name   | Last Name         | 
 |--------------|-------------------|
-| Amadou       | Selle Ndiaye      |
+| Amadou Selle | Ndiaye            |
 | Johan        | Kemmegne Tchassem |
 | Kevin Vaneck | Nana Nana         |
 | Maxime       | Sourceaux         |
