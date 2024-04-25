@@ -130,16 +130,6 @@ class TestChain(unittest.TestCase):
 
         self.assertEqual(self.chaine.get_balances(), {'coin': 100})
 
-    #TODO : Correct the test
-    #def test_getBalances_UseOpenHash(self):
-    #   anotherBlock = Block(self.chaine.head)
-    #   anotherBlock.add_data('balance', 100)
-    #   anotherBlock.add_data('open_hash', 'coin')
-    #   anotherBlock.sign(self.genesisPrivateKey)
-    #   self.chaine.add_block(anotherBlock, self.genesisPublicKey)
-    #
-    #   self.assertEqual(self.chaine.get_balances(), {'coin': 100})
-
     def test_getBalances_OneBalance_MultipleBlock(self):
         anotherBlock = Block(self.chaine.head)
         anotherBlock.add_data('balance', 100)
