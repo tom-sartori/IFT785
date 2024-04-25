@@ -10,6 +10,6 @@ class ShowAllAccountsCommand(Command):
     def execute(self) -> None:
         result = 'Ledger contains the following accounts: \n'
         for account in Ledger().accounts.values():
-            result += f'- {account.public_key.owner} - hash : {account.public_key.key} | hash head {account.head.hash} \n'
+            result += f'- {account.public_key.owner} - hash : {account.public_key.key} | hash head {account.head.hash}\n'
 
         print(result)
