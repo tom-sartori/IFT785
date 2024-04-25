@@ -136,10 +136,13 @@ class TestShowAllAccountsCommand(unittest.TestCase):
         bob_key = PublicKey('Bob')
         self.command.execute()
 
+        alice_account = Ledger().accounts['Alice']
+        bob_account = Ledger().accounts['Bob']
+
         expected_output = (
                 'Ledger contains the following accounts: \n' +
-                f'- Alice - {alice_key.key}\n' +
-                f'- Bob - {bob_key.key}\n'
+                f'- Alice - hash : {alice_account.public_key.key} | hash head {alice_account.head.hash}\n' +
+                f'- Bob - hash : {bob_account.public_key.key} | hash head {bob_account.head.hash}\n'
         )
         mock_print.assert_called_once_with(expected_output)
 
@@ -152,20 +155,6 @@ class TestShowAllAccountsCommand(unittest.TestCase):
 
         # Check if print was called with the correct message
         mock_print.assert_called_once_with(expected_output)
-
-
-# class TestShowBlocksCommand(unittest.TestCase):
-#     def setUp(self):
-#         self.command = ShowBlocksCommand()
-#
-#     @patch('builtins.print')
-#     @patch('main.dsl.BlockTypeRegister.BlockTypeRegister.__str__', return_value="Registered Block Types")
-#     def test_execute(self, mock_block_type_register_str, mock_print):
-#         # Execute the command
-#         self.command.execute()
-#
-#         # Check if print was called correctly with the expected string from BlockTypeRegister
-#         mock_print.assert_called_once_with("Registered Block Types")
 
 
 class TestShowLedgerCommand(unittest.TestCase):
